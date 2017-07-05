@@ -1,0 +1,22 @@
+/*
+*{
+  outline: 1px solid red;
+}
+*/
+
+$text-color: #FBFBFB;
+$main-background: #1E1E1E;
+
+$a-tags: 'a, a:active, a:hover, a:visited, a:active';
+
+html {
+  height: 100%;
+  background-color: $main-background;
+}
+
+body {
+  height: 100%;
+  color: $text-color;
+  background-color: $main-background;
+  font-family: 'Quicksand', sans-serif;
+}

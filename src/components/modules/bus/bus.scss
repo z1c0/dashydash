@@ -1,0 +1,22 @@
+@font-face {
+  font-family: 'LcdFont';
+  src: url('/font/LEDBDREV.TTF') format('truetype');
+}
+$color-lcd-font: limegreen;
+
+.lcd-text {
+  font-family: "LcdFont";
+  color: $color-lcd-font;
+  white-space: pre;
+}
+
+#bus {
+  p {
+    margin: 0;
+  }
+  span {
+    padding: 5px;
+    font-size: 1.5em;
+    @extend .lcd-text;
+  }
+}

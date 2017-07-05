@@ -1,0 +1,18 @@
+#abc {
+  font-size: 20rem;
+  background: white;
+  color:black;
+  height: 100%;
+  
+  p {
+    text-align: center;
+    span {
+      font-size: 2em;
+      line-height: 1em;
+      font-weight: bold;
+    }
+    i {
+      vertical-align: text-top;
+    }
+  }
+}
