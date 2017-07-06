@@ -42,12 +42,17 @@ class Abc extends React.Component {
 
   componentDidMount() {
     const self = this;
-    setInterval(function() {
+    this.intervalId = setInterval(function() {
       self.setState({
         index : (self.state.index + 1) % letters.length
       });
-    }, moment.duration(10, 'seconds'));
+    }, moment.duration(15, 'seconds'));
   }
+
+  componentWillUnmount() {
+    clearInterval(this.intervalId);
+  }
+  
 
   render() {
     var l = letters[this.state.index];

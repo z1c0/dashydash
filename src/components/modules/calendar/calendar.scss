@@ -1,0 +1,91 @@
+$main-background: #1E1E1E; // TODO: common include
+$gray-color: #282828; // TODO
+$tile-border-radius: 3px; // TODO
+$color-calendar-main: #EF4D3C;
+
+
+#calendar {
+  background: $gray-color;
+  border-radius: $tile-border-radius;
+  padding: 2px 15px 0;
+  display: flex;
+  justify-content: space-between;
+  div {
+    flex-basis: 100%;
+  }
+  .icon {
+    padding-top: 8px;
+    display: inline-block;
+    vertical-align: top;
+    time {
+      font-size: 0.8rem;
+      display: block;
+      position: relative;
+      width: 7em;
+      height: 7em;
+      background-color: #fff;
+      border-radius: 0.6em;
+      overflow: hidden;
+    }
+    time * {
+      display: block;
+      width: 100%;
+      font-size: 1em;
+      font-weight: bold;
+      font-style: normal;
+      text-align: center;
+    }
+
+    time strong {
+      position: absolute;
+      top: 0;
+      padding: 0.4em 0;
+      color: #fff;
+      background-color: $color-calendar-main;
+    }
+    time span {
+      font-size: 4em;
+      letter-spacing: -0.05em;
+      padding-top: 0.4em;
+      color: #222;
+    }
+  }
+  ul {
+    max-width: 80%;
+    margin: 0;
+    display : inline-block;
+    padding-left: 10px;
+    height: 95%;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    li {
+      font-size: 1.25em;
+      line-height: 1.2em;
+      list-style-type: none;
+      strong {
+        white-space: nowrap;
+      }
+      i {
+        font-style: normal;
+        height: 0.8em;
+        font-size: 0.8em;
+      }
+    }
+  }
+  #appointments {
+    width: 10%;
+    li {
+      padding-bottom: 8px;
+    }
+  }
+  #birthdays {
+    .e1a-birthday {
+      vertical-align: top;
+      margin: 5px 0 0 0.5em;
+      font-size: 5em;
+    }
+    li {
+      line-height: 1.6em;
+    }
+  }
+}

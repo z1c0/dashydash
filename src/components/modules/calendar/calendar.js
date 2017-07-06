@@ -2,12 +2,8 @@
 var ical = require('ical')
 var moment = require('moment');
 
-moment.locale('de');
-
 const maximumEntries = 10;
 const maximumNumberOfDays = 200;
-const URL = require('../../../secrets.json').icalUrl; // TODO
-
 
 function isFullDayEvent(event) {
   if (event.start.length === 8) {
@@ -136,15 +132,12 @@ function getAppointments(text) {
 }
 
 
-
-
-function transform(body) {
-  return times;
-}
-
-
+const secrets = require('../../../secrets.json');
 
 module.exports = {
-  url : URL,
+  routes : [
+    { name : 'calendar', url : secrets.icalUrl },
+    { name : 'bdays', url : secrets.icalBdaysUrl }
+  ],
   transform : getAppointments
 }

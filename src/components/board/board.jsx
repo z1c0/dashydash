@@ -23,8 +23,9 @@ class Board extends React.Component {
     this.setState({ 
       name : 'Board',
       modules : [ 
-        { name : 'abc' },
-        { name : 'calendar' },
+        //{ name : 'abc' },
+        //{ name : 'calendar' },
+        //{ name : 'calendar', id : 'birthdays' },
         //{ name : 'timeofday' },
         { name : 'weather' },
         { name : 'blog' },
@@ -35,9 +36,13 @@ class Board extends React.Component {
   
   render() {
     var createModule = function(moduleInfo) {
+      if (!moduleInfo.id) {
+        moduleInfo.id = moduleInfo.name;
+      }
       const name = moduleInfo.name;
+      const id = moduleInfo.id;
       var Module = require('../modules/' + name + '/' + name + '.jsx');
-      return <Module key={name} />
+      return <Module key={id} id={id}/>
     };
 
     return (

@@ -13,7 +13,6 @@ if (process.env.NODE_ENV !== 'production') {
 
 // load static content before routing takes place
 const wwwroot = __dirname + './../dist';
-//console.log(wwwroot);
 app.use(express['static'](wwwroot));
 
 
@@ -37,8 +36,22 @@ function createRoutes() {
     var name = folderName + '/' + f + '/' + f + '.js';
     if (fs.existsSync(name)) {
       const m = require(name);
-      //console.log(name + ', ' + m.url);
-      router.get('/api/' + f.toLowerCase(), new ServerFetcher(m.url, m.transform).fetch);
+      let route = '/api/' + f.toLowerCase();
+      router.get(route, new ServerFetcher(m).fetch);
+
+      /*
+      let routes = m.routes;
+      if (!routes) {
+        routes = [ { name : f.toLowerCase(), url : m.url }];
+      }
+      routes.forEach(r => {
+        let fetch = m.fetch;
+        if (!fetch) {
+          fetch = new ServerFetcher(r.url, m.transform).fetch;
+        }
+        router.get('/api/' + r.name , fetch);
+      });
+      */
     }
   });
   return router;
