@@ -1,7 +1,8 @@
 "use strict";
 var React = require('react');
-var FetchModule = require('../fetchModule.jsx');
 var moment = require('moment');
+var FetchModule = require('../../common/fetchModule.jsx');
+
 
 const iconTable = {
   "01d": "wi-day-sunny",

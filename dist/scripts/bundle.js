@@ -29061,9 +29061,11 @@ var React = require('react');
 var Weather = require('../modules/weather/weather.jsx');
 var Blog = require('../modules/blog/blog.jsx');
 var Bus = require('../modules/bus/bus.jsx');
-var Calendar = require('../modules/calendar/calendar.jsx');
-var TimeOfDay = require('../modules/timeofday/timeofday.jsx');
 var Abc = require('../modules/abc/abc.jsx');
+var Family = require('../modules/family/family.jsx');
+var Birthdays = require('../modules/birthdays/birthdays.jsx');
+var Appointments = require('../modules/appointments/appointments.jsx');
+var TimeOfDay = require('../modules/timeofday/timeofday.jsx');
 
 
 class Board extends React.Component {
@@ -29081,12 +29083,13 @@ class Board extends React.Component {
       name : 'Board',
       modules : [ 
         //{ name : 'abc' },
-        //{ name : 'calendar' },
-        //{ name : 'calendar', id : 'birthdays' },
-        //{ name : 'timeofday' },
+        //{ name : 'appointments' },
+        //{ name : 'birthdays' },
+        { name : 'timeofday' },
+        { name : 'family' },
         { name : 'weather' },
         { name : 'blog' },
-        { name : 'bus' },
+        //{ name : 'bus' },
       ]
     });
   }
@@ -29113,7 +29116,111 @@ class Board extends React.Component {
 
 module.exports = Board;
 
-},{"../modules/abc/abc.jsx":229,"../modules/blog/blog.jsx":230,"../modules/bus/bus.jsx":231,"../modules/calendar/calendar.jsx":232,"../modules/timeofday/timeofday.jsx":234,"../modules/weather/weather.jsx":235,"react":222}],228:[function(require,module,exports){
+},{"../modules/abc/abc.jsx":231,"../modules/appointments/appointments.jsx":232,"../modules/birthdays/birthdays.jsx":233,"../modules/blog/blog.jsx":234,"../modules/bus/bus.jsx":235,"../modules/family/family.jsx":236,"../modules/timeofday/timeofday.jsx":238,"../modules/weather/weather.jsx":239,"react":222}],228:[function(require,module,exports){
+'use strict';
+var React = require('react');
+var moment = require('moment');
+require('moment/locale/de');
+moment.locale('de');
+var FetchModule = require('./fetchModule.jsx');
+
+class Calendar extends FetchModule {
+  constructor(props){
+    super(props);
+    this.state = {
+      appointments: []
+    }
+    this.url = URL;
+    this.interval = moment.duration(15, 'minutes');
+    this.callback = function(body) {
+      this.setState({
+        appointments : body
+      });
+    }
+  }
+
+  renderIcon() {
+    var now = new Date();
+    return (
+      React.createElement("div", {className: "icon"}, 
+        React.createElement("time", null, 
+          React.createElement("strong", null, moment.months()[now.getMonth()]), 
+          React.createElement("span", null, now.getDate())
+        )
+      )
+    );
+  }
+
+  render() {
+    var createModule = function(a, i) {
+      return (
+        React.createElement("li", {key: i}, 
+          React.createElement("strong", null, a.title), React.createElement("br", null), 
+          React.createElement("i", null, React.createElement("span", null, a.due), ", ", React.createElement("span", null, a.time))
+        ));
+    };
+    return (
+      React.createElement("div", {id: "calendar"}, 
+        React.createElement("div", {id: this.props.id}), 
+         this.renderIcon(), 
+        React.createElement("ul", null, 
+          this.state.appointments.map(createModule, this)
+        )
+      )
+    );
+  }
+};
+
+module.exports = Calendar;
+
+},{"./fetchModule.jsx":229,"moment":35,"moment/locale/de":34,"react":222}],229:[function(require,module,exports){
+"use strict";
+
+var React = require('react');
+
+function setIntervalAndExecute(f, t) {
+  f();
+  return setInterval(f, t);
+}
+
+String.prototype.lowercaseFirst = String.prototype.lowercaseFirst || function() {
+  return this.charAt(0).toLowerCase() + this.slice(1);
+}
+
+
+
+class FetchModule extends React.Component {
+  constructor(props){
+    super(props);
+  }
+
+  componentDidMount() {
+    const self = this;
+    this.intervalId = setIntervalAndExecute(function() {
+      const opts = {
+        method: 'GET'
+      };
+      let url = '/api/' + self.constructor.name.lowercaseFirst();
+      fetch(url, opts).then(function(response) {
+        return response.json();
+      })
+      .then(function(body) {
+        self.callback(body);
+      })
+      .catch(function(error) {
+        console.log('Error: ', error);
+      });
+    }, self.interval);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.intervalId);
+  }
+}
+
+module.exports = FetchModule;
+
+},{"react":222}],230:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -29150,7 +29257,7 @@ class Home extends React.Component {
 
 module.exports = Home;
 
-},{"react":222}],229:[function(require,module,exports){
+},{"react":222}],231:[function(require,module,exports){
 "use strict";
 var React = require('react');
 var moment = require('moment');
@@ -29221,11 +29328,32 @@ class Abc extends React.Component {
 };
 
 module.exports = Abc;
-},{"moment":35,"react":222}],230:[function(require,module,exports){
+},{"moment":35,"react":222}],232:[function(require,module,exports){
+'use strict';
+var React = require('react');
+var Calendar = require('../../common/calendar.jsx');
+
+class Appointments extends Calendar {
+};
+
+module.exports = Appointments;
+},{"../../common/calendar.jsx":228,"react":222}],233:[function(require,module,exports){
+'use strict';
+var React = require('react');
+var Calendar = require('../../common/calendar.jsx');
+
+class Birthdays extends Calendar {
+  renderIcon() {
+    return React.createElement("i", {className: "e1a-birthday"})
+  }
+};
+
+module.exports = Birthdays;
+},{"../../common/calendar.jsx":228,"react":222}],234:[function(require,module,exports){
 "use strict";
 var React = require('react');
 var moment = require('moment');
-var FetchModule = require('../fetchModule.jsx');
+var FetchModule = require('../../common/fetchModule.jsx');
 
 
 class Blog extends FetchModule {
@@ -29255,11 +29383,11 @@ class Blog extends FetchModule {
 };
 
 module.exports = Blog;
-},{"../fetchModule.jsx":233,"moment":35,"react":222}],231:[function(require,module,exports){
+},{"../../common/fetchModule.jsx":229,"moment":35,"react":222}],235:[function(require,module,exports){
 "use strict";
 var React = require('react');
 var moment = require('moment');
-var FetchModule = require('../fetchModule.jsx');
+var FetchModule = require('../../common/fetchModule.jsx');
 
 
 class Bus extends FetchModule {
@@ -29288,111 +29416,671 @@ class Bus extends FetchModule {
 };
 
 module.exports = Bus;
-},{"../fetchModule.jsx":233,"moment":35,"react":222}],232:[function(require,module,exports){
+},{"../../common/fetchModule.jsx":229,"moment":35,"react":222}],236:[function(require,module,exports){
 "use strict";
 var React = require('react');
 var moment = require('moment');
-require('moment/locale/de');
-moment.locale('de');
-var FetchModule = require('../fetchModule.jsx');
+var FetchModule = require('../../common/fetchModule.jsx');
 
 
-class Calendar extends FetchModule {
+class Family extends FetchModule {
   constructor(props){
     super(props);
     this.state = {
-      appointments: []
+      title: '',
+      text : '',
+      image: '',
+      done : false
     }
-    this.url = URL;
-    this.interval = moment.duration(30, 'minutes');
+    this.interval = moment.duration(1, 'hour');
     this.callback = function(body) {
+      var latest = body[body.length - 1];
       this.setState({
-        appointments : body
+        title : latest.title,
+        text : latest.text,
+        image : latest.image,
+        done : latest.done
       });
     }
   }
 
   render() {
-    var createModule = function(a, i) {
-      return (
-        React.createElement("li", {key: i}, 
-          React.createElement("strong", null, a.title), React.createElement("br", null), 
-          React.createElement("i", null, React.createElement("span", null, a.due), ", ", React.createElement("span", null, a.time))
-        ));
-    };
-    var now = new Date();
     return (
-      React.createElement("div", {id: "calendar"}, 
-        React.createElement("h1", null, this.props.id), 
-        React.createElement("div", {id: "appointments"}), 
-        React.createElement("div", {className: "icon"}, 
-          React.createElement("time", null, 
-            React.createElement("strong", null, moment.months()[now.getMonth()]), 
-            React.createElement("span", null, now.getDate())
-          )
-        ), 
-        React.createElement("ul", null, 
-          this.state.appointments.map(createModule, this)
-        )
+      React.createElement("div", {id: "family"}, 
+        React.createElement("h2", null, this.state.title), 
+        React.createElement("p", null, this.state.text), 
+        React.createElement("p", null, this.state.done ? 'OK!' : ':-('), 
+        React.createElement("img", {src: this.state.image})
       )
     );
   }
 };
 
-/*
-<div id="calendar" class="part">
-  </div>
-  <div id="birthdays">
-    <i class="e1a-birthday"></i>
-    <ul data-bind="foreach: appointments">
-      <li>
-        <strong data-bind="text: title"></strong>
-        <i>(<span data-bind="text: due"></span>)</i>
-      </li>
-    </ul>
-  </div>
-</div>
-*/
+module.exports = Family;
+},{"../../common/fetchModule.jsx":229,"moment":35,"react":222}],237:[function(require,module,exports){
+'use strict';
 
-module.exports = Calendar;
-},{"../fetchModule.jsx":233,"moment":35,"moment/locale/de":34,"react":222}],233:[function(require,module,exports){
+// emoji:
+// https://emoji.codes/
+// https://www.emojicopy.com/
+
+const Day = {
+  Mon : 1,
+  Tue : 2,
+  Wed : 3,
+  Thur : 4,
+  Fr : 5,
+  Sa : 6,
+  So : 0
+} 
+
+const Probability = {
+  impossible : 0,
+  veryUnlikely : 0.15,
+  unlikely : 0.25,
+  possible : 0.5,
+  likely : 0.75,
+  veryLikely : 0.85,
+  certain : 1.0
+} 
+
+function matchFactor(f) {
+  return {
+    _f : [ f ],
+    evaluate : function(dt) {
+      for (var i = 0; i < this._f.length; i++) {
+        if (!this._f[i](dt)) {
+          return false;
+        }
+      }
+      return true;
+    },
+  }
+}
+
+function matchTerm(f) {
+  return {
+    _f : [ matchFactor(f) ],
+    evaluate : function(dt) {
+      for (var i = 0; i < this._f.length; i++) {
+        if (this._f[i].evaluate(dt)) {
+          return true;
+        }
+      }
+      return false;
+    },
+    or : function(f) {
+      this._f.push(matchFactor(f));
+      return this;
+    },
+    and : function(f) {
+      this._f[this._f.length - 1]._f.push(f);
+      return this;
+    }
+  }
+}
+
+function is(f) {
+  if (!f) {
+    throw new Error("f must be defined");
+  }
+  return matchTerm(f);
+}
+
+
+
+function timeOfDay(hourFrom, hourTo) {
+  return function(dt) {
+    return dt.getHours() >= hourFrom && dt.getHours() < hourTo; 
+  }
+}
+
+function specialDay(day, month, verySpecial) {
+  return function(dt) {
+    const untilHour = verySpecial ? 24 : 20;
+    return day === dt.getDate() && (month - 1) === dt.getMonth() && timeOfDay(6, untilHour)(dt)
+  }
+}
+
+function dayOfWeek(day) {
+  return function(dt) {
+    return dt.getDay() === day;
+  }    
+}
+
+function timeOfWeekDay(day, hourFrom, hourTo) {
+  return function(dt) {
+    return dayOfWeek(day)(dt) && timeOfDay(hourFrom, hourTo)(dt);
+  }
+}
+
+function weekEnd(dt) {
+  return dayOfWeek(Day.Sa)(dt) || dayOfWeek(Day.So)(dt);
+}
+
+function weekDay(dt) {
+  return !weekEnd(dt);
+}
+
+
+function birthday(who, day, month) {
+  return {
+    id : who,
+    match : is(specialDay(day, month, true)),
+    probability : Probability.possible,
+    text : [
+      'Hey ' + who + ", it's your birthday!",
+      'Alles Gute zum Geburtstag ' + who + '!', 
+      'Happy Birthday ' + who + '!'
+    ],
+    tag : [ 'birthday' ],
+    emoji : [ 
+      'birthday', 'cake', 'gift', 'ribbon', 'shopping_bags', 
+      'balloon', 'tada', 'confetti_ball', 'champagne'
+    ]
+  };
+};
+
+
+var candidates = [
+  {
+    id : 'CatDay',
+    match : is(specialDay(8, 8, false)),
+    probability : Probability.unlikely,
+    text : [
+      "It's International Cat Day!",
+      'Miau! Miau! Miau!',
+      'Meow! Meow! Meow!',
+      'Heute ist internationaler Katzentag!'
+    ],
+    tag : [ 'cat' ],
+    emoji : [ 'cat', 'cat2', 'smiley_cat', 'kissing_cat', 'smile_cat', 'heart_eyes_cat' ]
+  },
+  {
+    id : 'Valentine',
+    match : is(specialDay(14, 2, false)),
+    probability : Probability.possible,
+    text : [
+      "Happy Valentine's Day!",
+      "Alles Liebe zum Valentinstag!",
+      "Be my Valentine"
+    ],
+    tag : [ 'valentine' ],
+    emoji : [ 
+      'love_letter', 'sparkling_heart', 'cupid', 'love_hotel', 'tulip',
+      'rose', 'bouquet', 'couplekiss', 'couple_with_heart' ]
+  },
+  {
+    id : 'PaddysDay',
+    match : is(specialDay(17, 3, false)),
+    probability : Probability.possible,
+    text : [
+      "It's St. Patrick's Day!",
+      "Sláinte! It's Paddy's Day!",
+      "Happy St. Patrick's Day!"
+    ],
+    tag : [ 'stpatricksday', 'guinness' ],
+    emoji : [ 'beers', 'shamrock', 'beer', 'flag_ie' ]
+  },
+  {
+    id : 'XMAS',
+    match : is(specialDay(24, 12, true)),
+    probability : Probability.possible,
+    text : [
+      'Merry Christmas!',
+      'Frohe Weihnachten!',
+      "It's Christmas!",
+      'Merry Xmas!' 
+    ],
+    tag : [ 'xmas', 'santa' ],
+    emoji : [ 'santa_tone1', 'christmas_tree', 'snowman2', 'gift']
+  },
+  {
+    id : 'StarWars',
+    match : is(specialDay(4, 5, false)), 
+    probability : Probability.possible,
+    text : [
+      "It's Star Wars day!",
+      'Happy Star Wars day!',
+      'May the Force be with you!'
+    ],
+    tag : [ 'star+wars', 'jedi', 'yoda'],
+    emoji : [ 'eight_pointed_black_star', 'dizzy', 'robot', 'alien' ]
+  },
+  {
+    id : 'TowelDay',
+    match : is(specialDay(25, 5, false)),
+    probability : Probability.possible,
+    text : [
+      "It's Towel Day!",
+      "Don't Panic!",
+      '42!',
+      "Don't forget your towel today.",
+      'Did you pack your towel today?'
+    ],
+    tag : [ 'galaxy', 'universe' ],
+    emoji : [ 'eight_pointed_black_star', 'dizzy', 'telescope', 'sparkles', 'alien' ]
+  },
+  {
+    id : 'GroundhogDay',
+    match : is(specialDay(2, 2, false)),
+    probability : Probability.possible,
+    text : [
+      "Murmeltiertag!",
+      "Früher Frühling ...?",
+      "... oder noch 6 Wochen Winter?",
+      'Sieht Phil seinen Schatten?'
+    ],
+    tag : [ 'groundhogday', 'groundhog', 'winter' ],
+    emoji : [ 'snowman', 'snowman2', 'snowflake', 'chipmunk', 'rainbow', 'partly_sunny' ]
+  },
+  {
+    id : 'Halloween',
+    match : is(specialDay(31, 10, true)),
+    probability : Probability.possible,
+    text: [
+      'Halloween!',
+      'Happy Halloween!',
+      ['Heute is Weltspartag', [ 'moneybag', 'dollar', 'euro', 'money_with_wings', 'money_mouth']],
+      ['Alles Gute zum Namenstag!', [ 'blush', 'kissing_closed_eyes', 'wink' ]],
+      ['Trick or Treat!', [ 'chocolate_bar', 'lollipop', 'candy' ]],
+      ['Süßes oder Saures!', [ 'chocolate_bar', 'lollipop', 'candy' ]]
+    ],
+    tag : [ 'halloween' ],
+    emoji : [ 'jack_o_lantern', 'spider', 'ghost', 'skull', 'spider', 'spider_web']
+  },
+  {
+    id : 'Nikolaus',
+    match : is(specialDay(6, 12, true)), 
+    probability : Probability.possible,
+    text : [
+      "Nikolausabend!",
+      "Nikolaus!",
+      "Nikolaustag!",
+      "Waren alle brav?"
+    ],
+    tag : [ 'santa+claus', 'christmas-season' ],
+    emoji : [ 'tangerine', 'santa_tone1', 'snowflake', 'peanuts' ]
+  },
+  {
+    id : 'Sylvester',
+    match : is(specialDay(31, 12, true)),
+    probability : Probability.possible,
+    text : [
+      'Guten Rutsch!',
+      'Prosit ' + (new Date().getFullYear() + 1),
+    ],
+    tag : [ 'fireworks', 'sylvester' ],
+    emoji : [
+      'sparkler', 'fireworks', 'champagne', 'champagne_glass', 'pig_nose', 
+      'pig', 'tophat', 'four_leaf_clover'
+    ]
+  },
+  {
+    id : 'NewYear',
+    match : is(specialDay(1, 1, true)), 
+    probability : Probability.possible,
+    text : [
+      "Prosit Neujahr!",
+      "Ein gutes neues Jahr!",
+      "Frohes neues Jahr!"
+    ],
+    tag : [ 'clover', 'newyear' ],
+    emoji : [ 'pig_nose', 'four_leaf_clover', 'tophat', 'thumbsup', 'pig' ]
+  },
+  {
+    id : 'WeddingDay',
+    match : is(specialDay(3, 9, true)),
+    probability : Probability.possible,
+    text : [
+      'Gratulation zum  Hochzeitstag!',
+      'Frohen Hochzeitstag!',
+      'Schönen Hochzeitstag!'
+    ],
+    tag : [ 'wedding', 'bride' ],
+    emoji : [ 
+      'church', 'bouquet', 'rose', 'tophat', 'wedding',
+      'champagne_glass', 'man_in_tuxedo', 'ring', 'bride_with_veil'
+    ]
+  },
+
+  birthday('Steffi', 23, 2),
+  birthday('Timo', 16, 10),
+  birthday('Nico', 2, 12),
+  birthday('Wolfgang', 10, 3),
+  
+  {
+    id : 'Workout',
+    match : is(timeOfWeekDay(Day.Mon, 6, 7)).
+      or(timeOfWeekDay(Day.Wed, 6, 7)).
+      or(timeOfWeekDay(Day.Fr, 6, 7)),
+    probability : Probability.impossible,
+    text : [ 
+      "Go get 'em!",
+      ['Good morning champion!', [ 'star', 'trophy', 'first_place', 'first_place' ]],
+      'Ready for a good workout?',
+      'Ready for your workout?'
+    ],
+    tag : ['workout', 'weightlifting', 'muscle', 'motivational'],
+    emoji : ['thumbsup_tone1', 'lifter', 'muscle']
+  },
+  {
+    id : 'PocketMoney',
+    match : is(timeOfWeekDay(1, 7, 18)),
+    probability : Probability.possible,
+    text : [
+      "Taschengeld",
+      "Heute gibt's Taschengeld",
+    ],
+    tag : [ 'money', 'cash' ],
+    emoji : [ 'money_mouth', 'money_with_wings', 'dollar', 'euro', 'moneybag' ]
+  },
+  {
+    id : 'BurritoFriday',
+    match : is(timeOfWeekDay(5, 11, 17)),
+    probability : Probability.likely,
+    text : [
+      "It's Burrito Friday!",
+      "TGIF!",
+      "TGI(Burrito)F!",
+      "Burrito Freitag!",
+      'Burrito, Burrito, Burrito'
+    ],
+    tag : [ 'burrito' ],
+    emoji : [ 'taco', 'burrito', 'avocado', 'hot_pepper' ]
+  },
+  {
+    id : 'XmasCalendar',
+    match : is(function(dt) {
+      return dt.getMonth() === 11 && dt.getDate() <= 24 && dt.getHours() >= 6 && dt.getHours() < 9;
+    }),
+    probability : Probability.likely,
+    text : [ 
+      'Was war im Adventkalender?',
+      'Hast du die ' + new Date().getDate() + '. Tür aufgemacht?'
+    ],
+    tag : [ 'christmas+calendar' ],
+    emoji : [ 
+      'candy', 'lollipop', 'date', 'police_car', 'oncoming_police_car', 'rotating_light'
+    ]
+  },
+  {
+    id : 'Breakfast',
+    match : is(weekEnd).and(timeOfDay(7, 11)),
+    probability : Probability.likely,
+    text : [
+      'Ausgeschlafen?',
+      ['Frühstück für Champions!', [ 'trophy', 'grinning', 'thumbsup' ]],
+      'Wochenendfrühstück!'
+    ],
+    tag : [ 'breakfast' ],
+    emoji : [ 'pancakes', 'bacon', 'croissant', 'honey_pot', 'cooking', 'tea', 'coffee' ]
+  },
+  {
+    id : 'Bundesliga',
+    match : is(function(dt) {
+      // TODO: isbetween datefrom dateto
+      let m = dt.getMonth();
+      let h = dt.getHours();
+      return dt.getDay() === Day.Sa &&
+        (m >= 7 && m <= 11 || m >= 1 && m <= 4) &&
+        h >= 18 && h < 20;
+    }),
+    probability : Probability.veryLikely,
+    text : [ 
+      'Bundesliga!',
+      'Sportschau!',
+      'Fußball gucken!'
+    ],
+    tag : [ 'bundesliga', 'bvb09' ],
+    emoji : [ 'soccer', 'goal', 'tv' ],
+  },
+  {
+    id : 'Weekend',
+    match : is(weekEnd).and(timeOfDay(10, 19)),
+    probability : Probability.likely,
+    text : [
+      'Wochenende!',
+      'Was steht am Programm?',
+      "Los geht's! Wochenendausflug!"
+    ],
+    tag : [ 'weekend' ],
+    emoji : [
+      'tada', 'dancer_tone2', 'beers', 'cocktail',
+      'tropical_drink', 'man_dancing_tone2'
+    ]
+  },
+  {
+    id : 'Advent',
+    match : is(function(dt) {
+      return dt.getMonth() === 11 && dt.getDate() < 24 && 
+        dt.getHours() >= 17 && dt.getHours() < 20;
+    }),
+    probability : Probability.likely,
+    text : [ 
+      'Advent, Advent, ...',
+      'Singen wir am Adventkranz'
+    ],
+    tag : [ 'candle' ],
+    emoji : [ 
+      'candle', 'dizzy'
+    ]
+  },
+
+  {
+    id : 'GoodMorning',
+    match : is(timeOfDay(6, 11)),
+    probability : Probability.certain,
+    text : [ 
+      'Have a great day!',
+      'Guten Morgen!',
+      'Rise and shine!',
+      'Have an awesome day!',
+      'Good morning handsome!'
+    ],
+    tag : [ 'good+morning', 'sunrise', 'wake+up', 'coffee' ],
+    emoji : [ 
+      'shower', 'coffee', 'tea', 'ok_hand', 'v', 'sunrise',
+      'sunrise_over_mountains', 'smile_cat' 
+    ]
+  },
+  {
+    id : 'Lunch',
+    match : is(timeOfDay(11, 14)),
+    probability : Probability.certain,
+    text : [
+      'Mahlzeit!',
+      'Enjoy your lunch!',
+      "Was gibt's heute zum Mittagessen?",
+      "What's for lunch today?"
+    ],      
+    tag : [ 'lunch' ],
+    emoji : [
+      'pizza', 'hamburger', 'fries', 'apple', 'sushi', 'cooking', 'poultry_leg',
+      'watermelon', 'shallow_pan_of_food', 'stew', 'spaghetti', 'fork_knife_plate'
+    ],
+  },
+  {
+    id : 'Afternoon',
+    match : is(timeOfDay(14, 18)), 
+    probability : Probability.certain,
+    text : [ 
+      ['Müssen wir noch einkaufen?', [ 'shopping_cart', 'shopping_bags' ]],
+      ['Ein Bild malen?', [ 'art', 'crayon' ]],
+      ['Langeweile ...?', [ 'unamused', 'poop' ]],
+      ['Einfach Musik hören?', [ 'cd', 'radio', 'musical_keyboard']],
+      ['An apple a day ...', [ 'apple', 'pill' ]],
+      ["Wie wär's mit einem Spiel?", [ 'game_die', 'black_joker' ]],
+      ['Ein Buch lesen?', ['books', 'books', 'closed_book']],
+      ['Vielleicht basteln?', [ 'scissors', 'paperclips', 'straight_ruler', 'triangular_ruler' ]],
+      ['Ein Runde Fahrad fahren?', [ 'mountain_bicyclist', 'bicyclist' ]],
+      ['Roller fahren?', [ 'scooter', 'checkered_flag' ]],
+      ['Auf den Spielplatz?', ['basketball_player_tone1', 'soccer', 'basketball']]
+    ],
+    tag : [ 'playground', 'afternoon'],
+    emoji : [ 'monkey' ],
+  },
+  {
+    id : 'BedTime',
+    match : is(timeOfDay(19, 20)), 
+    probability : Probability.veryLikely,
+    text : [
+      'Schlafenszeit',
+      'Schlaft gut, liebe Kinder',
+      'Gute Nacht, Timo',
+      'Nighty night',
+      'Gute Nacht, Nico',
+      'Zeit zum Bettgehen'
+    ],
+    tag : ['bed', 'sleepy' ],
+    emoji : [ 'bed', 'sleeping_accommodation', 'sleeping', 'full_moon_with_face' ]
+  },
+  {
+    id : 'Evening',
+    match : is(timeOfDay(18, 24)), 
+    probability : Probability.certain,
+    text : [
+      ['Wanna play a game?', [ 'joystick', 'video_game', 'space_invader' ]],
+      ['Take a relaxing bath.', [ 'bathtub', 'bath_tone1' ]],
+      'Enjoy your evening',
+      ['Couchen und Fernschauen', [ 'tv', 'couch', 'clapper', 'film_frames' ]], 
+      ['Ein Projekt wartet ...', ['keyboard', 'computer', 'bar_chart', 'wrench', 'mouse_three_button' ]],
+      ['Watch some Netflix?', [ 'film_frames', 'tv', 'couch', 'clapper' ]],
+      ['Netflix and chill?', [ 'smirk', 'tv', 'couch' ]]
+    ],
+    tag : ['tv', 'netflix', 'movie', 'sunset' ],
+    emoji : [ 'wine_glass', 'tumbler_glass', 'bridge_at_night', 'night_with_stars']
+  },
+  {
+    id : 'Night',
+    match : is(timeOfDay(0, 6)),
+    probability : Probability.certain,
+    text : [
+      'You really should be sleeping ...',
+      'So spät noch auf ...?',
+      'Immer noch munter ...?',
+      'Kannst du morgen ausschlafen?',
+      'No work tomorrow?'
+    ],
+    tag : [ 'sleeping' ],
+    emoji : [
+      'sleeping', 'thinking', 'bed', 'sleeping_accommodation',
+      'bridge_at_night', 'zzz', 'full_moon_with_face']
+  },
+];
+
+function getMatchesForTime(dt) {
+  let matches = [];
+  candidates.forEach(c => {
+    if (c.match.evaluate(dt)) {
+      matches.push(c);
+    }
+  });
+  return matches;
+}
+
+function oneOf(items) {
+  return items[Math.floor(Math.random() * items.length)];
+}
+
+function getSingleMatchForTime(dt, fRandom) {
+  if (!dt) {
+    dt = new Date();
+  }
+  if (!fRandom) {
+    fRandom = Math.random;
+  }
+
+  const matches = getMatchesForTime(dt);
+  //console.log(matches);
+  const match = matches.find(m => fRandom() <= m.probability);
+
+  let result = { id : match.id };
+  const t = oneOf(match.text);
+  if (typeof t === 'string') {
+    result.text = t;
+  }
+  else {
+    result.text = t[0];
+    result.emoji = oneOf(t[1]);
+  }
+  result.tag = oneOf(match.tag);
+  if (!result.emoji) {
+    result.emoji = oneOf(match.emoji);
+  }
+  result.emoji = 'e1a-' + result.emoji;
+  return result;
+}
+
+
+module.exports = {
+  matcher : {  // Exported for unit test
+    is : is,
+    specialDay : specialDay,
+    timeOfDay : timeOfDay,
+    dayOfWeek : dayOfWeek,
+    weekEnd : weekEnd
+  },
+  getMatches : getMatchesForTime,
+  get : getSingleMatchForTime
+};
+},{}],238:[function(require,module,exports){
 "use strict";
-
 var React = require('react');
+var moment = require('moment');
+var info = require('./timeOfDayInfo.jsx');
 
-function setIntervalAndExecute(f, t) {
-  f();
-  return setInterval(f, t);
-}
-
-String.prototype.lowercaseFirst = String.prototype.lowercaseFirst || function() {
-  return this.charAt(0).toLowerCase() + this.slice(1);
-}
-
-
-
-class FetchModule extends React.Component {
+class TimeOfDay extends React.Component {
   constructor(props){
     super(props);
+    this.state = {
+      text : '',
+      emoji : '',
+      image : ''
+    }
+  }
+
+  render() {
+    var divStyle = {
+      backgroundImage: 'url(' + this.state.image + ')'
+    }
+    return (
+      React.createElement("div", {id: "timeofday"}, 
+        React.createElement("p", null, 
+          React.createElement("span", null, this.state.text), 
+          React.createElement("i", {className: this.state.emoji})
+        ), 
+        React.createElement("div", {className: "gif", style: divStyle}
+        )
+      )
+    );
+  }
+
+  update() {
+    const self = this;
+    const data = info.get();
+    const opts = {
+      method: 'GET'
+    };
+    const giphyUrl = 'http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&rating=pg&tag=' + data.tag;
+    fetch(giphyUrl, opts).then(function(response) {
+      return response.json();
+    })
+    .then(function(body) {
+      self.setState({
+        image : body.data.fixed_width_downsampled_url,
+        text : data.text,
+        emoji : data.emoji,
+      });
+    })
+    .catch(function(error) {
+      console.log('Error: ', error);
+    });
   }
 
   componentDidMount() {
-    const self = this;
-    this.intervalId = setIntervalAndExecute(function() {
-      const opts = {
-        method: 'GET'
-      };
-      let url = '/api/' + self.constructor.name.lowercaseFirst();
-      fetch(url, opts).then(function(response) {
-        return response.json();
-      })
-      .then(function(body) {
-        self.callback(body);
-      })
-      .catch(function(error) {
-        console.log('Error: ', error);
-      });
-    }, self.interval);
+    this.intervalId = setInterval(this.update, moment.duration(30, 'seconds'));
+    this.update();
   }
 
   componentWillUnmount() {
@@ -29400,41 +30088,13 @@ class FetchModule extends React.Component {
   }
 }
 
-module.exports = FetchModule;
-
-},{"react":222}],234:[function(require,module,exports){
-"use strict";
-var React = require('react');
-var moment = require('moment');
-var FetchModule = require('../fetchModule.jsx');
-
-class TimeOfDay extends FetchModule {
-  constructor(props){
-    super(props);
-    this.state = {
-    }
-    this.url = '';
-    this.interval = moment.duration(30, 'seconds');
-    this.callback = function(body) {
-      this.setState({
-      });
-    }
-  }
-
-  render() {
-    return (
-      React.createElement("div", {id: "timeofday"}
-      )
-    );
-  }
-};
-
 module.exports = TimeOfDay;
-},{"../fetchModule.jsx":233,"moment":35,"react":222}],235:[function(require,module,exports){
+},{"./timeOfDayInfo.jsx":237,"moment":35,"react":222}],239:[function(require,module,exports){
 "use strict";
 var React = require('react');
-var FetchModule = require('../fetchModule.jsx');
 var moment = require('moment');
+var FetchModule = require('../../common/fetchModule.jsx');
+
 
 const iconTable = {
   "01d": "wi-day-sunny",
@@ -29489,7 +30149,7 @@ class Weather extends FetchModule {
 };
 
 module.exports = Weather;
-},{"../fetchModule.jsx":233,"moment":35,"react":222}],236:[function(require,module,exports){
+},{"../../common/fetchModule.jsx":229,"moment":35,"react":222}],240:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -29501,7 +30161,7 @@ var Route = RouterDOM.Route;
 var routes = require('./routes.jsx');
 
 ReactDOM.render(React.createElement(Router, null, routes), document.getElementById('app'));
-},{"./routes.jsx":237,"react":222,"react-dom":46,"react-router-dom":184}],237:[function(require,module,exports){
+},{"./routes.jsx":241,"react":222,"react-dom":46,"react-router-dom":184}],241:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -29524,4 +30184,4 @@ var routes = (
 
 module.exports = routes;
 
-},{"./components/404.jsx":226,"./components/board/board.jsx":227,"./components/home.jsx":228,"react":222,"react-router-dom":184}]},{},[236]);
+},{"./components/404.jsx":226,"./components/board/board.jsx":227,"./components/home.jsx":230,"react":222,"react-router-dom":184}]},{},[240]);

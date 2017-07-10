@@ -1,4 +1,5 @@
 'use strict';
+
 var ical = require('ical')
 var moment = require('moment');
 
@@ -131,13 +132,6 @@ function getAppointments(text) {
   return appointments;
 }
 
-
-const secrets = require('../../../secrets.json');
-
 module.exports = {
-  routes : [
-    { name : 'calendar', url : secrets.icalUrl },
-    { name : 'bdays', url : secrets.icalBdaysUrl }
-  ],
-  transform : getAppointments
+  getAppointments : getAppointments
 }

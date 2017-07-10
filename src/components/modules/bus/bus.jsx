@@ -1,7 +1,7 @@
 "use strict";
 var React = require('react');
 var moment = require('moment');
-var FetchModule = require('../fetchModule.jsx');
+var FetchModule = require('../../common/fetchModule.jsx');
 
 
 class Bus extends FetchModule {

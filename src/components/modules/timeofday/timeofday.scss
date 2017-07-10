@@ -1,0 +1,21 @@
+#timeofday {
+  font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
+  p {
+    span {
+      font-size: 4.5em;
+    }
+    i {
+      font-size: 7em;
+    }
+  }
+
+  .gif {
+    margin-left: 1em;
+    width: 160px;
+    height: 160px;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+}

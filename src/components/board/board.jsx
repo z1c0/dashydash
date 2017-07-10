@@ -4,9 +4,11 @@ var React = require('react');
 var Weather = require('../modules/weather/weather.jsx');
 var Blog = require('../modules/blog/blog.jsx');
 var Bus = require('../modules/bus/bus.jsx');
-var Calendar = require('../modules/calendar/calendar.jsx');
-var TimeOfDay = require('../modules/timeofday/timeofday.jsx');
 var Abc = require('../modules/abc/abc.jsx');
+var Family = require('../modules/family/family.jsx');
+var Birthdays = require('../modules/birthdays/birthdays.jsx');
+var Appointments = require('../modules/appointments/appointments.jsx');
+var TimeOfDay = require('../modules/timeofday/timeofday.jsx');
 
 
 class Board extends React.Component {
@@ -24,12 +26,13 @@ class Board extends React.Component {
       name : 'Board',
       modules : [ 
         //{ name : 'abc' },
-        //{ name : 'calendar' },
-        //{ name : 'calendar', id : 'birthdays' },
-        //{ name : 'timeofday' },
+        //{ name : 'appointments' },
+        //{ name : 'birthdays' },
+        { name : 'timeofday' },
+        { name : 'family' },
         { name : 'weather' },
         { name : 'blog' },
-        { name : 'bus' },
+        //{ name : 'bus' },
       ]
     });
   }
