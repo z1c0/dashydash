@@ -24,12 +24,12 @@ class Board extends React.Component {
       name : 'Board',
       modules : [ 
         //{ name : 'abc' },
-        //{ name : 'calendar' },
+        { name : 'calendar' },
         //{ name : 'calendar', id : 'birthdays' },
         //{ name : 'timeofday' },
         { name : 'weather' },
         { name : 'blog' },
-        { name : 'bus' },
+        //{ name : 'bus' },
       ]
     });
   }

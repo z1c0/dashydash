@@ -80,7 +80,6 @@ function fetch(req, res) {
   .then(function(times) {
     // flatten
     times = [].concat.apply([], times);
-    console.log(times);
     // remove duplicates
     times = times.filter(function(value, index) { return times.indexOf(value) === index })
     res.json(times);

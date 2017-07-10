@@ -29054,6 +29054,7 @@ class PageNotFound extends React.Component {
 };
 
 module.exports = PageNotFound;
+
 },{"react":222}],227:[function(require,module,exports){
 "use strict";
 
@@ -29081,12 +29082,12 @@ class Board extends React.Component {
       name : 'Board',
       modules : [ 
         //{ name : 'abc' },
-        //{ name : 'calendar' },
+        { name : 'calendar' },
         //{ name : 'calendar', id : 'birthdays' },
         //{ name : 'timeofday' },
         { name : 'weather' },
         { name : 'blog' },
-        { name : 'bus' },
+        //{ name : 'bus' },
       ]
     });
   }
@@ -29221,6 +29222,7 @@ class Abc extends React.Component {
 };
 
 module.exports = Abc;
+
 },{"moment":35,"react":222}],230:[function(require,module,exports){
 "use strict";
 var React = require('react');
@@ -29255,6 +29257,7 @@ class Blog extends FetchModule {
 };
 
 module.exports = Blog;
+
 },{"../fetchModule.jsx":233,"moment":35,"react":222}],231:[function(require,module,exports){
 "use strict";
 var React = require('react');
@@ -29288,6 +29291,7 @@ class Bus extends FetchModule {
 };
 
 module.exports = Bus;
+
 },{"../fetchModule.jsx":233,"moment":35,"react":222}],232:[function(require,module,exports){
 "use strict";
 var React = require('react');
@@ -29355,6 +29359,7 @@ class Calendar extends FetchModule {
 */
 
 module.exports = Calendar;
+
 },{"../fetchModule.jsx":233,"moment":35,"moment/locale/de":34,"react":222}],233:[function(require,module,exports){
 "use strict";
 
@@ -29430,6 +29435,7 @@ class TimeOfDay extends FetchModule {
 };
 
 module.exports = TimeOfDay;
+
 },{"../fetchModule.jsx":233,"moment":35,"react":222}],235:[function(require,module,exports){
 "use strict";
 var React = require('react');
@@ -29489,6 +29495,7 @@ class Weather extends FetchModule {
 };
 
 module.exports = Weather;
+
 },{"../fetchModule.jsx":233,"moment":35,"react":222}],236:[function(require,module,exports){
 "use strict";
 
@@ -29501,6 +29508,7 @@ var Route = RouterDOM.Route;
 var routes = require('./routes.jsx');
 
 ReactDOM.render(React.createElement(Router, null, routes), document.getElementById('app'));
+
 },{"./routes.jsx":237,"react":222,"react-dom":46,"react-router-dom":184}],237:[function(require,module,exports){
 "use strict";
 
