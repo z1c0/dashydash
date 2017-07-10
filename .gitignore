@@ -58,3 +58,4 @@ typings/
 .env
 
 secrets.json
+dist/images/*

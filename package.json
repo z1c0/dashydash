@@ -19,6 +19,7 @@
     "babel-eslint": "^7.2.3",
     "browserify": "^14.4.0",
     "cheerio": "^1.0.0-rc.1",
+    "cron": "^1.2.1",
     "emojione": "^2.2.7",
     "eslint-plugin-react": "^7.0.1",
     "express": "^4.15.3",

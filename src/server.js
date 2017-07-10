@@ -26,6 +26,9 @@ function createRoutes() {
     var name = folderName + '/' + f + '/' + f + '.js';
     if (fs.existsSync(name)) {
       const m = require(name);
+      if (m.init) {
+        m.init();
+      }
       let route = '/api/' + f.toLowerCase();
       router.get(route, new ServerFetcher(m).fetch);
     }
