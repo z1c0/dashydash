@@ -139,7 +139,7 @@ function checkForNewPhotos(config) {
 
 
 module.exports = {
-  init : function() {
+  Xinit : function() {
     var cronJob = cron.job("0 0 */2 * * *", function() {
       checkForNewPhotos(config);
     });

@@ -27,7 +27,7 @@ var config = {
       './node_modules/weather-icons/font/weathericons-regular-webfont.woff'
     ],
     dist: './dist',
-    mainJs : './src/main.jsx'
+    mainJs : './src/app.jsx'
   }
 }
 

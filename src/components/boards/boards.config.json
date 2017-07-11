@@ -1,0 +1,25 @@
+{
+  "main" : {
+    "modules" : {     
+      "weather" : {},
+      //"abc" : {},
+      "family" : {},
+      "timeofday" : {},
+      //{ name : 'appointments' },
+      "birthdays" : {}
+      //{ name : 'blog' },
+      //{ name : 'bus' },
+      //{ name : 'pics' },
+    }
+  },
+  "abc" : {
+    "modules" : {     
+      "abc" : {}
+    }
+  } ,
+  "photos" : {
+    "modules" : {     
+      "pics" : {}
+    }
+  }  
+}

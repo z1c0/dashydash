@@ -30,7 +30,7 @@ class TimeOfDay extends React.Component {
   }
 
   update() {
-    const self = this;
+    let self = this;
     const data = info.get();
     const opts = {
       method: 'GET'
@@ -52,7 +52,7 @@ class TimeOfDay extends React.Component {
   }
 
   componentDidMount() {
-    this.intervalId = setInterval(this.update, moment.duration(30, 'seconds'));
+    this.intervalId = setInterval(this.update.bind(this), moment.duration(30, 'seconds'));
     this.update();
   }
 

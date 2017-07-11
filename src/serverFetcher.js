@@ -2,6 +2,20 @@
 var request = require('request');
 
 module.exports = {
+  fetchJson : function(url) {
+    return new Promise(function(resolve, reject) {
+      request(
+        { url : url, json : true},
+        function(err, res, body) {
+          if (err) {
+            return reject(err);
+          }
+          return resolve(body);
+        });
+    });
+    
+  },
+
   ServerFetcher : function(m) {
     this.fetch = function(req, res) {
       if (m.fetch) {

@@ -4,7 +4,10 @@ var React = require('react');
 
 class PageNotFound extends React.Component {
   render() {
-    return <h1>nope ... 404</h1>;
+    return <div id="fourofour">
+      <h1>404</h1>
+      <i className="e1a-rolling_eyes"></i>
+    </div>;
   }
 };
 

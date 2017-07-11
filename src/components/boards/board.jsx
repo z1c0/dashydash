@@ -1,5 +1,4 @@
-"use strict";
-
+'use strict';
 var React = require('react');
 var Weather = require('../modules/weather/weather.jsx');
 var Blog = require('../modules/blog/blog.jsx');
@@ -16,43 +15,31 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      id : props.match.params.boardId,
       name : '',
       modules: []
     };
   }
 
   componentDidMount() {
-    this.setState({ 
-      name : 'Board',
-      modules : [ 
-        //{ name : 'abc' },
-        //{ name : 'family' },
-        //{ name : 'appointments' },
-        //{ name : 'birthdays' },
-        //{ name : 'timeofday' },
-        { name : 'weather' },
-        //{ name : 'blog' },
-        //{ name : 'bus' },
-        { name : 'pics' },
-      ]
-    });
+    let id = this.props.match.params.boardId;
+    let board = require('./boardManager.jsx').getBoard(id);
+    //console.log(board);
+    if (board) {
+      this.setState({ 
+        name : board.name,
+        modules : board.modules
+      });
+    }
   }
   
   render() {
     var createModule = function(moduleInfo) {
-      if (!moduleInfo.id) {
-        moduleInfo.id = moduleInfo.name;
-      }
       const name = moduleInfo.name;
-      const id = moduleInfo.id;
       var Module = require('../modules/' + name + '/' + name + '.jsx');
-      return <Module key={id} id={id}/>
+      return <Module key={name} id={name}/>
     };
-
     return (
       <div>
-        <h1>{this.state.name} : {this.state.id}</h1>
         {this.state.modules.map(createModule, this)}
       </div>
     );

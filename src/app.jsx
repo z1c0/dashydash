@@ -8,5 +8,9 @@ var Route = RouterDOM.Route;
 
 var routes = require('./routes.jsx');
 
-ReactDOM.render(<Router>{routes}</Router>, document.getElementById('app'));
+ReactDOM.render(
+  <div>
+    <Router>{routes}</Router>
+  </div>,
+  document.getElementById('app'));
 
