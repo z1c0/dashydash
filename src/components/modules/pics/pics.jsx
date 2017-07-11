@@ -19,9 +19,11 @@ class Pics extends FetchModule {
   }
 
   render() {
+    var style = {
+      backgroundImage: 'url(' + this.state.image + ')'
+    }
     return (
-      <div id='pics'>
-        <img src={this.state.image}></img>
+      <div id='pic' style={style}>
       </div>
     );
   }

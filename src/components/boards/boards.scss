@@ -1,12 +1,13 @@
 $tile-background: #3F3F46;
 
-.tile {
-  background-color: $tile-background;
-  position: fixed;
-  border-radius: 3px;
-  padding: 0.5em;
-  bottom: 0.5em;
-  height: 3em;
-  opacity: 0.6;
-  z-index: 5000;
+.board {
+  height: 100%;
+  display : grid;
+  grid-gap: 0;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+}
+
+.part {
+  //background-color: turquoise;
 }

@@ -1,15 +1,16 @@
 {
   "main" : {
     "modules" : {     
-      "weather" : {},
+      "weather" : [ 0, 2, 1, 1 ],
       //"abc" : {},
-      "family" : {},
-      "timeofday" : {},
+      //"family" : {},
+      "timeofday" : [ 0, 0, 1, 1 ],
+      "bus" : [ 0, 3, 1, 1 ],
       //{ name : 'appointments' },
-      "birthdays" : {}
+      //"birthdays" : {}
       //{ name : 'blog' },
       //{ name : 'bus' },
-      //{ name : 'pics' },
+      "pics" : [ 3, 1, 2, 2 ]
     }
   },
   "abc" : {

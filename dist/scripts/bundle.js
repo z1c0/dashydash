@@ -29057,6 +29057,7 @@ class PageNotFound extends React.Component {
 };
 
 module.exports = PageNotFound;
+
 },{"react":222}],227:[function(require,module,exports){
 "use strict";
 
@@ -29069,10 +29070,11 @@ var Route = RouterDOM.Route;
 var routes = require('./routes.jsx');
 
 ReactDOM.render(
-  React.createElement("div", null, 
+  React.createElement("div", {id: "main"}, 
     React.createElement(Router, null, routes)
   ),
   document.getElementById('app'));
+
 },{"./routes.jsx":244,"react":222,"react-dom":46,"react-router-dom":184}],228:[function(require,module,exports){
 'use strict';
 var React = require('react');
@@ -29092,7 +29094,8 @@ class Board extends React.Component {
     super(props);
     this.state = {
       name : '',
-      modules: []
+      modules: [],
+      pos : [0, 0, 0, 0]
     };
   }
 
@@ -29103,20 +29106,34 @@ class Board extends React.Component {
     if (board) {
       this.setState({ 
         name : board.name,
-        modules : board.modules
+        modules : board.modules,
+        pos : board.pos
       });
     }
   }
   
   render() {
-    var createModule = function(moduleInfo) {
+    const createPart = function(moduleInfo) {
+      console.log(moduleInfo);
       const name = moduleInfo.name;
+      const gridPos = {
+        gridColumn : moduleInfo.pos[0] + 1,
+        gridRow : moduleInfo.pos[1] + 1,
+        gridColumnEnd: moduleInfo.pos[0] + moduleInfo.pos[2] + 1,
+        gridRowEnd: moduleInfo.pos[1] + moduleInfo.pos[3] + 1,
+      }
+      
       var Module = require('../modules/' + name + '/' + name + '.jsx');
-      return React.createElement(Module, {key: name, id: name})
+      return (
+        React.createElement("div", {key: name, className: "part", style: gridPos}, 
+          React.createElement(Module, null)
+        )
+      );
     };
+
     return (
-      React.createElement("div", null, 
-        this.state.modules.map(createModule, this)
+      React.createElement("div", {className: "board"}, 
+        this.state.modules.map(createPart, this)
       )
     );
   }
@@ -29132,9 +29149,11 @@ function getBoards() {
   let boards = [];
   for (var b in boardsConfig) {
     let modules = [];
-    for (var m in boardsConfig[b].modules) {
+    let board = boardsConfig[b];
+    for (var m in board.modules) {
       modules.push({
-        name : m
+        name : m,
+        pos : board.modules[m]
       });
     }
     boards.push({ 
@@ -29160,15 +29179,16 @@ module.exports = {
 module.exports={
   "main" : {
     "modules" : {     
-      "weather" : {},
+      "weather" : [ 0, 2, 1, 1 ],
       //"abc" : {},
-      "family" : {},
-      "timeofday" : {},
+      //"family" : {},
+      "timeofday" : [ 0, 0, 1, 1 ],
+      "bus" : [ 0, 3, 1, 1 ],
       //{ name : 'appointments' },
-      "birthdays" : {}
+      //"birthdays" : {}
       //{ name : 'blog' },
       //{ name : 'bus' },
-      //{ name : 'pics' },
+      "pics" : [ 3, 1, 2, 2 ]
     }
   },
   "abc" : {
@@ -29399,6 +29419,7 @@ class Abc extends React.Component {
 };
 
 module.exports = Abc;
+
 },{"moment":35,"react":222}],235:[function(require,module,exports){
 'use strict';
 var React = require('react');
@@ -29408,6 +29429,7 @@ class Appointments extends Calendar {
 };
 
 module.exports = Appointments;
+
 },{"../../common/calendar.jsx":232,"react":222}],236:[function(require,module,exports){
 'use strict';
 var React = require('react');
@@ -29420,6 +29442,7 @@ class Birthdays extends Calendar {
 };
 
 module.exports = Birthdays;
+
 },{"../../common/calendar.jsx":232,"react":222}],237:[function(require,module,exports){
 "use strict";
 var React = require('react');
@@ -29454,6 +29477,7 @@ class Blog extends FetchModule {
 };
 
 module.exports = Blog;
+
 },{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],238:[function(require,module,exports){
 "use strict";
 var React = require('react');
@@ -29487,6 +29511,7 @@ class Bus extends FetchModule {
 };
 
 module.exports = Bus;
+
 },{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],239:[function(require,module,exports){
 "use strict";
 var React = require('react');
@@ -29528,6 +29553,7 @@ class Family extends FetchModule {
 };
 
 module.exports = Family;
+
 },{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],240:[function(require,module,exports){
 "use strict";
 var React = require('react');
@@ -29550,15 +29576,18 @@ class Pics extends FetchModule {
   }
 
   render() {
+    var style = {
+      backgroundImage: 'url(' + this.state.image + ')'
+    }
     return (
-      React.createElement("div", {id: "pics"}, 
-        React.createElement("img", {src: this.state.image})
+      React.createElement("div", {id: "pic", style: style}
       )
     );
   }
 };
 
 module.exports = Pics;
+
 },{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],241:[function(require,module,exports){
 'use strict';
 
@@ -30126,6 +30155,7 @@ module.exports = {
   getMatches : getMatchesForTime,
   get : getSingleMatchForTime
 };
+
 },{}],242:[function(require,module,exports){
 "use strict";
 var React = require('react');
@@ -30191,6 +30221,7 @@ class TimeOfDay extends React.Component {
 }
 
 module.exports = TimeOfDay;
+
 },{"./timeOfDayInfo.jsx":241,"moment":35,"react":222}],243:[function(require,module,exports){
 "use strict";
 var React = require('react');
@@ -30237,6 +30268,7 @@ class Weather extends FetchModule {
 };
 
 module.exports = Weather;
+
 },{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],244:[function(require,module,exports){
 "use strict";
 

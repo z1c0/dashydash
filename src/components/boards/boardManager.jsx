@@ -5,9 +5,11 @@ function getBoards() {
   let boards = [];
   for (var b in boardsConfig) {
     let modules = [];
-    for (var m in boardsConfig[b].modules) {
+    let board = boardsConfig[b];
+    for (var m in board.modules) {
       modules.push({
-        name : m
+        name : m,
+        pos : board.modules[m]
       });
     }
     boards.push({ 

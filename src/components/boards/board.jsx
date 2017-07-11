@@ -16,7 +16,8 @@ class Board extends React.Component {
     super(props);
     this.state = {
       name : '',
-      modules: []
+      modules: [],
+      pos : [0, 0, 0, 0]
     };
   }
 
@@ -27,20 +28,34 @@ class Board extends React.Component {
     if (board) {
       this.setState({ 
         name : board.name,
-        modules : board.modules
+        modules : board.modules,
+        pos : board.pos
       });
     }
   }
   
   render() {
-    var createModule = function(moduleInfo) {
+    const createPart = function(moduleInfo) {
+      console.log(moduleInfo);
       const name = moduleInfo.name;
+      const gridPos = {
+        gridColumn : moduleInfo.pos[0] + 1,
+        gridRow : moduleInfo.pos[1] + 1,
+        gridColumnEnd: moduleInfo.pos[0] + moduleInfo.pos[2] + 1,
+        gridRowEnd: moduleInfo.pos[1] + moduleInfo.pos[3] + 1,
+      }
+      
       var Module = require('../modules/' + name + '/' + name + '.jsx');
-      return <Module key={name} id={name}/>
+      return (
+        <div key={name} className="part" style={gridPos}>
+          <Module/>
+        </div>
+      );
     };
+
     return (
-      <div>
-        {this.state.modules.map(createModule, this)}
+      <div className="board">
+        {this.state.modules.map(createPart, this)}
       </div>
     );
   }
