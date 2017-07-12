@@ -11,6 +11,9 @@ var routes = require('./routes.jsx');
 ReactDOM.render(
   <div>
     <Router>{routes}</Router>
+    <div className="home">
+      <a href="/"><i className="fa fa-home"></i></a>
+    </div>    
   </div>,
   document.getElementById('app'));
 

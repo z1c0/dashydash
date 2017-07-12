@@ -29070,7 +29070,10 @@ var routes = require('./routes.jsx');
 
 ReactDOM.render(
   React.createElement("div", null, 
-    React.createElement(Router, null, routes)
+    React.createElement(Router, null, routes), 
+    React.createElement("div", {className: "home"}, 
+      React.createElement("a", {href: "/"}, React.createElement("i", {className: "fa fa-home"}))
+    )
   ),
   document.getElementById('app'));
 },{"./routes.jsx":244,"react":222,"react-dom":46,"react-router-dom":184}],228:[function(require,module,exports){

@@ -1,5 +1,6 @@
 $text-color: #FBFBFB;
 $main-background: #1E1E1E;
+$tile-background: #3F3F46;
 $a-tags: 'a, a:active, a:hover, a:visited, a:active';
 
 * {
@@ -24,6 +25,30 @@ body {
   height: 100%;
   background-color: $main-background;
 }
+
+.tile {
+  background-color: $tile-background;
+  position: fixed;
+  border-radius: 3px;
+  padding: 0.5em;
+  bottom: 0.5em;
+  height: 3em;
+  opacity: 0.6;
+  z-index: 5000;
+}
+
+.home {
+  @extend .tile;
+  width: 3em;
+  line-height: 3em;
+  text-align: center;
+  vertical-align: middle;  
+  left: 0.5em;
+  i {
+    font-size: xx-large;
+  }
+}
+
 
 #fourofour {
   font-size: 5rem;
