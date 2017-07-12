@@ -31,13 +31,15 @@
 
 .calendar{height:100%;display:flex}.calendar .icon{padding:0.5em}.calendar .icon time{font-size:0.6rem;display:block;position:relative;width:7em;height:7em;background-color:#fff;border-radius:0.6em;overflow:hidden}.calendar .icon time *{display:block;width:100%;font-size:1em;font-weight:bold;font-style:normal;text-align:center}.calendar .icon time strong{position:absolute;top:0;padding:0.4em 0;color:#fff;background-color:#EF4D3C}.calendar .icon time span{font-size:4em;letter-spacing:-0.05em;padding-top:0.4em;color:#222}.calendar .icon .e1a-birthday{font-size:5em}.calendar ul{overflow-y:hidden;overflow-x:hidden}.calendar ul li{font-size:1.25em;line-height:1.2em;list-style-type:none}.calendar ul li strong{white-space:nowrap}.calendar ul li i{font-style:normal;height:0.8em;font-size:0.8em}
 
-#abc{font-size:20rem;background:white;color:black;height:100%}#abc p{text-align:center}#abc p span{font-size:2em;line-height:1em;font-weight:bold}#abc p i{vertical-align:text-top}
+#abc{height:100%;background:white;color:black}#abc p{text-align:center}#abc p span{font-size:2em;line-height:1em;font-weight:bold}#abc p i{vertical-align:text-top}
 
 @font-face{font-family:'LcdFont';src:url("/font/LEDBDREV.TTF") format("truetype")}.lcd-text,#bus span{font-family:"LcdFont";color:#32cd32;white-space:pre}#bus p{margin:0}#bus span{padding:5px;font-size:1.5em}
 
-.news{transition:background 2s linear}.articleText{padding:1em;background-color:rgba(0,0,0,0.75)}
+#games{height:100%;width:100%}
 
-#pic{width:100%;height:100%;background-repeat:no-repeat;background-size:contain;background-position:center}
+#news{height:100%;background-size:cover;transition:background 1s ease-in}.articleText{padding:1em;background-color:rgba(0,0,0,0.75)}
+
+#pic{width:100%;height:100%;background-repeat:no-repeat;background-size:contain;background-position:center;transition:background 1.0s ease-in}
 
 #timeofday{font-size:1rem;display:flex;justify-content:space-between}#timeofday p span{font-size:3.5em}#timeofday p i{font-size:6em}#timeofday .gif{margin-left:1em;width:160px;height:160px;background-repeat:no-repeat;background-position:center}
 

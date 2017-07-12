@@ -1,7 +1,7 @@
 'use strict';
-
 var ical = require('ical')
 var moment = require('moment');
+moment.locale('de');
 
 const maximumEntries = 10;
 const maximumNumberOfDays = 200;

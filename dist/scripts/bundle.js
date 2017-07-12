@@ -29194,13 +29194,13 @@ module.exports={
       "appointments" : [ 1, 2, 2, 3 ],
       "birthdays" :    [ 3, 2, 2, 3 ],
       //"blog" : [ 1, 5, 2, 2 ],
-      //"pics" : [ 5, 1, 4, 3 ],
-      "news" : [ 5, 1, 4, 3 ],
+      "pics" : [ 5, 1, 4, 3 ],
+      //"news" : [ 5, 1, 4, 3 ],
       "games" : [ 5, 4, 1, 1 ],
       "weather" : [ 6, 4, 3, 1 ],
       //"family" : [ 7, 5, 1, 1],
-      "bus" : [ 5, 5, 2, 2 ]
-      //"abc" : [ 7, 5, 1, 1]
+      "bus" : [ 5, 5, 2, 2 ],
+      "abc" : [ 7, 5, 1, 1]
     }
   },
   "abc" : {
@@ -29682,14 +29682,12 @@ var GameController = require('./gameController.jsx');
 class Games extends React.Component {
   constructor(props){
     super(props);
-    this.state = {
-    }
   }
 
   render() {
     return (
       React.createElement("div", {ref: "games", id: "games"}, 
-        React.createElement("canvas", {ref: "gamesCanvas"}
+        React.createElement("canvas", {ref: "gamesCanvas", width: "0", height: "0"}
         )
       )
     );
@@ -29707,9 +29705,6 @@ class Games extends React.Component {
 
     this.gameController = new GameController(canvas);
     this.gameController.nextGame();
-  }
-
-  componentWillUnmount() {
   }
 }
 
@@ -30151,7 +30146,7 @@ class News extends FetchModule {
       description : '',
       image : ''
     }
-    this.interval = moment.duration(5, 'seconds');
+    this.interval = moment.duration(20, 'seconds');
     this.callback = function(body) {
       this.setState({ 
         title : body.title,

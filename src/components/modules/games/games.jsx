@@ -5,14 +5,12 @@ var GameController = require('./gameController.jsx');
 class Games extends React.Component {
   constructor(props){
     super(props);
-    this.state = {
-    }
   }
 
   render() {
     return (
       <div ref="games" id="games">
-        <canvas ref="gamesCanvas">
+        <canvas ref="gamesCanvas" width="0" height="0">
         </canvas>
       </div>
     );
@@ -30,9 +28,6 @@ class Games extends React.Component {
 
     this.gameController = new GameController(canvas);
     this.gameController.nextGame();
-  }
-
-  componentWillUnmount() {
   }
 }
 
