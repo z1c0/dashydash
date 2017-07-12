@@ -1,12 +1,16 @@
 {
   "main" : {
-    "modules" : {     
-      "weather" : {},
+    "modules" : {
+      "games" : {}
+      //"movies" : {},
+      //"news" : {}
+
+      //"weather" : {},
       //"abc" : {},
-      "family" : {},
-      "timeofday" : {},
+      //"family" : {},
+      //"timeofday" : {},
       //{ name : 'appointments' },
-      "birthdays" : {}
+      //"birthdays" : {}
       //{ name : 'blog' },
       //{ name : 'bus' },
       //{ name : 'pics' },

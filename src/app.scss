@@ -21,6 +21,15 @@ body {
   font-family: 'Quicksand', sans-serif;
 }
 
+#{$a-tags} {
+  color: $text-color;
+  text-decoration: none;
+}
+a.plain-link:hover {
+  background-color: lighten($tile-background, 10%)
+}
+
+
 #app {
   height: 100%;
   background-color: $main-background;
