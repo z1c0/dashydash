@@ -1,23 +1,11 @@
 {
   "main" : {
-<<<<<<< HEAD
     "modules" : {     
       "weather" : [ 0, 2, 1, 1 ],
       //"abc" : {},
       //"family" : {},
       "timeofday" : [ 0, 0, 1, 1 ],
       "bus" : [ 0, 3, 1, 1 ],
-=======
-    "modules" : {
-      //"games" : {},
-      //"movies" : {}
-      "news" : {}
-
-      //"weather" : {},
-      //"abc" : {},
-      //"family" : {},
-      //"timeofday" : {},
->>>>>>> 509e91e71a090bdabc066a6851fccd7c2bd45563
       //{ name : 'appointments' },
       //"birthdays" : {}
       //{ name : 'blog' },
