@@ -1,9 +1,9 @@
 {
   "main" : {
     "modules" : {
-      "games" : {}
-      //"movies" : {},
-      //"news" : {}
+      //"games" : {},
+      //"movies" : {}
+      "news" : {}
 
       //"weather" : {},
       //"abc" : {},

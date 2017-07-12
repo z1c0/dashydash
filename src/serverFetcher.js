@@ -12,8 +12,7 @@ module.exports = {
           }
           return resolve(body);
         });
-    });
-    
+    });    
   },
 
   ServerFetcher : function(m) {

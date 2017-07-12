@@ -29076,7 +29076,7 @@ ReactDOM.render(
     )
   ),
   document.getElementById('app'));
-},{"./routes.jsx":249,"react":222,"react-dom":46,"react-router-dom":184}],228:[function(require,module,exports){
+},{"./routes.jsx":250,"react":222,"react-dom":46,"react-router-dom":184}],228:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var Weather = require('../modules/weather/weather.jsx');
@@ -29089,6 +29089,7 @@ var Family = require('../modules/family/family.jsx');
 var Appointments = require('../modules/appointments/appointments.jsx');
 var Pics = require('../modules/pics/pics.jsx');
 var Games = require('../modules/games/games.jsx');
+var News = require('../modules/news/news.jsx');
 
 
 class Board extends React.Component {
@@ -29128,7 +29129,7 @@ class Board extends React.Component {
 
 module.exports = Board;
 
-},{"../modules/abc/abc.jsx":234,"../modules/appointments/appointments.jsx":235,"../modules/birthdays/birthdays.jsx":236,"../modules/blog/blog.jsx":237,"../modules/bus/bus.jsx":238,"../modules/family/family.jsx":239,"../modules/games/games.jsx":242,"../modules/pics/pics.jsx":245,"../modules/timeofday/timeofday.jsx":247,"../modules/weather/weather.jsx":248,"./boardManager.jsx":229,"react":222}],229:[function(require,module,exports){
+},{"../modules/abc/abc.jsx":234,"../modules/appointments/appointments.jsx":235,"../modules/birthdays/birthdays.jsx":236,"../modules/blog/blog.jsx":237,"../modules/bus/bus.jsx":238,"../modules/family/family.jsx":239,"../modules/games/games.jsx":242,"../modules/news/news.jsx":245,"../modules/pics/pics.jsx":246,"../modules/timeofday/timeofday.jsx":248,"../modules/weather/weather.jsx":249,"./boardManager.jsx":229,"react":222}],229:[function(require,module,exports){
 'use strict';
 
 function getBoards() {
@@ -29164,9 +29165,9 @@ module.exports = {
 module.exports={
   "main" : {
     "modules" : {
-      "games" : {}
-      //"movies" : {},
-      //"news" : {}
+      //"games" : {},
+      //"movies" : {}
+      "news" : {}
 
       //"weather" : {},
       //"abc" : {},
@@ -30110,6 +30111,44 @@ var moment = require('moment');
 var FetchModule = require('../../common/fetchModule.jsx');
 
 
+class News extends FetchModule {
+  constructor(props) {
+    super(props);
+    this.state = {
+      title : '',
+      description : '',
+      image : ''
+    }
+    this.interval = moment.duration(5, 'seconds');
+    this.callback = function(body) {
+      this.setState({ 
+        title : body.title,
+        description : body.description,
+        image : body.urlToImage
+      });
+    }
+  }
+
+  render() {
+    return (
+      React.createElement("div", {id: "news", style: { backgroundImage: 'url(' + this.state.image + ')'}}, 
+        React.createElement("div", {className: "articleText"}, 
+          React.createElement("h2", null, this.state.title), 
+          React.createElement("p", null, this.state.description)
+        )
+      )
+    );
+  }
+};
+
+module.exports = News;
+},{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],246:[function(require,module,exports){
+"use strict";
+var React = require('react');
+var moment = require('moment');
+var FetchModule = require('../../common/fetchModule.jsx');
+
+
 class Pics extends FetchModule {
   constructor(props) {
     super(props);
@@ -30134,7 +30173,7 @@ class Pics extends FetchModule {
 };
 
 module.exports = Pics;
-},{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],246:[function(require,module,exports){
+},{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],247:[function(require,module,exports){
 'use strict';
 
 // emoji:
@@ -30701,7 +30740,7 @@ module.exports = {
   getMatches : getMatchesForTime,
   get : getSingleMatchForTime
 };
-},{}],247:[function(require,module,exports){
+},{}],248:[function(require,module,exports){
 "use strict";
 var React = require('react');
 var moment = require('moment');
@@ -30766,7 +30805,7 @@ class TimeOfDay extends React.Component {
 }
 
 module.exports = TimeOfDay;
-},{"./timeOfDayInfo.jsx":246,"moment":35,"react":222}],248:[function(require,module,exports){
+},{"./timeOfDayInfo.jsx":247,"moment":35,"react":222}],249:[function(require,module,exports){
 "use strict";
 var React = require('react');
 var moment = require('moment');
@@ -30812,7 +30851,7 @@ class Weather extends FetchModule {
 };
 
 module.exports = Weather;
-},{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],249:[function(require,module,exports){
+},{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],250:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
