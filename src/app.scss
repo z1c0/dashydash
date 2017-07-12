@@ -36,6 +36,24 @@ a.plain-link:hover {
 }
 
 .tile {
+  // stitch
+  //outline: 1px dashed $text-color;
+  //outline-offset: -2px;
+  width: 9.5em;
+  height: 9.5em;
+  text-align: center;
+  display: inline-block;
+  background-color: $tile-background;
+  margin-right: 0.5em;
+  margin-bottom: 0.5em;
+  padding: 0.5em;
+  border-radius: 3px;
+  h3 {
+    margin-top: 0.7em;
+  }
+}
+
+.bottomTile {
   background-color: $tile-background;
   position: fixed;
   border-radius: 3px;
@@ -47,7 +65,7 @@ a.plain-link:hover {
 }
 
 .home {
-  @extend .tile;
+  @extend .bottomTile;
   width: 3em;
   line-height: 3em;
   text-align: center;
@@ -57,7 +75,20 @@ a.plain-link:hover {
     font-size: xx-large;
   }
 }
-
+#datetime {
+  @extend .bottomTile;
+  right: 0.5em;
+  padding: 0 0 0 0.5em;
+  line-height: 3em;
+  .time {
+    font-size: xx-large;
+  }
+  .seconds {
+    display: inline-block;
+    width: 20px;
+    opacity: 0.5;
+  }
+}
 
 #fourofour {
   font-size: 5rem;

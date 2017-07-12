@@ -21,9 +21,10 @@ class Home extends React.Component {
   render() {
     var createTile = function(board) {
       return (
-        <div key={board.name}>
-          <Link to={{ pathname : '/board/' + board.name }}>{board.name}</Link>
-        </div>
+        <Link key={board.name} className="tile" to={{ pathname : '/board/' + board.name }}>
+          <i className={"fa " + board.icon + " fa-5x"}></i>
+          <h3>{board.name}</h3>
+        </Link>
       );
     };
 

@@ -29073,6 +29073,10 @@ ReactDOM.render(
     React.createElement(Router, null, routes), 
     React.createElement("div", {className: "home"}, 
       React.createElement("a", {href: "/"}, React.createElement("i", {className: "fa fa-home"}))
+    ), 
+    React.createElement("div", {id: "datetime"}, 
+      React.createElement("span", {className: "time"}, "AA:BB"), 
+      React.createElement("span", {className: "seconds"}, "XY")
     )
   ),
   document.getElementById('app'));
@@ -29144,6 +29148,7 @@ function getBoards() {
     }
     boards.push({ 
       name : b,
+      icon : 'fa-user-circle-o',
       modules : modules
     });
   }
@@ -29215,8 +29220,9 @@ class Home extends React.Component {
   render() {
     var createTile = function(board) {
       return (
-        React.createElement("div", {key: board.name}, 
-          React.createElement(Link, {to: { pathname : '/board/' + board.name}}, board.name)
+        React.createElement(Link, {key: board.name, className: "tile", to: { pathname : '/board/' + board.name}}, 
+          React.createElement("i", {className: "fa " + board.icon + " fa-5x"}), 
+          React.createElement("h3", null, board.name)
         )
       );
     };

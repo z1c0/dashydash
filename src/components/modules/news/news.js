@@ -25,6 +25,7 @@ function getNews() {
       serverFetcher.fetchJson(BASE_URL + 'spiegel-online')
     ])
     .then(function (results) {
+      index = 0;
       articles = [];
       results.forEach(r => {
         articles = articles.concat(r.articles);
