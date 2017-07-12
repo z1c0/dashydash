@@ -29070,15 +29070,7 @@ var Route = RouterDOM.Route;
 var routes = require('./routes.jsx');
 
 ReactDOM.render(
-<<<<<<< HEAD
   React.createElement("div", {id: "main"}, 
-    React.createElement(Router, null, routes)
-  ),
-  document.getElementById('app'));
-
-},{"./routes.jsx":244,"react":222,"react-dom":46,"react-router-dom":184}],228:[function(require,module,exports){
-=======
-  React.createElement("div", null, 
     React.createElement(Router, null, routes), 
     React.createElement("div", {className: "home"}, 
       React.createElement("a", {href: "/"}, React.createElement("i", {className: "fa fa-home"}))
@@ -29089,8 +29081,8 @@ ReactDOM.render(
     )
   ),
   document.getElementById('app'));
+
 },{"./routes.jsx":250,"react":222,"react-dom":46,"react-router-dom":184}],228:[function(require,module,exports){
->>>>>>> 509e91e71a090bdabc066a6851fccd7c2bd45563
 'use strict';
 var React = require('react');
 var Weather = require('../modules/weather/weather.jsx');
@@ -29131,13 +29123,13 @@ class Board extends React.Component {
   
   render() {
     const createPart = function(moduleInfo) {
-      console.log(moduleInfo);
+      //console.log(moduleInfo);
       const name = moduleInfo.name;
       const gridPos = {
-        gridColumn : moduleInfo.pos[0] + 1,
-        gridRow : moduleInfo.pos[1] + 1,
-        gridColumnEnd: moduleInfo.pos[0] + moduleInfo.pos[2] + 1,
-        gridRowEnd: moduleInfo.pos[1] + moduleInfo.pos[3] + 1,
+        gridColumn : moduleInfo.pos[0],
+        gridRow : moduleInfo.pos[1],
+        gridColumnEnd: moduleInfo.pos[0] + moduleInfo.pos[2],
+        gridRowEnd: moduleInfo.pos[1] + moduleInfo.pos[3],
       }
       
       var Module = require('../modules/' + name + '/' + name + '.jsx');
@@ -29196,39 +29188,29 @@ module.exports = {
 },{"./boards.config.json":230}],230:[function(require,module,exports){
 module.exports={
   "main" : {
-<<<<<<< HEAD
     "modules" : {     
-      "weather" : [ 0, 2, 1, 1 ],
-      //"abc" : {},
+      "timeofday" : [ 1, 1, 4, 1 ],
       //"family" : {},
-      "timeofday" : [ 0, 0, 1, 1 ],
-      "bus" : [ 0, 3, 1, 1 ],
-=======
-    "modules" : {
-      //"games" : {},
-      //"movies" : {}
-      "news" : {}
-
-      //"weather" : {},
-      //"abc" : {},
-      //"family" : {},
-      //"timeofday" : {},
->>>>>>> 509e91e71a090bdabc066a6851fccd7c2bd45563
-      //{ name : 'appointments' },
-      //"birthdays" : {}
-      //{ name : 'blog' },
-      //{ name : 'bus' },
-      "pics" : [ 3, 1, 2, 2 ]
+      "appointments" : [ 1, 2, 2, 3 ],
+      "birthdays" :    [ 3, 2, 2, 3 ],
+      //"blog" : [ 1, 5, 2, 2 ],
+      //"pics" : [ 5, 1, 4, 3 ],
+      "news" : [ 5, 1, 4, 3 ],
+      "games" : [ 5, 4, 1, 1 ],
+      "weather" : [ 6, 4, 3, 1 ],
+      //"family" : [ 7, 5, 1, 1],
+      "bus" : [ 5, 5, 2, 2 ]
+      //"abc" : [ 7, 5, 1, 1]
     }
   },
   "abc" : {
     "modules" : {     
-      "abc" : {}
+      "abc" : [ 1, 1, 8, 6 ]
     }
   } ,
   "photos" : {
     "modules" : {     
-      "pics" : {}
+      "pics" : [ 1, 1, 8, 6 ]
     }
   }  
 }
@@ -29301,11 +29283,9 @@ class Calendar extends FetchModule {
   renderIcon() {
     var now = new Date();
     return (
-      React.createElement("div", {className: "icon"}, 
-        React.createElement("time", null, 
-          React.createElement("strong", null, moment.months()[now.getMonth()]), 
-          React.createElement("span", null, now.getDate())
-        )
+      React.createElement("time", null, 
+        React.createElement("strong", null, moment.months()[now.getMonth()]), 
+        React.createElement("span", null, now.getDate())
       )
     );
   }
@@ -29319,9 +29299,10 @@ class Calendar extends FetchModule {
         ));
     };
     return (
-      React.createElement("div", {id: "calendar"}, 
-        React.createElement("div", {id: this.props.id}), 
-         this.renderIcon(), 
+      React.createElement("div", {className: "calendar"}, 
+        React.createElement("div", {className: "icon"}, 
+           this.renderIcon() 
+        ), 
         React.createElement("ul", null, 
           this.state.appointments.map(createModule, this)
         )
@@ -29587,46 +29568,6 @@ module.exports = Family;
 
 },{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],240:[function(require,module,exports){
 'use strict';
-var Snake = require('./snake.jsx');
-var TicTacToe = require('./tictactoe.jsx');
-
-
-class GameController {
-  constructor(canvas) {
-    this.canvas = canvas;
-    this.DIM = 32;
-    this.index = -1;
-    this.games = [
-      new Snake(),
-      new TicTacToe(),
-      //new SpaceInvaders()
-    ]
-  }
-
-  nextGame() {
-    if (this.timer) {
-      clearInterval(this.timer);
-    }
-
-    this.index = (this.index + 1) % this.games.length;
-    let game = this.games[this.index];
-
-    game.init();
-    let self = this;
-    this.timer = setInterval(function() {
-      game.simulate();
-      game.render(self.canvas);
-      
-      if (game.isOver()) {
-        self.nextGame();
-      }
-    }, game.getInterval());
-  }
-}
-
-module.exports = GameController;
-},{"./snake.jsx":243,"./tictactoe.jsx":244}],241:[function(require,module,exports){
-'use strict';
 
 const DIM = 32;
  
@@ -29692,10 +29633,51 @@ class BaseGame {
 
 module.exports = BaseGame;
 
-},{}],242:[function(require,module,exports){
+},{}],241:[function(require,module,exports){
+'use strict';
+var Snake = require('./snake.jsx');
+var TicTacToe = require('./tictactoe.jsx');
+
+
+class GameController {
+  constructor(canvas) {
+    this.canvas = canvas;
+    this.DIM = 32;
+    this.index = -1;
+    this.games = [
+      new Snake(),
+      new TicTacToe(),
+      //new SpaceInvaders()
+    ]
+  }
+
+  nextGame() {
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
+
+    this.index = (this.index + 1) % this.games.length;
+    let game = this.games[this.index];
+
+    game.init();
+    let self = this;
+    this.timer = setInterval(function() {
+      game.simulate();
+      game.render(self.canvas);
+      
+      if (game.isOver()) {
+        self.nextGame();
+      }
+    }, game.getInterval());
+  }
+}
+
+module.exports = GameController;
+
+},{"./snake.jsx":243,"./tictactoe.jsx":244}],242:[function(require,module,exports){
 'use strict';
 var React = require('react');
-var GameController = require('./GameController.jsx');
+var GameController = require('./gameController.jsx');
 
 class Games extends React.Component {
   constructor(props){
@@ -29732,7 +29714,8 @@ class Games extends React.Component {
 }
 
 module.exports = Games;
-},{"./GameController.jsx":240,"react":222}],243:[function(require,module,exports){
+
+},{"./gameController.jsx":241,"react":222}],243:[function(require,module,exports){
 'use strict';
 var BaseGame = require('./baseGame.jsx');
 
@@ -29918,7 +29901,8 @@ class Snake extends BaseGame {
 
 
 module.exports = Snake;
-},{"./baseGame.jsx":241}],244:[function(require,module,exports){
+
+},{"./baseGame.jsx":240}],244:[function(require,module,exports){
 'use strict';
 var BaseGame = require('./baseGame.jsx');
 
@@ -30152,7 +30136,7 @@ class TicTacToe extends BaseGame {
 
 module.exports = TicTacToe;
 
-},{"./baseGame.jsx":241}],245:[function(require,module,exports){
+},{"./baseGame.jsx":240}],245:[function(require,module,exports){
 "use strict";
 var React = require('react');
 var moment = require('moment');
@@ -30190,6 +30174,7 @@ class News extends FetchModule {
 };
 
 module.exports = News;
+
 },{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],246:[function(require,module,exports){
 "use strict";
 var React = require('react');
@@ -30223,12 +30208,8 @@ class Pics extends FetchModule {
 };
 
 module.exports = Pics;
-<<<<<<< HEAD
 
-},{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],241:[function(require,module,exports){
-=======
 },{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],247:[function(require,module,exports){
->>>>>>> 509e91e71a090bdabc066a6851fccd7c2bd45563
 'use strict';
 
 // emoji:
@@ -30795,12 +30776,8 @@ module.exports = {
   getMatches : getMatchesForTime,
   get : getSingleMatchForTime
 };
-<<<<<<< HEAD
 
-},{}],242:[function(require,module,exports){
-=======
 },{}],248:[function(require,module,exports){
->>>>>>> 509e91e71a090bdabc066a6851fccd7c2bd45563
 "use strict";
 var React = require('react');
 var moment = require('moment');
@@ -30865,12 +30842,8 @@ class TimeOfDay extends React.Component {
 }
 
 module.exports = TimeOfDay;
-<<<<<<< HEAD
 
-},{"./timeOfDayInfo.jsx":241,"moment":35,"react":222}],243:[function(require,module,exports){
-=======
 },{"./timeOfDayInfo.jsx":247,"moment":35,"react":222}],249:[function(require,module,exports){
->>>>>>> 509e91e71a090bdabc066a6851fccd7c2bd45563
 "use strict";
 var React = require('react');
 var moment = require('moment');
@@ -30896,7 +30869,7 @@ class Weather extends FetchModule {
         temperature : body.temperature,
         min : body.min,
         max : body.max,
-        description : body.description.lowercaseFirst(),
+        description : body.description,
         icon : body.icon
       });
     }
@@ -30905,7 +30878,7 @@ class Weather extends FetchModule {
   render() {
     return (
       React.createElement("div", {id: "weather"}, 
-        React.createElement("p", null, React.createElement("span", null, this.state.name, ", ", this.state.description)), 
+        React.createElement("p", null, React.createElement("span", null, this.state.name, ": ", this.state.description)), 
         React.createElement("i", {className: `wi ${ this.state.icon }`}), 
         React.createElement("span", {className: "temperature"}, this.state.temperature, " °C"), 
         React.createElement("span", {className: "temperatureMinMax"}, "↓ ", this.state.min, "°"), 
@@ -30916,12 +30889,8 @@ class Weather extends FetchModule {
 };
 
 module.exports = Weather;
-<<<<<<< HEAD
 
-},{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],244:[function(require,module,exports){
-=======
 },{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],250:[function(require,module,exports){
->>>>>>> 509e91e71a090bdabc066a6851fccd7c2bd45563
 "use strict";
 
 var React = require('react');

@@ -38,13 +38,13 @@ class Board extends React.Component {
   
   render() {
     const createPart = function(moduleInfo) {
-      console.log(moduleInfo);
+      //console.log(moduleInfo);
       const name = moduleInfo.name;
       const gridPos = {
-        gridColumn : moduleInfo.pos[0] + 1,
-        gridRow : moduleInfo.pos[1] + 1,
-        gridColumnEnd: moduleInfo.pos[0] + moduleInfo.pos[2] + 1,
-        gridRowEnd: moduleInfo.pos[1] + moduleInfo.pos[3] + 1,
+        gridColumn : moduleInfo.pos[0],
+        gridRow : moduleInfo.pos[1],
+        gridColumnEnd: moduleInfo.pos[0] + moduleInfo.pos[2],
+        gridRowEnd: moduleInfo.pos[1] + moduleInfo.pos[3],
       }
       
       var Module = require('../modules/' + name + '/' + name + '.jsx');

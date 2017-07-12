@@ -1,26 +1,28 @@
 {
   "main" : {
     "modules" : {     
-      "weather" : [ 0, 2, 1, 1 ],
-      //"abc" : {},
+      "timeofday" : [ 1, 1, 4, 1 ],
       //"family" : {},
-      "timeofday" : [ 0, 0, 1, 1 ],
-      "bus" : [ 0, 3, 1, 1 ],
-      //{ name : 'appointments' },
-      //"birthdays" : {}
-      //{ name : 'blog' },
-      //{ name : 'bus' },
-      "pics" : [ 3, 1, 2, 2 ]
+      "appointments" : [ 1, 2, 2, 3 ],
+      "birthdays" :    [ 3, 2, 2, 3 ],
+      //"blog" : [ 1, 5, 2, 2 ],
+      //"pics" : [ 5, 1, 4, 3 ],
+      "news" : [ 5, 1, 4, 3 ],
+      "games" : [ 5, 4, 1, 1 ],
+      "weather" : [ 6, 4, 3, 1 ],
+      //"family" : [ 7, 5, 1, 1],
+      "bus" : [ 5, 5, 2, 2 ]
+      //"abc" : [ 7, 5, 1, 1]
     }
   },
   "abc" : {
     "modules" : {     
-      "abc" : {}
+      "abc" : [ 1, 1, 8, 6 ]
     }
   } ,
   "photos" : {
     "modules" : {     
-      "pics" : {}
+      "pics" : [ 1, 1, 8, 6 ]
     }
   }  
 }

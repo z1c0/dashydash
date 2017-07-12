@@ -23,12 +23,10 @@ class Calendar extends FetchModule {
   renderIcon() {
     var now = new Date();
     return (
-      <div className="icon">
-        <time>
-          <strong>{moment.months()[now.getMonth()]}</strong>
-          <span>{now.getDate()}</span>
-        </time>
-      </div>
+      <time>
+        <strong>{moment.months()[now.getMonth()]}</strong>
+        <span>{now.getDate()}</span>
+      </time>
     );
   }
 
@@ -41,9 +39,10 @@ class Calendar extends FetchModule {
         </li>);
     };
     return (
-      <div id='calendar'>
-        <div id={this.props.id}></div>
-        { this.renderIcon() }
+      <div className='calendar'>
+        <div className="icon">
+          { this.renderIcon() }
+        </div>
         <ul>
           {this.state.appointments.map(createModule, this)}
         </ul>

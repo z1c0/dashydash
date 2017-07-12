@@ -1,6 +1,6 @@
 'use strict';
 var React = require('react');
-var GameController = require('./GameController.jsx');
+var GameController = require('./gameController.jsx');
 
 class Games extends React.Component {
   constructor(props){
