@@ -51,7 +51,6 @@ function getWeather(req, res) {
       max : Math.round(body2.list[0].temp.max)
     });
   });
-
 }
 
 module.exports =  {

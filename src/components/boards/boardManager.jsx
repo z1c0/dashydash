@@ -14,6 +14,7 @@ function getBoards() {
     }
     boards.push({ 
       name : b,
+      icon : 'fa-user-circle-o',
       modules : modules
     });
   }

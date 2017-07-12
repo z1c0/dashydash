@@ -11,6 +11,13 @@ var routes = require('./routes.jsx');
 ReactDOM.render(
   <div id="main">
     <Router>{routes}</Router>
+    <div className="home">
+      <a href="/"><i className="fa fa-home"></i></a>
+    </div>
+    <div id="datetime">
+      <span className="time">AA:BB</span>
+      <span className="seconds">XY</span>
+    </div>    
   </div>,
   document.getElementById('app'));
 

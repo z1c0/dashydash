@@ -9,6 +9,8 @@ var Abc = require('../modules/abc/abc.jsx');
 var Family = require('../modules/family/family.jsx');
 var Appointments = require('../modules/appointments/appointments.jsx');
 var Pics = require('../modules/pics/pics.jsx');
+var Games = require('../modules/games/games.jsx');
+var News = require('../modules/news/news.jsx');
 
 
 class Board extends React.Component {

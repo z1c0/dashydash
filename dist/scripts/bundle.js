@@ -29070,12 +29070,27 @@ var Route = RouterDOM.Route;
 var routes = require('./routes.jsx');
 
 ReactDOM.render(
+<<<<<<< HEAD
   React.createElement("div", {id: "main"}, 
     React.createElement(Router, null, routes)
   ),
   document.getElementById('app'));
 
 },{"./routes.jsx":244,"react":222,"react-dom":46,"react-router-dom":184}],228:[function(require,module,exports){
+=======
+  React.createElement("div", null, 
+    React.createElement(Router, null, routes), 
+    React.createElement("div", {className: "home"}, 
+      React.createElement("a", {href: "/"}, React.createElement("i", {className: "fa fa-home"}))
+    ), 
+    React.createElement("div", {id: "datetime"}, 
+      React.createElement("span", {className: "time"}, "AA:BB"), 
+      React.createElement("span", {className: "seconds"}, "XY")
+    )
+  ),
+  document.getElementById('app'));
+},{"./routes.jsx":250,"react":222,"react-dom":46,"react-router-dom":184}],228:[function(require,module,exports){
+>>>>>>> 509e91e71a090bdabc066a6851fccd7c2bd45563
 'use strict';
 var React = require('react');
 var Weather = require('../modules/weather/weather.jsx');
@@ -29087,6 +29102,8 @@ var Abc = require('../modules/abc/abc.jsx');
 var Family = require('../modules/family/family.jsx');
 var Appointments = require('../modules/appointments/appointments.jsx');
 var Pics = require('../modules/pics/pics.jsx');
+var Games = require('../modules/games/games.jsx');
+var News = require('../modules/news/news.jsx');
 
 
 class Board extends React.Component {
@@ -29141,7 +29158,7 @@ class Board extends React.Component {
 
 module.exports = Board;
 
-},{"../modules/abc/abc.jsx":234,"../modules/appointments/appointments.jsx":235,"../modules/birthdays/birthdays.jsx":236,"../modules/blog/blog.jsx":237,"../modules/bus/bus.jsx":238,"../modules/family/family.jsx":239,"../modules/pics/pics.jsx":240,"../modules/timeofday/timeofday.jsx":242,"../modules/weather/weather.jsx":243,"./boardManager.jsx":229,"react":222}],229:[function(require,module,exports){
+},{"../modules/abc/abc.jsx":234,"../modules/appointments/appointments.jsx":235,"../modules/birthdays/birthdays.jsx":236,"../modules/blog/blog.jsx":237,"../modules/bus/bus.jsx":238,"../modules/family/family.jsx":239,"../modules/games/games.jsx":242,"../modules/news/news.jsx":245,"../modules/pics/pics.jsx":246,"../modules/timeofday/timeofday.jsx":248,"../modules/weather/weather.jsx":249,"./boardManager.jsx":229,"react":222}],229:[function(require,module,exports){
 'use strict';
 
 function getBoards() {
@@ -29158,6 +29175,7 @@ function getBoards() {
     }
     boards.push({ 
       name : b,
+      icon : 'fa-user-circle-o',
       modules : modules
     });
   }
@@ -29178,12 +29196,24 @@ module.exports = {
 },{"./boards.config.json":230}],230:[function(require,module,exports){
 module.exports={
   "main" : {
+<<<<<<< HEAD
     "modules" : {     
       "weather" : [ 0, 2, 1, 1 ],
       //"abc" : {},
       //"family" : {},
       "timeofday" : [ 0, 0, 1, 1 ],
       "bus" : [ 0, 3, 1, 1 ],
+=======
+    "modules" : {
+      //"games" : {},
+      //"movies" : {}
+      "news" : {}
+
+      //"weather" : {},
+      //"abc" : {},
+      //"family" : {},
+      //"timeofday" : {},
+>>>>>>> 509e91e71a090bdabc066a6851fccd7c2bd45563
       //{ name : 'appointments' },
       //"birthdays" : {}
       //{ name : 'blog' },
@@ -29226,8 +29256,9 @@ class Home extends React.Component {
   render() {
     var createTile = function(board) {
       return (
-        React.createElement("div", {key: board.name}, 
-          React.createElement(Link, {to: { pathname : '/board/' + board.name}}, board.name)
+        React.createElement(Link, {key: board.name, className: "tile", to: { pathname : '/board/' + board.name}}, 
+          React.createElement("i", {className: "fa " + board.icon + " fa-5x"}), 
+          React.createElement("h3", null, board.name)
         )
       );
     };
@@ -29555,6 +29586,611 @@ class Family extends FetchModule {
 module.exports = Family;
 
 },{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],240:[function(require,module,exports){
+'use strict';
+var Snake = require('./snake.jsx');
+var TicTacToe = require('./tictactoe.jsx');
+
+
+class GameController {
+  constructor(canvas) {
+    this.canvas = canvas;
+    this.DIM = 32;
+    this.index = -1;
+    this.games = [
+      new Snake(),
+      new TicTacToe(),
+      //new SpaceInvaders()
+    ]
+  }
+
+  nextGame() {
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
+
+    this.index = (this.index + 1) % this.games.length;
+    let game = this.games[this.index];
+
+    game.init();
+    let self = this;
+    this.timer = setInterval(function() {
+      game.simulate();
+      game.render(self.canvas);
+      
+      if (game.isOver()) {
+        self.nextGame();
+      }
+    }, game.getInterval());
+  }
+}
+
+module.exports = GameController;
+},{"./snake.jsx":243,"./tictactoe.jsx":244}],241:[function(require,module,exports){
+'use strict';
+
+const DIM = 32;
+ 
+
+
+class BaseGame {
+  init() {
+    this.world = this.createMatrix(DIM);
+  }
+
+  createMatrix(dim) {
+    var arr = [];
+    for(var x = 0; x < dim; x++) {
+      arr[x] = [];    
+      for(var y = 0; y < dim; y++){ 
+        arr[x][y] = 0;
+      }    
+    }
+    return arr;
+  }      
+
+  render(canvas) {
+    const step = canvas.width / DIM;
+    const ctx = canvas.getContext('2d');
+    for (var y = 0; y < DIM; y++){ 
+      for (var x = 0; x < DIM; x++) {
+        ctx.fillStyle = this.mapColor(x, y);
+        ctx.strokeStyle = "#AAA";
+        ctx.strokeRect(x * step, y * step, step, step);
+        ctx.fillRect(x * step, y * step, step, step);
+      }    
+    }
+  }
+
+  mapColor(x, y) {
+    return 'white';
+  }
+
+  getRandom (min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
+  
+  getRandomBool() {
+    return Math.random() > 0.5;
+  }
+  
+  shuffle(o) {
+    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+    return o;
+  }
+  
+  getRandomPos() {
+    var x = this.getRandom(0, this.world.length);
+    var y = this.getRandom(0, this.world.length);
+    if (this.world[x][y] == 0) {
+      return [x, y];
+    }
+    else {
+      return this.getRandomPos();
+    }
+  }   
+}
+
+module.exports = BaseGame;
+
+},{}],242:[function(require,module,exports){
+'use strict';
+var React = require('react');
+var GameController = require('./GameController.jsx');
+
+class Games extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+    }
+  }
+
+  render() {
+    return (
+      React.createElement("div", {ref: "games", id: "games"}, 
+        React.createElement("canvas", {ref: "gamesCanvas"}
+        )
+      )
+    );
+  }  
+
+  componentDidMount() {
+    const div = this.refs.games;
+    const w = Math.min(div.clientWidth, div.clientHeight);
+    const canvas = this.refs.gamesCanvas;
+    canvas.style.width = w;
+    canvas.style.height = w;
+    canvas.style.marginLeft = ((div.clientWidth - w) / 2) + 'px'; 
+    canvas.width = w;
+    canvas.height = w;
+
+    this.gameController = new GameController(canvas);
+    this.gameController.nextGame();
+  }
+
+  componentWillUnmount() {
+  }
+}
+
+module.exports = Games;
+},{"./GameController.jsx":240,"react":222}],243:[function(require,module,exports){
+'use strict';
+var BaseGame = require('./baseGame.jsx');
+
+const VOID = 0;
+const SNAKE_UP = 10;
+const SNAKE_DOWN = 11;
+const SNAKE_LEFT = 12;
+const SNAKE_RIGHT = 13;
+const FOOD = 20;
+const WALL = 30; 
+
+class Snake extends BaseGame {  
+  constructor() {
+    super();
+    this.tail = [];
+    this.head = [];
+    this.food = [];
+    this.grow = 0;
+  }
+
+  getInterval() {
+    return 100;
+  }
+
+   
+  init() {
+    super.init();
+    this.lives = 1;
+    this.reset();
+  }
+  
+  isOver() {
+    return this.lives == 0;
+  }
+  
+  reset() {
+    // walls
+    for (var i = 0; i < this.world.length; i++) {
+      for (var j = 0; j < this.world.length; j++) {
+        var cell = VOID;
+        if (i == 0 || j == 0 || i == this.world.length - 1 || j == this.world.length - 1) {
+          cell = WALL;
+        }
+        this.world[i][j] = cell;
+      }
+    }
+    // snake
+    var x = this.getRandom(5, this.world.length - 10);
+    var y = this.getRandom(2, this.world.length - 2);
+    this.tail[0] = x; 
+    this.tail[1] = y;
+    this.world[x][y] = SNAKE_RIGHT;
+    x++;
+    this.world[x][y] = SNAKE_RIGHT;
+    x++;
+    this.world[x][y] = SNAKE_RIGHT;
+    this.head[0] = x;
+    this.head[1] = y;
+    // food
+    this.food = this.getRandomPos();
+    this.world[this.food[0]][this.food[1]] = FOOD;
+  }
+  
+  mapColor(x, y) {
+    var value = this.world[x][y];
+    switch (value) {
+      case SNAKE_UP:
+      case SNAKE_DOWN:
+      case SNAKE_LEFT:
+      case SNAKE_RIGHT:
+        return "limegreen";
+      
+      case FOOD:
+        return "orangered";
+
+      case WALL:
+        return "#233E96";
+    }
+    return "#444444";
+  }
+  
+  checkMove(cell, dir) {
+    var tmp = cell.slice();
+    this.setCellValue(tmp, dir);
+    var v = this.getCellValue(this.moveCell(tmp));
+    return (v == VOID || v == FOOD);
+  }
+  
+  simulate() {
+    var dir = this.getCellValue(this.head);
+    // steer to food
+    var dx = this.food[0] - this.head[0];
+    var dy = this.food[1] - this.head[1];
+    if (dx != 0) {
+      if (dir == SNAKE_UP || dir == SNAKE_DOWN) {
+        dir = (dx < 0) ? SNAKE_LEFT : SNAKE_RIGHT;
+      } 
+    }
+    if (dy != 0) {
+      if (dir == SNAKE_LEFT || dir == SNAKE_RIGHT) {
+        dir = (dy < 0) ? SNAKE_UP : SNAKE_DOWN;
+      }
+    }
+    this.setCellValue(this.head, dir);
+    
+    // check
+    dir = this.getCellValue(this.head);
+    if (!this.checkMove(this.head, dir)) {
+      var o = [];
+      if (dir == SNAKE_UP || dir == SNAKE_DOWN) {
+        o = this.shuffle([SNAKE_LEFT, SNAKE_RIGHT]);
+      } 
+      else {
+        o = this.shuffle([SNAKE_UP, SNAKE_DOWN]);
+      }
+      if (!this.checkMove(this.head, o[0])) {
+        this.checkMove(this.head, o[1]);
+      }
+    }
+    
+    // move
+    this.move();
+  }
+  
+  getCellValue(cell) {
+    return this.world[cell[0]][cell[1]];
+  }
+  
+  setCellValue(cell, value) {
+    this.world[cell[0]][cell[1]] = value;
+  }
+  
+  moveCell(cell) {
+    var dir = this.getCellValue(cell);
+    switch (dir) {
+      case SNAKE_UP:
+        cell[1]--;
+        break;
+      case SNAKE_DOWN:
+        cell[1]++;
+        break;
+      case SNAKE_LEFT:
+        cell[0]--;
+        break;
+      case SNAKE_RIGHT:
+        cell[0]++;
+        break;
+    }
+    return cell;
+  }
+  
+  move() {
+    if (this.grow == 0) {
+      // move tail
+      var oldTail = this.tail.slice();
+      this.moveCell(this.tail);
+      this.setCellValue(oldTail, VOID);
+    }
+    else {
+      this.grow--;
+    }
+    // move head
+    var vOld = this.getCellValue(this.head);
+    this.moveCell(this.head);
+    var v = this.getCellValue(this.head);
+    switch(v) {
+      case FOOD:
+        this.food = this.getRandomPos();
+        this.setCellValue(this.food, FOOD);
+        this.grow = 3;
+        // fall through
+      
+      case VOID:
+        this.setCellValue(this.head, vOld);
+        break;
+        
+      default:
+        this.lives--;
+        this.reset();
+    }
+  }
+}
+
+
+module.exports = Snake;
+},{"./baseGame.jsx":241}],244:[function(require,module,exports){
+'use strict';
+var BaseGame = require('./baseGame.jsx');
+
+const VOID = 0;
+const GRID = 1;
+const CIRCLE = 2;
+const CIRCLE_WIN = 12;
+const CROSS = 3;
+const CROSS_WIN = 13;
+  
+const STATE_PLAYING = 1;
+const STATE_WINNER = 2;
+const STATE_OVER = 3;
+
+
+class TicTacToe extends BaseGame {  
+  constructor() {
+    super();
+    this.playerOne = false;
+  }
+    
+  getInterval() {
+    return 750;
+  }
+  
+  init() {
+    super.init();
+    this.roundsToPlay = 5;
+    this.field = this.createMatrix(3);
+    this.reset();
+  }
+  
+  reset() {
+    this.state = STATE_PLAYING;
+    this.playSmart = this.getRandomBool();
+    this.playerOne = this.getRandomBool();
+    
+    for (var i = 0; i < this.field.length; i++) {
+      for (var j = 0; j < this.field.length; j++) {
+        this.field[i][j] = VOID;
+      }
+    }
+      
+    for (var i = 0; i < this.world.length; i++) {
+      for (var j = 0; j < this.world.length; j++) {
+        var col = VOID;
+        if (i != 0 && j != 0 && i != this.world.length - 1 && j != this.world.length - 1) {
+          if (i == 10 || i == 21 || j == 10 || j == 21) {
+            col = GRID;
+          }
+        }
+        this.world[i][j] = col;
+      }
+    }
+  }
+  
+  getNextPos(what) {
+    // create array of empty fields
+    var pos = 0;
+    var candidates = [];
+    for (var y = 0; y < 3; y++) {
+      for (var x = 0; x < 3; x++) {
+        if (this.field[x][y] == VOID) {
+          candidates.push({
+            x : x,
+            y : y
+          });
+        }
+      }
+    }
+    candidates = this.shuffle(candidates);
+    
+    if (this.playSmart) {
+      // evaluate fields
+      var highScore = -1;
+      for (var i = 0; i < candidates.length; i++) {
+        var c = candidates[i];
+        var score = 0;
+        score += this.evaluateLine(what, [[0, c.y], [1, c.y], [2, c.y]]);
+        score += this.evaluateLine(what, [[c.x, 0], [c.x, 1 ], [c.x, 2]]);
+        if (c.x == c.y) {
+          score += this.evaluateLine(what, [[0, 0], [1, 1 ], [2, 2]]);
+        }
+        else if (c.x + c.y == 2) {
+          score += this.evaluateLine(what, [[2, 0], [1, 1 ], [2, 0]]);
+        }
+        if (score > highScore) {
+          highScore = score;
+          pos = i;
+        }
+      } 
+    }
+    else {
+      // random empty field
+      pos = this.getRandom(0, candidates.length);
+    }
+    return candidates[pos];
+  }
+  
+  evaluateLine(what, cells) {
+    var score = 1;
+    var result = this.checkLine(cells, false);
+    if (result.x == 2 || result.y == 2) {
+      score += 2;
+    }
+    return score;
+  }
+  
+  checkLine(cells, mark) {
+    var x = 0;
+    var o = 0;
+    for (var i = 0; i < 3; i++) {
+      var v = this.field[cells[i][0]][cells[i][1]];
+      if (v == CIRCLE) {
+        o++;
+      }
+      else if (v == CROSS) {
+        x++;
+      }
+    }
+    if (this.state != STATE_WINNER) {
+      if (mark && (x == 3 || o == 3)) {
+        this.state = STATE_WINNER;
+        for (var i = 0; i < 3; i++) {
+          this.draw(cells[i][0], cells[i][1], this.field[cells[i][0]][cells[i][1]] + 10); 
+        }
+      }
+    }
+    return {
+      x : x,
+      o: o,
+    };
+  }
+  
+  checkIfOver() {
+    this.checkLine([[0, 0], [1, 1], [2, 2]], true);
+    this.checkLine([[2, 0], [1, 1], [0, 2]], true);
+    for (var i = 0; i < 3; i++) {
+      this.checkLine([[i, 0], [i, 1], [i, 2]], true);
+      this.checkLine([[0, i], [1, i], [2, i]], true);
+    }
+    
+    if (this.state == STATE_PLAYING) {
+      var voids = 0;
+      for (var i = 0; i < this.field.length; i++) {
+        for (var j = 0; j < this.field.length; j++) {
+          if (this.field[i][j] == VOID) {
+            voids++;
+          }
+        }
+      }
+      if (voids == 0) {
+        this.state = STATE_OVER;
+      }
+    }
+  }
+  
+  simulate() {
+    if (this.state == STATE_PLAYING) {
+      this.checkIfOver();
+    }
+    
+    if (this.state == STATE_OVER) {
+      this.reset();
+      this.roundsToPlay--;
+    }
+    else if (this.state == STATE_WINNER) {
+      this.state = STATE_OVER;
+    }
+    else {
+      var what = this.playerOne ? CIRCLE : CROSS;
+      var pos = this.getNextPos(what);
+      this.draw(pos.x, pos.y, what);
+      this.field[pos.x][pos.y] = what;
+      this.playerOne = !this.playerOne;
+    }
+  }
+  
+  isOver() {
+    return this.roundsToPlay == 0;
+  }
+  
+  draw(col, row, what) {
+    var offX = col * 11 + 1;
+    var offY = row * 11 + 1;
+    if (what == CIRCLE || what == CIRCLE_WIN) {
+      this.world[offX + 3][offY + 0] = what;
+      this.world[offX + 2][offY + 1] = what;
+      this.world[offX + 1][offY + 1] = what;
+      this.world[offX + 1][offY + 2] = what;
+      this.world[offX + 0][offY + 3] = what;
+    }
+    else {
+      this.world[offX + 0][offY + 0] = what;
+      this.world[offX + 1][offY + 1] = what;
+      this.world[offX + 2][offY + 2] = what;
+      this.world[offX + 3][offY + 3] = what;
+    }
+    for (var i = 0; i < 4; i++) {
+      for (var j = 0; j < 4; j++) {
+        var x = offX + j;
+        var y = offY + i;
+        var v = this.world[x][y];
+        this.world[x][offY + 7 - i] = v;
+        this.world[offX + 7 - j][y] = v;
+        this.world[offX + 7 - j][offY + 7 - i] = v;
+      }
+    }
+  }
+
+  mapColor(x, y) {
+    switch (this.world[x][y]) {
+      case GRID:
+        return '#F1F1F1';
+        
+        case CIRCLE:
+          return this.playSmart ? 'limegreen' : 'cyan';
+          
+        case CROSS:
+          return this.playSmart ? 'cornflowerblue' : 'purple';
+          
+        case CIRCLE_WIN:
+        case CROSS_WIN:
+          return 'gold';
+          
+      default:
+        return '#222';
+    }
+  }
+}
+
+module.exports = TicTacToe;
+
+},{"./baseGame.jsx":241}],245:[function(require,module,exports){
+"use strict";
+var React = require('react');
+var moment = require('moment');
+var FetchModule = require('../../common/fetchModule.jsx');
+
+
+class News extends FetchModule {
+  constructor(props) {
+    super(props);
+    this.state = {
+      title : '',
+      description : '',
+      image : ''
+    }
+    this.interval = moment.duration(5, 'seconds');
+    this.callback = function(body) {
+      this.setState({ 
+        title : body.title,
+        description : body.description,
+        image : body.urlToImage
+      });
+    }
+  }
+
+  render() {
+    return (
+      React.createElement("div", {id: "news", style: { backgroundImage: 'url(' + this.state.image + ')'}}, 
+        React.createElement("div", {className: "articleText"}, 
+          React.createElement("h2", null, this.state.title), 
+          React.createElement("p", null, this.state.description)
+        )
+      )
+    );
+  }
+};
+
+module.exports = News;
+},{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],246:[function(require,module,exports){
 "use strict";
 var React = require('react');
 var moment = require('moment');
@@ -29587,8 +30223,12 @@ class Pics extends FetchModule {
 };
 
 module.exports = Pics;
+<<<<<<< HEAD
 
 },{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],241:[function(require,module,exports){
+=======
+},{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],247:[function(require,module,exports){
+>>>>>>> 509e91e71a090bdabc066a6851fccd7c2bd45563
 'use strict';
 
 // emoji:
@@ -30155,8 +30795,12 @@ module.exports = {
   getMatches : getMatchesForTime,
   get : getSingleMatchForTime
 };
+<<<<<<< HEAD
 
 },{}],242:[function(require,module,exports){
+=======
+},{}],248:[function(require,module,exports){
+>>>>>>> 509e91e71a090bdabc066a6851fccd7c2bd45563
 "use strict";
 var React = require('react');
 var moment = require('moment');
@@ -30221,8 +30865,12 @@ class TimeOfDay extends React.Component {
 }
 
 module.exports = TimeOfDay;
+<<<<<<< HEAD
 
 },{"./timeOfDayInfo.jsx":241,"moment":35,"react":222}],243:[function(require,module,exports){
+=======
+},{"./timeOfDayInfo.jsx":247,"moment":35,"react":222}],249:[function(require,module,exports){
+>>>>>>> 509e91e71a090bdabc066a6851fccd7c2bd45563
 "use strict";
 var React = require('react');
 var moment = require('moment');
@@ -30268,8 +30916,12 @@ class Weather extends FetchModule {
 };
 
 module.exports = Weather;
+<<<<<<< HEAD
 
 },{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],244:[function(require,module,exports){
+=======
+},{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],250:[function(require,module,exports){
+>>>>>>> 509e91e71a090bdabc066a6851fccd7c2bd45563
 "use strict";
 
 var React = require('react');

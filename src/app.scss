@@ -1,5 +1,6 @@
 $text-color: #FBFBFB;
 $main-background: #1E1E1E;
+$tile-background: #3F3F46;
 $a-tags: 'a, a:active, a:hover, a:visited, a:active';
 
 * {
@@ -20,6 +21,15 @@ body {
   font-family: 'Quicksand', sans-serif;
 }
 
+#{$a-tags} {
+  color: $text-color;
+  text-decoration: none;
+}
+a.plain-link:hover {
+  background-color: lighten($tile-background, 10%)
+}
+
+
 #app {
   height: 100%;
 }
@@ -27,6 +37,61 @@ body {
 #main {
   background-color: $main-background;
   height: 100%;
+}
+
+.tile {
+  // stitch
+  //outline: 1px dashed $text-color;
+  //outline-offset: -2px;
+  width: 9.5em;
+  height: 9.5em;
+  text-align: center;
+  display: inline-block;
+  background-color: $tile-background;
+  margin-right: 0.5em;
+  margin-bottom: 0.5em;
+  padding: 0.5em;
+  border-radius: 3px;
+  h3 {
+    margin-top: 0.7em;
+  }
+}
+
+.bottomTile {
+  background-color: $tile-background;
+  position: fixed;
+  border-radius: 3px;
+  padding: 0.5em;
+  bottom: 0.5em;
+  height: 3em;
+  opacity: 0.6;
+  z-index: 5000;
+}
+
+.home {
+  @extend .bottomTile;
+  width: 3em;
+  line-height: 3em;
+  text-align: center;
+  vertical-align: middle;  
+  left: 0.5em;
+  i {
+    font-size: xx-large;
+  }
+}
+#datetime {
+  @extend .bottomTile;
+  right: 0.5em;
+  padding: 0 0 0 0.5em;
+  line-height: 3em;
+  .time {
+    font-size: xx-large;
+  }
+  .seconds {
+    display: inline-block;
+    width: 20px;
+    opacity: 0.5;
+  }
 }
 
 #fourofour {
