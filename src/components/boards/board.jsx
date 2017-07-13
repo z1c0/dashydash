@@ -11,6 +11,7 @@ var Appointments = require('../modules/appointments/appointments.jsx');
 var Pics = require('../modules/pics/pics.jsx');
 var Games = require('../modules/games/games.jsx');
 var News = require('../modules/news/news.jsx');
+var Football = require('../modules/football/football.jsx');
 
 
 class Board extends React.Component {

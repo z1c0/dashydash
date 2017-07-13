@@ -12,7 +12,7 @@ class News extends FetchModule {
       description : '',
       image : ''
     }
-    this.interval = moment.duration(20, 'seconds');
+    this.interval = moment.duration(30, 'seconds');
     this.callback = function(body) {
       this.setState({ 
         title : body.title,
