@@ -1,7 +1,9 @@
-$tile-background: #3F3F46;
+@import '../common/common';
 
 .board {
   height: 100%;
+  overflow-x: hidden;
+  overflow-y: hidden;
   display : grid;
   grid-gap: 5px;
   grid-template-columns: repeat(8, 1fr);
@@ -9,7 +11,7 @@ $tile-background: #3F3F46;
 }
 
 .part {
-  background: rgb(40, 40, 40);
+  background: $part-background-color;
   border-radius: 5px;
   //outline: 1px solid whitesmoke;
 }

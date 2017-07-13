@@ -5,16 +5,18 @@
   width: 100%;
   display: flex;
   p {
-    width: 66%;
+    width: 70%;
     font-size: $biggest-font;
     i {
       font-size: $icon-font;
     }
   }
   .giphy {
-    width: 34%;
+    width: 30%;
     background-repeat: no-repeat;
-    background-size: cover;
-    transition: background 1s ease-in;
+    background-size: contain;
+    background-position-x: right;
+    background-position-y: center;
+    transition: background 0.5s ease-in;
   }
 }

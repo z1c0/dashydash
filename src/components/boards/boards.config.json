@@ -2,15 +2,14 @@
   "main" : {
     "modules" : {     
       "timeofday" : [ 1, 1, 4, 1 ],
-      //"family" : {},
       "appointments" : [ 1, 2, 2, 3 ],
       "birthdays" :    [ 3, 2, 2, 3 ],
       //"blog" : [ 1, 5, 2, 2 ],
       //"pics" : [ 5, 1, 4, 3 ],
       "news" : [ 5, 1, 4, 3 ],
       "games" : [ 5, 4, 1, 1 ],
+      "family" : [ 3, 5, 2, 1],
       "weather" : [ 6, 4, 3, 1 ],
-      //"family" : [ 7, 5, 1, 1],
       "bus" : [ 5, 5, 2, 2 ],
       "abc" : [ 7, 5, 1, 1],
       "football" : [ 8, 5, 1, 1]

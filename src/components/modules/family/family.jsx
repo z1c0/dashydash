@@ -26,12 +26,35 @@ class Family extends FetchModule {
   }
 
   render() {
+    var style = {
+      backgroundImage: 'url(' + this.state.image + ')'
+    }
+    var emoji = 'white_check_mark';
+    if (!this.state.done) {
+      let day = new Date().getDate();
+      if (day <= 5) {
+        emoji = 'slight_smile';
+      }
+      else if (day <= 10) {
+        emoji = 'neutral_face';
+      }
+      else if (day <= 15) {
+        emoji = 'thinking';
+      }
+      else if (day <= 25) {
+        emoji = 'angry';
+      }
+      else {
+        emoji = 'rage';
+      }
+    }
     return (
-      <div id='family'>
-        <h2>{this.state.title}</h2>
-        <p>{this.state.text}</p>
-        <p>{this.state.done ? 'OK!' : ':-('}</p>
-        <img src={this.state.image}/>
+      <div className='family' style={style}>
+        <div className="family-overlay">
+          <p>{this.state.title}</p>
+          <p className="family-text">{this.state.text}</p>
+        </div>
+        <i className={'e1a-' + emoji}></i>
       </div>
     );
   }

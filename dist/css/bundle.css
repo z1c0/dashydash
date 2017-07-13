@@ -27,7 +27,7 @@
 
 *{margin:0;padding:0}html{height:100%}body{height:100%;background-color:magenta;margin:0;color:#FBFBFB;font-family:'Quicksand', sans-serif;font-size:1.2vw}a,a:active,a:hover,a:visited,a:active{color:#FBFBFB;text-decoration:none}a.plain-link:hover{background-color:#575761}h1{font-size:2vw}#app{height:100%}#main{background-color:#1E1E1E;height:100%}.tile{width:9.5em;height:9.5em;text-align:center;display:inline-block;background-color:#3F3F46;margin-right:0.5em;margin-bottom:0.5em;padding:0.5em;border-radius:3px}.tile h3{margin-top:0.7em}.bottomTile,#home,#datetime{background-color:#3F3F46;position:fixed;height:3em;line-height:3em;border-radius:3px;padding:0.5em;bottom:0.5em;opacity:0.6;z-index:5000;text-align:center}#home{width:3em;left:0.5em}#home i{font-size:2vw}#datetime{right:0.5em}#datetime .time{font-size:2vw}#datetime .seconds{display:inline-block;width:20px;opacity:0.5}#fourofour{font-size:5rem;text-align:center}
 
-.board{height:100%;display:grid;grid-gap:5px;grid-template-columns:repeat(8, 1fr);grid-template-rows:repeat(6, 1fr)}.part{background:#282828;border-radius:5px}
+.board{height:100%;overflow-x:hidden;overflow-y:hidden;display:grid;grid-gap:5px;grid-template-columns:repeat(8, 1fr);grid-template-rows:repeat(6, 1fr)}.part{background:#282828;border-radius:5px}
 
 .calendar{height:100%;display:flex}.calendar .icon{padding:0.5em}.calendar .icon time{font-size:0.6rem;display:block;position:relative;width:7em;height:7em;background-color:#fff;border-radius:0.6em;overflow:hidden}.calendar .icon time *{display:block;width:100%;font-size:1em;font-weight:bold;font-style:normal;text-align:center}.calendar .icon time strong{position:absolute;top:0;padding:0.4em 0;color:#fff;background-color:#EF4D3C}.calendar .icon time span{font-size:4em;letter-spacing:-0.05em;padding-top:0.4em;color:#222}.calendar .icon .e1a-birthday{font-size:6vw}.calendar ul{overflow-y:hidden;overflow-x:hidden;position:relative}.calendar ul li{list-style-type:none;margin-bottom:0.5em}.calendar ul li strong{white-space:nowrap}.calendar ul li i{font-style:normal;font-size:.9vw}.calendar ul:after{content:"";position:absolute;z-index:1;bottom:0;left:0;pointer-events:none;background-image:linear-gradient(to bottom, transparent 50%, #282828 100%);width:100%;height:2em}
 
@@ -36,12 +36,14 @@
 
 @font-face{font-family:'LcdFont';src:url("/font/LEDBDREV.TTF") format("truetype")}.lcd-text,#bus span{font-family:"LcdFont";color:#32cd32;white-space:pre}#bus p{margin:0}#bus span{padding:5px;font-size:1.5em}
 
-#pic{width:100%;height:100%;background-repeat:no-repeat;background-size:contain;background-position:center;transition:background 1.0s ease-in}
+@keyframes move-image{0%{background-size:100%}25%{background-size:100%}50%{background-size:150%}75%{background-size:150%}100%{background-size:100%}}.family{height:100%;width:100%;animation:move-image 60s linear infinite;position:relative}.family i{position:absolute;bottom:5px;right:5px;font-size:3.5vw}.family-overlay{padding:.5em;background-color:rgba(0,0,0,0.5)}.family-text{font-size:.9vw}
 
 #games{height:100%;width:100%}
 
 #news{height:100%;background-size:cover;transition:background 1s ease-in}.articleText{padding:1em;background-color:rgba(0,0,0,0.5)}
 
-.timeofday{height:100%;width:100%;display:flex}.timeofday p{width:66%;font-size:3.5vw}.timeofday p i{font-size:6vw}.timeofday .giphy{width:34%;background-repeat:no-repeat;background-size:cover;transition:background 1s ease-in}
+#pic{width:100%;height:100%;background-repeat:no-repeat;background-size:contain;background-position:center;transition:background 1.0s ease-in}
+
+.timeofday{height:100%;width:100%;display:flex}.timeofday p{width:70%;font-size:3.5vw}.timeofday p i{font-size:6vw}.timeofday .giphy{width:30%;background-repeat:no-repeat;background-size:contain;background-position-x:right;background-position-y:center;transition:background 0.5s ease-in}
 
 #weather{font-size:2vw;padding:0.5em}.temperature{font-size:3.5vw;font-weight:bold;margin-right:0.5em}.temperatureMinMax{font-weight:bo;margin-right:0.5em}.wi{font-size:3.5vw;margin-right:0.5em}

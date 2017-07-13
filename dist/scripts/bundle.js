@@ -29182,15 +29182,14 @@ module.exports={
   "main" : {
     "modules" : {     
       "timeofday" : [ 1, 1, 4, 1 ],
-      //"family" : {},
       "appointments" : [ 1, 2, 2, 3 ],
       "birthdays" :    [ 3, 2, 2, 3 ],
       //"blog" : [ 1, 5, 2, 2 ],
       //"pics" : [ 5, 1, 4, 3 ],
       "news" : [ 5, 1, 4, 3 ],
       "games" : [ 5, 4, 1, 1 ],
+      "family" : [ 3, 5, 2, 1],
       "weather" : [ 6, 4, 3, 1 ],
-      //"family" : [ 7, 5, 1, 1],
       "bus" : [ 5, 5, 2, 2 ],
       "abc" : [ 7, 5, 1, 1],
       "football" : [ 8, 5, 1, 1]
@@ -29580,12 +29579,35 @@ class Family extends FetchModule {
   }
 
   render() {
+    var style = {
+      backgroundImage: 'url(' + this.state.image + ')'
+    }
+    var emoji = 'white_check_mark';
+    if (!this.state.done) {
+      let day = new Date().getDate();
+      if (day <= 5) {
+        emoji = 'slight_smile';
+      }
+      else if (day <= 10) {
+        emoji = 'neutral_face';
+      }
+      else if (day <= 15) {
+        emoji = 'thinking';
+      }
+      else if (day <= 25) {
+        emoji = 'angry';
+      }
+      else {
+        emoji = 'rage';
+      }
+    }
     return (
-      React.createElement("div", {id: "family"}, 
-        React.createElement("h2", null, this.state.title), 
-        React.createElement("p", null, this.state.text), 
-        React.createElement("p", null, this.state.done ? 'OK!' : ':-('), 
-        React.createElement("img", {src: this.state.image})
+      React.createElement("div", {className: "family", style: style}, 
+        React.createElement("div", {className: "family-overlay"}, 
+          React.createElement("p", null, this.state.title), 
+          React.createElement("p", {className: "family-text"}, this.state.text)
+        ), 
+        React.createElement("i", {className: 'e1a-' + emoji})
       )
     );
   }
