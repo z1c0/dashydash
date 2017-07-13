@@ -29057,7 +29057,6 @@ class PageNotFound extends React.Component {
 };
 
 module.exports = PageNotFound;
-
 },{"react":222}],227:[function(require,module,exports){
 "use strict";
 
@@ -29081,7 +29080,6 @@ ReactDOM.render(
     )
   ),
   document.getElementById('app'));
-
 },{"./routes.jsx":250,"react":222,"react-dom":46,"react-router-dom":184}],228:[function(require,module,exports){
 'use strict';
 var React = require('react');
@@ -29194,8 +29192,8 @@ module.exports={
       "appointments" : [ 1, 2, 2, 3 ],
       "birthdays" :    [ 3, 2, 2, 3 ],
       //"blog" : [ 1, 5, 2, 2 ],
-      "pics" : [ 5, 1, 4, 3 ],
-      //"news" : [ 5, 1, 4, 3 ],
+      //"pics" : [ 5, 1, 4, 3 ],
+      "news" : [ 5, 1, 4, 3 ],
       "games" : [ 5, 4, 1, 1 ],
       "weather" : [ 6, 4, 3, 1 ],
       //"family" : [ 7, 5, 1, 1],
@@ -29404,6 +29402,9 @@ class Abc extends React.Component {
   }
 
   componentDidMount() {
+    const div = this.refs.abc;
+    div.style.fontSize = 0.3 * div.clientWidth + 'px';
+
     const self = this;
     this.intervalId = setInterval(function() {
       self.setState({
@@ -29420,7 +29421,7 @@ class Abc extends React.Component {
   render() {
     var l = letters[this.state.index];
     return (
-      React.createElement("div", {id: "abc"}, 
+      React.createElement("div", {id: "abc", ref: "abc"}, 
         React.createElement("p", null, 
           React.createElement("span", null, l[0]), 
           React.createElement("i", {className: 'e1a-' + l[1]})
@@ -29431,7 +29432,6 @@ class Abc extends React.Component {
 };
 
 module.exports = Abc;
-
 },{"moment":35,"react":222}],235:[function(require,module,exports){
 'use strict';
 var React = require('react');
@@ -29441,7 +29441,6 @@ class Appointments extends Calendar {
 };
 
 module.exports = Appointments;
-
 },{"../../common/calendar.jsx":232,"react":222}],236:[function(require,module,exports){
 'use strict';
 var React = require('react');
@@ -29454,7 +29453,6 @@ class Birthdays extends Calendar {
 };
 
 module.exports = Birthdays;
-
 },{"../../common/calendar.jsx":232,"react":222}],237:[function(require,module,exports){
 "use strict";
 var React = require('react');
@@ -29489,7 +29487,6 @@ class Blog extends FetchModule {
 };
 
 module.exports = Blog;
-
 },{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],238:[function(require,module,exports){
 "use strict";
 var React = require('react');
@@ -29523,7 +29520,6 @@ class Bus extends FetchModule {
 };
 
 module.exports = Bus;
-
 },{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],239:[function(require,module,exports){
 "use strict";
 var React = require('react');
@@ -29565,7 +29561,6 @@ class Family extends FetchModule {
 };
 
 module.exports = Family;
-
 },{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],240:[function(require,module,exports){
 'use strict';
 
@@ -29673,7 +29668,6 @@ class GameController {
 }
 
 module.exports = GameController;
-
 },{"./snake.jsx":243,"./tictactoe.jsx":244}],242:[function(require,module,exports){
 'use strict';
 var React = require('react');
@@ -29709,7 +29703,6 @@ class Games extends React.Component {
 }
 
 module.exports = Games;
-
 },{"./gameController.jsx":241,"react":222}],243:[function(require,module,exports){
 'use strict';
 var BaseGame = require('./baseGame.jsx');
@@ -29896,7 +29889,6 @@ class Snake extends BaseGame {
 
 
 module.exports = Snake;
-
 },{"./baseGame.jsx":240}],244:[function(require,module,exports){
 'use strict';
 var BaseGame = require('./baseGame.jsx');
@@ -30169,7 +30161,6 @@ class News extends FetchModule {
 };
 
 module.exports = News;
-
 },{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],246:[function(require,module,exports){
 "use strict";
 var React = require('react');
@@ -30203,7 +30194,6 @@ class Pics extends FetchModule {
 };
 
 module.exports = Pics;
-
 },{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],247:[function(require,module,exports){
 'use strict';
 
@@ -30771,7 +30761,6 @@ module.exports = {
   getMatches : getMatchesForTime,
   get : getSingleMatchForTime
 };
-
 },{}],248:[function(require,module,exports){
 "use strict";
 var React = require('react');
@@ -30837,7 +30826,6 @@ class TimeOfDay extends React.Component {
 }
 
 module.exports = TimeOfDay;
-
 },{"./timeOfDayInfo.jsx":247,"moment":35,"react":222}],249:[function(require,module,exports){
 "use strict";
 var React = require('react');
@@ -30884,7 +30872,6 @@ class Weather extends FetchModule {
 };
 
 module.exports = Weather;
-
 },{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],250:[function(require,module,exports){
 "use strict";
 

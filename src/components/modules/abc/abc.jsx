@@ -41,6 +41,9 @@ class Abc extends React.Component {
   }
 
   componentDidMount() {
+    const div = this.refs.abc;
+    div.style.fontSize = 0.3 * div.clientWidth + 'px';
+
     const self = this;
     this.intervalId = setInterval(function() {
       self.setState({
@@ -57,7 +60,7 @@ class Abc extends React.Component {
   render() {
     var l = letters[this.state.index];
     return (
-      <div id='abc'>
+      <div id='abc' ref='abc'>
         <p>
           <span>{l[0]}</span>
           <i className={'e1a-' + l[1]}></i>
