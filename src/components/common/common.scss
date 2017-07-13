@@ -12,3 +12,14 @@ $big-font: 2vw;
 $normal-font: 1.2vw;
 $small-font: 0.9vw;
 $icon-font: 6vw;
+
+
+.small-text {
+  font-size: $small-font;
+}
+.bold-text {
+  font-weight: bold;
+}
+.padded {
+  padding: $default-padding;
+}

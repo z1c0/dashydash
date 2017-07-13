@@ -9,22 +9,32 @@ class Blog extends FetchModule {
     super(props);
     this.state = {
       title: '',
-      image: ''
+      image: '',
+      text: '',
+      published : ''
     }
     this.interval = moment.duration(1, 'hour');
     this.callback = function(body) {
       this.setState({
         title : body[0].title,
         image : body[0].featuredImage,
+        text : body[0].description,
+        published : moment.duration(moment(body[0].published).diff(moment())).humanize(true)
       });
     }
   }
 
   render() {
+    var style = {
+      backgroundImage: 'url(' + this.state.image + ')'
+    }
     return (
-      <div id='blog'>
-        <h2>{this.state.title}</h2>
-        <img src={this.state.image}/>
+      <div className='blog' style={style}>
+        <div className='blog-overlay'>
+          <p className="padded bold-text">{this.state.title}</p>
+          <p className="padded small-text">[{this.state.published}]</p>
+          <p className="padded small-text">{this.state.text}</p>
+        </div>
       </div>
     );
   }

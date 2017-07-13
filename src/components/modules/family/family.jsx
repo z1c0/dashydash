@@ -51,8 +51,8 @@ class Family extends FetchModule {
     return (
       <div className='family' style={style}>
         <div className="family-overlay">
-          <p>{this.state.title}</p>
-          <p className="family-text">{this.state.text}</p>
+          <p className="padded">{this.state.title}</p>
+          <p className="padded small-text">{this.state.text}</p>
         </div>
         <i className={'e1a-' + emoji}></i>
       </div>

@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 var React = require('react');
 var moment = require('moment');
 var FetchModule = require('../../common/fetchModule.jsx');

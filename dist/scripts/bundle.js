@@ -29184,11 +29184,11 @@ module.exports={
       "timeofday" : [ 1, 1, 4, 1 ],
       "appointments" : [ 1, 2, 2, 3 ],
       "birthdays" :    [ 3, 2, 2, 3 ],
-      //"blog" : [ 1, 5, 2, 2 ],
       //"pics" : [ 5, 1, 4, 3 ],
       "news" : [ 5, 1, 4, 3 ],
       "games" : [ 5, 4, 1, 1 ],
-      "family" : [ 3, 5, 2, 1],
+      "family" : [ 1, 5, 2, 1],
+      "blog" :   [ 3, 6, 2, 1 ],
       "weather" : [ 6, 4, 3, 1 ],
       "bus" : [ 5, 5, 2, 2 ],
       "abc" : [ 7, 5, 1, 1],
@@ -29495,22 +29495,32 @@ class Blog extends FetchModule {
     super(props);
     this.state = {
       title: '',
-      image: ''
+      image: '',
+      text: '',
+      published : ''
     }
     this.interval = moment.duration(1, 'hour');
     this.callback = function(body) {
       this.setState({
         title : body[0].title,
         image : body[0].featuredImage,
+        text : body[0].description,
+        published : moment.duration(moment(body[0].published).diff(moment())).humanize(true)
       });
     }
   }
 
   render() {
+    var style = {
+      backgroundImage: 'url(' + this.state.image + ')'
+    }
     return (
-      React.createElement("div", {id: "blog"}, 
-        React.createElement("h2", null, this.state.title), 
-        React.createElement("img", {src: this.state.image})
+      React.createElement("div", {className: "blog", style: style}, 
+        React.createElement("div", {className: "blog-overlay"}, 
+          React.createElement("p", {className: "padded bold-text"}, this.state.title), 
+          React.createElement("p", {className: "padded small-text"}, "[", this.state.published, "]"), 
+          React.createElement("p", {className: "padded small-text"}, this.state.text)
+        )
       )
     );
   }
@@ -29604,8 +29614,8 @@ class Family extends FetchModule {
     return (
       React.createElement("div", {className: "family", style: style}, 
         React.createElement("div", {className: "family-overlay"}, 
-          React.createElement("p", null, this.state.title), 
-          React.createElement("p", {className: "family-text"}, this.state.text)
+          React.createElement("p", {className: "padded"}, this.state.title), 
+          React.createElement("p", {className: "padded small-text"}, this.state.text)
         ), 
         React.createElement("i", {className: 'e1a-' + emoji})
       )
@@ -29615,7 +29625,7 @@ class Family extends FetchModule {
 
 module.exports = Family;
 },{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],241:[function(require,module,exports){
-"use strict";
+'use strict';
 var React = require('react');
 var moment = require('moment');
 var FetchModule = require('../../common/fetchModule.jsx');
