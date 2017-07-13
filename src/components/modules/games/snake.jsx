@@ -68,15 +68,15 @@ class Snake extends BaseGame {
       case SNAKE_DOWN:
       case SNAKE_LEFT:
       case SNAKE_RIGHT:
-        return "limegreen";
+        return "#62C42E";
       
       case FOOD:
-        return "orangered";
+        return "#EF4D3C";
 
       case WALL:
-        return "#233E96";
+        return "#0072C6";
     }
-    return "#444444";
+    return "#222";
   }
   
   checkMove(cell, dir) {

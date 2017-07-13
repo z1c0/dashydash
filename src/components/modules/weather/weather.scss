@@ -1,24 +1,22 @@
+@import '../../common/common';
+
 #weather {
-  font-size: 0.5vw;
-  padding: 2em;
-  p {
-    margin: 0;
-    font-size: 4em;
-  }
+  font-size: $big-font;
+  padding: 0.5em;
 }
 
 .temperature {
-  font-size: 8em;
+  font-size: $biggest-font;
   font-weight: bold;
   margin-right: 0.5em;
 }
 
 .temperatureMinMax {
-  font-size: 4em;
+  font-weight: bo;
   margin-right: 0.5em;
 }
 
 .wi {
-  font-size: 6em;
+  font-size: $biggest-font;
   margin-right: 0.5em;
 }

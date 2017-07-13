@@ -1,21 +1,20 @@
-#timeofday {
-  font-size: 1rem;
+@import '../../common/common';
+
+.timeofday {
+  height: 100%;
+  width: 100%;
   display: flex;
-  justify-content: space-between;
   p {
-    span {
-      font-size: 3.5em;
-    }
+    width: 66%;
+    font-size: $biggest-font;
     i {
-      font-size: 6em;
+      font-size: $icon-font;
     }
   }
-
-  .gif {
-    margin-left: 1em;
-    width: 160px;
-    height: 160px;
+  .giphy {
+    width: 34%;
     background-repeat: no-repeat;
-    background-position: center;
+    background-size: cover;
+    transition: background 1s ease-in;
   }
 }

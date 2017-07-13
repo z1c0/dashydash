@@ -1,6 +1,5 @@
-$text-color: #FBFBFB;
-$main-background: #1E1E1E;
-$tile-background: #3F3F46;
+@import './components/common/common';
+
 $a-tags: 'a, a:active, a:hover, a:visited, a:active';
 
 * {
@@ -18,6 +17,7 @@ body {
   margin: 0;
   color: $text-color;
   font-family: 'Quicksand', sans-serif;
+  font-size: $normal-font;
 }
 
 #{$a-tags} {
@@ -26,6 +26,10 @@ body {
 }
 a.plain-link:hover {
   background-color: lighten($tile-background, 10%)
+}
+
+h1 {
+  font-size: $big-font;
 }
 
 
@@ -74,15 +78,14 @@ a.plain-link:hover {
   width: 3em;
   left: 0.5em;
   i {
-    margin-top: 0.25em;
-    font-size: xx-large;
+    font-size: $big-font;
   }
 }
 #datetime {
   @extend .bottomTile;
   right: 0.5em;
   .time {
-    font-size: xx-large;
+    font-size: $big-font;
   }
   .seconds {
     display: inline-block;

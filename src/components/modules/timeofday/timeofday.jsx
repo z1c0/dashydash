@@ -18,13 +18,12 @@ class TimeOfDay extends React.Component {
       backgroundImage: 'url(' + this.state.image + ')'
     }
     return (
-      <div id='timeofday'>
+      <div className='timeofday'>
         <p>
           <span>{this.state.text}</span>
           <i className={this.state.emoji}></i>
         </p>
-        <div className="gif" style={divStyle}>
-        </div>
+        <div className="giphy" style={divStyle}></div>
       </div>
     );
   }
@@ -35,13 +34,13 @@ class TimeOfDay extends React.Component {
     const opts = {
       method: 'GET'
     };
-    const giphyUrl = 'http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&rating=pg&tag=' + data.tag;
+    const giphyUrl = 'https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&rating=pg&tag=' + data.tag;
     fetch(giphyUrl, opts).then(function(response) {
       return response.json();
     })
     .then(function(body) {
       self.setState({
-        image : body.data.fixed_width_downsampled_url,
+        image : body.data.image_original_url,
         text : data.text,
         emoji : data.emoji,
       });

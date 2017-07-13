@@ -26,7 +26,7 @@ class News extends FetchModule {
     return (
       <div id='news' style={{ backgroundImage: 'url(' + this.state.image + ')' }}>
         <div className="articleText">
-          <h2>{this.state.title}</h2>
+          <h1>{this.state.title}</h1>
           <p>{this.state.description}</p>
         </div>
       </div>

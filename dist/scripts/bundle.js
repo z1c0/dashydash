@@ -29833,15 +29833,15 @@ class Snake extends BaseGame {
       case SNAKE_DOWN:
       case SNAKE_LEFT:
       case SNAKE_RIGHT:
-        return "limegreen";
+        return "#62C42E";
       
       case FOOD:
-        return "orangered";
+        return "#EF4D3C";
 
       case WALL:
-        return "#233E96";
+        return "#0072C6";
     }
-    return "#444444";
+    return "#222";
   }
   
   checkMove(cell, dir) {
@@ -30211,7 +30211,7 @@ class News extends FetchModule {
     return (
       React.createElement("div", {id: "news", style: { backgroundImage: 'url(' + this.state.image + ')'}}, 
         React.createElement("div", {className: "articleText"}, 
-          React.createElement("h2", null, this.state.title), 
+          React.createElement("h1", null, this.state.title), 
           React.createElement("p", null, this.state.description)
         )
       )
@@ -30841,13 +30841,12 @@ class TimeOfDay extends React.Component {
       backgroundImage: 'url(' + this.state.image + ')'
     }
     return (
-      React.createElement("div", {id: "timeofday"}, 
+      React.createElement("div", {className: "timeofday"}, 
         React.createElement("p", null, 
           React.createElement("span", null, this.state.text), 
           React.createElement("i", {className: this.state.emoji})
         ), 
-        React.createElement("div", {className: "gif", style: divStyle}
-        )
+        React.createElement("div", {className: "giphy", style: divStyle})
       )
     );
   }
@@ -30858,13 +30857,13 @@ class TimeOfDay extends React.Component {
     const opts = {
       method: 'GET'
     };
-    const giphyUrl = 'http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&rating=pg&tag=' + data.tag;
+    const giphyUrl = 'https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&rating=pg&tag=' + data.tag;
     fetch(giphyUrl, opts).then(function(response) {
       return response.json();
     })
     .then(function(body) {
       self.setState({
-        image : body.data.fixed_width_downsampled_url,
+        image : body.data.image_original_url,
         text : data.text,
         emoji : data.emoji,
       });

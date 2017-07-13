@@ -1,3 +1,4 @@
+@import 'common';
 $color-calendar-main: #EF4D3C;
 
 .calendar {
@@ -38,13 +39,14 @@ $color-calendar-main: #EF4D3C;
       color: #222;
     }
     .e1a-birthday {
-      font-size: 5em;
+      font-size: $icon-font;
     }
     
   }
   ul {
     overflow-y: hidden;
     overflow-x: hidden;
+    position : relative;
     li {
       list-style-type: none;
       margin-bottom: 0.5em;
@@ -53,9 +55,20 @@ $color-calendar-main: #EF4D3C;
       }
       i {
         font-style: normal;
-        height: 0.8em;
-        font-size: 0.8em;
+        font-size: $small-font;
       }
+    }
+    &:after {
+      content : "";
+      position : absolute;
+      z-index : 1;
+      bottom : 0;
+      left : 0;
+      pointer-events : none;
+      background-image : linear-gradient(to bottom, 
+                        rgba(0, 0, 0, 0) 50%, $part-background-color 100%);
+      width : 100%;
+      height : 2em;
     }
   }
 }
