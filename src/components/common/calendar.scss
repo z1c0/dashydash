@@ -46,16 +46,14 @@ $color-calendar-main: #EF4D3C;
     overflow-y: hidden;
     overflow-x: hidden;
     li {
-      font-size: 1.25em;
-      line-height: 1.2em;
       list-style-type: none;
+      margin-bottom: 0.5em;
       strong {
         white-space: nowrap;
       }
       i {
         font-style: normal;
         height: 0.8em;
-        font-size: 0.8em;
       }
     }
   }

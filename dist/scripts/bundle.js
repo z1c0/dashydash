@@ -29266,16 +29266,17 @@ moment.locale('de');
 var FetchModule = require('./fetchModule.jsx');
 
 class Calendar extends FetchModule {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       appointments: []
     }
+    this.showTime = true;
     this.url = URL;
     this.interval = moment.duration(15, 'minutes');
-    this.callback = function(body) {
+    this.callback = function (body) {
       this.setState({
-        appointments : body
+        appointments: body
       });
     }
   }
@@ -29291,17 +29292,18 @@ class Calendar extends FetchModule {
   }
 
   render() {
-    var createModule = function(a, i) {
+    var createModule = function (a, i) {
+      let time = this.showTime ? (React.createElement("span", null, ", ", a.time)) : null;
       return (
         React.createElement("li", {key: i}, 
           React.createElement("strong", null, a.title), React.createElement("br", null), 
-          React.createElement("i", null, React.createElement("span", null, a.due), ", ", React.createElement("span", null, a.time))
+          React.createElement("i", null, React.createElement("span", null, a.due), time)
         ));
     };
     return (
       React.createElement("div", {className: "calendar"}, 
         React.createElement("div", {className: "icon"}, 
-           this.renderIcon() 
+          this.renderIcon()
         ), 
         React.createElement("ul", null, 
           this.state.appointments.map(createModule, this)
@@ -29449,6 +29451,11 @@ var React = require('react');
 var Calendar = require('../../common/calendar.jsx');
 
 class Birthdays extends Calendar {
+  constructor(props) {
+    super(props);
+    this.showTime = false;
+  }
+
   renderIcon() {
     return React.createElement("i", {className: "e1a-birthday"})
   }
