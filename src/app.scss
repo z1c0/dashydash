@@ -59,30 +59,28 @@ a.plain-link:hover {
 .bottomTile {
   background-color: $tile-background;
   position: fixed;
+  height: 3em;
+  line-height: 3em;
   border-radius: 3px;
   padding: 0.5em;
   bottom: 0.5em;
-  height: 3em;
   opacity: 0.6;
   z-index: 5000;
+  text-align: center;
 }
 
-.home {
+#home {
   @extend .bottomTile;
   width: 3em;
-  line-height: 3em;
-  text-align: center;
-  vertical-align: middle;  
   left: 0.5em;
   i {
+    margin-top: 0.25em;
     font-size: xx-large;
   }
 }
 #datetime {
   @extend .bottomTile;
   right: 0.5em;
-  padding: 0 0 0 0.5em;
-  line-height: 3em;
   .time {
     font-size: xx-large;
   }
