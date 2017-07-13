@@ -29191,8 +29191,8 @@ module.exports={
       "blog" :   [ 3, 6, 2, 1 ],
       "weather" : [ 6, 4, 3, 1 ],
       "bus" : [ 5, 5, 2, 2 ],
-      "abc" : [ 7, 5, 1, 1],
-      "football" : [ 8, 5, 1, 1]
+      "abc" : [ 8, 5, 1, 1],
+      "football" : [ 7, 6, 1, 1]
     }
   },
   "abc" : {
@@ -29635,17 +29635,38 @@ class Football extends FetchModule {
   constructor(props){
     super(props);
     this.state = {
+      team1 : '',
+      icon1 : '',
+      team2 : '',
+      icon2 : '',
+      date : ''
     }
     this.interval = moment.duration(1, 'hour');
-    this.callback = function(body) {
-      this.setState({
+    this.callback = function(matches) {
+      let m = matches.find(m => {
+        return m.Team1.ShortName === 'BVB' || m.Team2.ShortName === 'BVB';
       });
+      if (m) {
+        this.setState({
+          team1 : m.Team1.ShortName,
+          icon1 : m.Team1.TeamIconUrl,
+          team2 : m.Team2.ShortName,
+          icon2 : m.Team2.TeamIconUrl,
+          date : moment(m.MatchDateTime).format("dd, DD.MM.YYYY, HH:mm")
+        });
+      }
     }
   }
 
   render() {
     return (
-      React.createElement("div", {id: "football"}
+      React.createElement("div", {className: "football"}, 
+        React.createElement("p", {className: "padded bold-text"}, this.state.team1), 
+        React.createElement("p", {style: { backgroundImage: 'url(' + this.state.icon1 + ')'}}, " "), 
+        React.createElement("p", {className: "padded small-text"}, "vs."), 
+        React.createElement("p", {style: { backgroundImage: 'url(' + this.state.icon2 + ')'}}, " "), 
+        React.createElement("p", {className: "padded bold-text"}, this.state.team2), 
+        React.createElement("p", {className: "small-text"}, this.state.date)
       )
     );
   }

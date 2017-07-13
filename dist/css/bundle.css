@@ -41,12 +41,14 @@
 
 .small-text{font-size:.9vw}.bold-text{font-weight:bold}.padded{padding:.5em}@keyframes move-image{0%{background-size:100%}25%{background-size:100%}50%{background-size:150%}75%{background-size:150%}100%{background-size:100%}}.family{height:100%;width:100%;animation:move-image 60s linear infinite;position:relative}.family i{position:absolute;bottom:5px;right:5px;font-size:3.5vw}.family-overlay{height:100%;background-color:rgba(0,0,0,0.5)}
 
-#games{height:100%;width:100%}
+.small-text{font-size:.9vw}.bold-text{font-weight:bold}.padded{padding:.5em}.football{height:100%;width:100%}.football p{background-repeat:no-repeat;background-position-x:center;text-align:center}
 
-#pic{width:100%;height:100%;background-repeat:no-repeat;background-size:contain;background-position:center;transition:background 1.0s ease-in}
+#games{height:100%;width:100%}
 
 #news{height:100%;background-size:cover;transition:background 1s ease-in}.articleText{padding:1em;background-color:rgba(0,0,0,0.5)}
 
-.small-text{font-size:.9vw}.bold-text{font-weight:bold}.padded{padding:.5em}#weather{font-size:2vw;padding:0.5em}.temperature{font-size:3.5vw;font-weight:bold;margin-right:0.5em}.temperatureMinMax{font-weight:bo;margin-right:0.5em}.wi{font-size:3.5vw;margin-right:0.5em}
+#pic{width:100%;height:100%;background-repeat:no-repeat;background-size:contain;background-position:center;transition:background 1.0s ease-in}
 
 .small-text{font-size:.9vw}.bold-text{font-weight:bold}.padded{padding:.5em}.timeofday{height:100%;width:100%;display:flex}.timeofday p{width:70%;font-size:3.5vw}.timeofday p i{font-size:6vw}.timeofday .giphy{width:30%;background-repeat:no-repeat;background-size:contain;background-position-x:right;background-position-y:center;transition:background 0.5s ease-in}
+
+.small-text{font-size:.9vw}.bold-text{font-weight:bold}.padded{padding:.5em}#weather{font-size:2vw;padding:0.5em}.temperature{font-size:3.5vw;font-weight:bold;margin-right:0.5em}.temperatureMinMax{font-weight:bo;margin-right:0.5em}.wi{font-size:3.5vw;margin-right:0.5em}
