@@ -23,7 +23,9 @@ class Pics extends FetchModule {
       backgroundImage: 'url(' + this.state.image + ')'
     }
     return (
-      <div id='pic' style={style}>
+      <div className="picsWrapper">
+        <div className='picBlurred' style={style}></div>
+        <div className='pic' style={style}></div>
       </div>
     );
   }

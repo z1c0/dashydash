@@ -29184,8 +29184,8 @@ module.exports={
       "timeofday" : [ 1, 1, 4, 1 ],
       "appointments" : [ 1, 2, 2, 3 ],
       "birthdays" :    [ 3, 2, 2, 3 ],
-      //"pics" : [ 5, 1, 4, 3 ],
-      "news" : [ 5, 1, 4, 3 ],
+      "pics" : [ 5, 1, 4, 3 ],
+      //"news" : [ 5, 1, 4, 3 ],
       "games" : [ 5, 4, 1, 1 ],
       "family" : [ 1, 5, 2, 1],
       "blog" :   [ 3, 6, 2, 1 ],
@@ -29196,7 +29196,7 @@ module.exports={
     }
   },
   "abc" : {
-    "modules" : {     
+    "modules" : {
       "abc" : [ 1, 1, 8, 6 ]
     }
   } ,
@@ -30299,7 +30299,9 @@ class Pics extends FetchModule {
       backgroundImage: 'url(' + this.state.image + ')'
     }
     return (
-      React.createElement("div", {id: "pic", style: style}
+      React.createElement("div", {className: "picsWrapper"}, 
+        React.createElement("div", {className: "picBlurred", style: style}), 
+        React.createElement("div", {className: "pic", style: style})
       )
     );
   }
