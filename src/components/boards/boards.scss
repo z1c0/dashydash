@@ -1,5 +1,19 @@
 @import '../common/common';
 
+.tile {
+  // stitch
+  //outline: 1px dashed $text-color;
+  //outline-offset: -2px;
+  width: 8vw;
+  height: 8vw;
+  text-align: center;
+  display: inline-block;
+  background-color: $tile-background;
+  margin: 1em;
+  padding: 1em;
+  border-radius: 5px;
+}
+
 .board {
   height: 100%;
   overflow-x: hidden;

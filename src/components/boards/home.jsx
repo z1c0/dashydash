@@ -2,7 +2,7 @@
 var React = require('react');
 var RouterDOM = require('react-router-dom');
 var Link = RouterDOM.Link;
-
+var BoardManager = require('./boardManager.jsx');
 
 class Home extends React.Component {
   constructor(props) {
@@ -14,7 +14,7 @@ class Home extends React.Component {
 
   componentDidMount() {
     this.setState({ 
-      boards : require('./boardManager.jsx').getBoards()
+      boards : new BoardManager().getBoards()
     });  
   }
 
@@ -22,8 +22,8 @@ class Home extends React.Component {
     var createTile = function(board) {
       return (
         <Link key={board.name} className="tile" to={{ pathname : '/board/' + board.name }}>
-          <i className={"fa " + board.icon + " fa-5x"}></i>
-          <h3>{board.name}</h3>
+          <i className={"fa " + board.icon + " fa-3x"}></i>
+          <p className="padded big-text">{board.name}</p>
         </Link>
       );
     };

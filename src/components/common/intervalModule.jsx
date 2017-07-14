@@ -1,11 +1,6 @@
 'use strict';
 var React = require('react');
-
-function setIntervalAndExecute(f, t) {
-  f();
-  return setInterval(f, t);
-}
-
+var misc = require('./misc.jsx');
 
 class IntervalModule extends React.Component {
   constructor(props){
@@ -14,7 +9,7 @@ class IntervalModule extends React.Component {
 
   componentDidMount() {
     const self = this;
-    this.intervalId = setIntervalAndExecute(function() {
+    this.intervalId = misc.setIntervalAndExecute(function() {
       self.tick();
     }, self.interval);
   }

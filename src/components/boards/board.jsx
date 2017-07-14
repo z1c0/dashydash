@@ -1,5 +1,6 @@
 'use strict';
 var React = require('react');
+var moment = require('moment');
 var Weather = require('../modules/weather/weather.jsx');
 var Blog = require('../modules/blog/blog.jsx');
 var Bus = require('../modules/bus/bus.jsx');
@@ -12,6 +13,8 @@ var Pics = require('../modules/pics/pics.jsx');
 var Games = require('../modules/games/games.jsx');
 var News = require('../modules/news/news.jsx');
 var Football = require('../modules/football/football.jsx');
+var misc  = require('../common/misc.jsx');
+var BoardManager = require('./boardManager.jsx');
 
 
 class Board extends React.Component {
@@ -22,18 +25,32 @@ class Board extends React.Component {
       modules: [],
       pos : [0, 0, 0, 0]
     };
+    this.boardManager = new BoardManager();
   }
 
-  componentDidMount() {
-    let id = this.props.match.params.boardId;
-    let board = require('./boardManager.jsx').getBoard(id);
+  switchToBoard(board) {
     //console.log(board);
     if (board) {
+      this.setState({ 
+        modules: []
+      });
       this.setState({ 
         name : board.name,
         modules : board.modules,
         pos : board.pos
       });
+    }
+  }
+
+  componentDidMount() {
+    let id = this.props.match.params.boardId;
+    if (id === 'auto') {
+      misc.setIntervalAndExecute(() => {
+        this.switchToBoard(this.boardManager.next());
+      }, moment.duration(1, 'hour'));
+    }
+    else {
+      this.switchToBoard(this.boardManager.getBoard(id));
     }
   }
   
