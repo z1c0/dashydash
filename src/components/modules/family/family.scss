@@ -2,16 +2,16 @@
 
 @keyframes move-image {
     0% { background-size: 100%; }
-   25% { background-size: 100%; }
+   15% { background-size: 100%; }
    50% { background-size: 150%; }
-   75% { background-size: 150%; }
+   85% { background-size: 150%; }
   100% { background-size: 100%; }
 }
 
 .family {
   height: 100%;
   width: 100%;
-  animation: move-image 60s linear infinite;
+  animation: move-image 30s linear infinite;
   position: relative;
   i {
     position: absolute;

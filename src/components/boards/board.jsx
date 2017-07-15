@@ -47,7 +47,7 @@ class Board extends React.Component {
     if (id === 'auto') {
       misc.setIntervalAndExecute(() => {
         this.switchToBoard(this.boardManager.next());
-      }, moment.duration(1, 'hour'));
+      }, moment.duration(15, 'minutes'));
     }
     else {
       this.switchToBoard(this.boardManager.getBoard(id));

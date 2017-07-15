@@ -2,29 +2,34 @@
 var Cursor = require('../common/misc.jsx').Cursor;
 
 
+function getBoards(collection) {
+  let boards = [];
+  for (var b in collection) {
+    let modules = [];
+    let board = collection[b];
+    if (!board.icon) {
+      board.icon = 'fa-user-circle-o';
+    }
+    for (var m in board.modules) {
+      modules.push({
+        name : m,
+        pos : board.modules[m]
+      });
+    }
+    boards.push({ 
+      name : b,
+      icon : board.icon,
+      modules : modules
+    });
+  }
+  return boards;
+}
+
 class BoardManager {
   constructor() {
     const boardsConfig = require('./boards.config.json');
-    let boards = [];
-    for (var b in boardsConfig) {
-      let modules = [];
-      let board = boardsConfig[b];
-      if (!board.icon) {
-        board.icon = 'fa-user-circle-o';
-      }
-      for (var m in board.modules) {
-        modules.push({
-          name : m,
-          pos : board.modules[m]
-        });
-      }
-      boards.push({ 
-        name : b,
-        icon : board.icon,
-        modules : modules
-      });
-    }
-    this.boards = new Cursor(boards);
+    this.boards = new Cursor(getBoards(boardsConfig.default));
+    this.manualBoards = getBoards(boardsConfig.manual);
   }
 
   getBoards() {
@@ -32,8 +37,10 @@ class BoardManager {
       name : 'auto',
       icon : 'fa-automobile'
     }];
-    //console.log(boards);
-    return boards.concat(this.boards.array());
+    boards = boards.concat(this.manualBoards);
+    boards = boards.concat(this.boards.array());
+    console.log(boards);
+    return boards;
   }
 
   getBoard(name) {

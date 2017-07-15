@@ -29124,7 +29124,7 @@ class Board extends React.Component {
     if (id === 'auto') {
       misc.setIntervalAndExecute(() => {
         this.switchToBoard(this.boardManager.next());
-      }, moment.duration(1, 'hour'));
+      }, moment.duration(15, 'minutes'));
     }
     else {
       this.switchToBoard(this.boardManager.getBoard(id));
@@ -29165,29 +29165,34 @@ module.exports = Board;
 var Cursor = require('../common/misc.jsx').Cursor;
 
 
+function getBoards(collection) {
+  let boards = [];
+  for (var b in collection) {
+    let modules = [];
+    let board = collection[b];
+    if (!board.icon) {
+      board.icon = 'fa-user-circle-o';
+    }
+    for (var m in board.modules) {
+      modules.push({
+        name : m,
+        pos : board.modules[m]
+      });
+    }
+    boards.push({ 
+      name : b,
+      icon : board.icon,
+      modules : modules
+    });
+  }
+  return boards;
+}
+
 class BoardManager {
   constructor() {
     const boardsConfig = require('./boards.config.json');
-    let boards = [];
-    for (var b in boardsConfig) {
-      let modules = [];
-      let board = boardsConfig[b];
-      if (!board.icon) {
-        board.icon = 'fa-user-circle-o';
-      }
-      for (var m in board.modules) {
-        modules.push({
-          name : m,
-          pos : board.modules[m]
-        });
-      }
-      boards.push({ 
-        name : b,
-        icon : board.icon,
-        modules : modules
-      });
-    }
-    this.boards = new Cursor(boards);
+    this.boards = new Cursor(getBoards(boardsConfig.default));
+    this.manualBoards = getBoards(boardsConfig.manual);
   }
 
   getBoards() {
@@ -29195,8 +29200,10 @@ class BoardManager {
       name : 'auto',
       icon : 'fa-automobile'
     }];
-    //console.log(boards);
-    return boards.concat(this.boards.array());
+    boards = boards.concat(this.manualBoards);
+    boards = boards.concat(this.boards.array());
+    console.log(boards);
+    return boards;
   }
 
   getBoard(name) {
@@ -29214,32 +29221,55 @@ module.exports = BoardManager;
 
 },{"../common/misc.jsx":235,"./boards.config.json":230}],230:[function(require,module,exports){
 module.exports={
-  "main" : {
-    "modules" : {     
-      "timeofday" : [ 1, 1, 4, 1 ],
-      "appointments" : [ 1, 2, 2, 3 ],
-      "birthdays" :    [ 3, 2, 2, 3 ],
-      "pics" : [ 5, 1, 4, 3 ],
-      //"news" : [ 5, 1, 4, 3 ],
-      "games" : [ 5, 4, 1, 1 ],
-      "family" : [ 1, 5, 2, 1],
-      "blog" :   [ 3, 6, 2, 1 ],
-      "weather" : [ 6, 4, 3, 1 ],
-      "bus" : [ 5, 5, 2, 2 ],
-      "abc" : [ 8, 5, 1, 1],
-      "football" : [ 7, 6, 1, 1]
+  "default" : {
+    "main" : {
+      "modules" : {     
+        "timeofday" : [ 1, 1, 4, 1 ],
+        "appointments" : [ 1, 2, 2, 3 ],
+        "birthdays" :    [ 3, 2, 2, 3 ],
+        "pics" : [ 5, 1, 4, 3 ],
+        //"news" : [ 5, 1, 4, 3 ],
+        "games" : [ 5, 4, 1, 1 ],
+        "family" : [ 1, 5, 2, 1],
+        "blog" :   [ 3, 6, 2, 1 ],
+        "weather" : [ 6, 4, 3, 1 ],
+        "bus" : [ 5, 5, 2, 2 ],
+        "abc" : [ 8, 5, 1, 1],
+        "football" : [ 7, 6, 1, 1]
+      }
+    },
+    "photoic" : {
+      "modules" : {     
+        "pics" :         [ 1, 1, 5, 6 ],
+        "appointments" : [ 6, 1, 3, 2 ],
+        "birthdays" :    [ 6, 3, 3, 2 ],
+        "weather" :      [ 6, 5, 3, 1 ],
+        "bus" :          [ 6, 6, 3, 1 ]
+      }
+    },
+    "less" : {
+      "modules" : {     
+        "news" :         [ 1, 1, 4, 4 ],
+        "appointments" : [ 1, 5, 2, 2 ],
+        "bus" :          [ 3, 5, 2, 2 ],
+        "pics" :    [ 5, 1, 5, 5 ],
+        "weather" : [ 5, 6, 5, 1 ]
+      }
     }
   },
-  "abc" : {
-    "modules" : {
-      "abc" : [ 1, 1, 8, 6 ]
-    }
-  } ,
-  "photos" : {
-    "modules" : {     
-      "pics" : [ 1, 1, 8, 6 ]
-    }
-  }  
+
+  "manual" : {
+    "abc" : {
+      "modules" : {
+        "abc" : [ 1, 1, 8, 6 ]
+      }
+    } ,
+    "photos" : {
+      "modules" : {     
+        "pics" : [ 1, 1, 8, 6 ]
+      }
+    }  
+  }
 }
 },{}],231:[function(require,module,exports){
 'use strict';
@@ -29492,7 +29522,7 @@ class Abc extends React.Component {
 
   componentDidMount() {
     const div = this.refs.abc;
-    div.style.fontSize = 0.3 * div.clientWidth + 'px';
+    div.style.fontSize = 0.25 * div.clientWidth + 'px';
 
     const self = this;
     this.intervalId = setInterval(function() {

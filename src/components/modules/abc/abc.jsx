@@ -42,7 +42,7 @@ class Abc extends React.Component {
 
   componentDidMount() {
     const div = this.refs.abc;
-    div.style.fontSize = 0.3 * div.clientWidth + 'px';
+    div.style.fontSize = 0.25 * div.clientWidth + 'px';
 
     const self = this;
     this.intervalId = setInterval(function() {
