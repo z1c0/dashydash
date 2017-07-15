@@ -99,17 +99,19 @@ function updatePhotos(config, token) {
 }
 
 function fetchPhoto(config, photo) {
-  if (photo) {
-    var fileName = path.join(config.imageDir, photo.name);
-    if (!fs.existsSync(fileName)) {
-      console.log("GET: " + photo.url);
-      request
-        .get(photo.url + "?imgmax=1280")
-        .on('error', function(err) {
-          console.log(err)
-        })
-        .pipe(fs.createWriteStream(fileName));
+  try {
+    if (photo) {
+      var fileName = path.join(config.imageDir, photo.name);
+      if (!fs.existsSync(fileName)) {
+        console.log("GET: " + photo.url);
+        request
+          .get(photo.url + "?imgmax=1280")
+          .pipe(fs.createWriteStream(fileName));
+      }
     }
+  }
+  catch (e) {
+    console.log(e)
   }
 }
 
@@ -140,7 +142,8 @@ function checkForNewPhotos(config) {
 
 module.exports = {
   init : function() {
-    var cronJob = cron.job("0 0 */2 * * *", function() {
+    // every hour
+    var cronJob = cron.job("0 0 */1 * * *", function() {
       checkForNewPhotos(config);
     });
     cronJob.start();
