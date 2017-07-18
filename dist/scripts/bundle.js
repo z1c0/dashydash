@@ -29072,7 +29072,7 @@ ReactDOM.render(
     React.createElement(Overlays, null)
   ),
   document.getElementById('app'));
-},{"./overlays.jsx":254,"./routes.jsx":255,"react":222,"react-dom":46,"react-router-dom":184}],228:[function(require,module,exports){
+},{"./overlays.jsx":255,"./routes.jsx":256,"react":222,"react-dom":46,"react-router-dom":184}],228:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var moment = require('moment');
@@ -29158,7 +29158,7 @@ class Board extends React.Component {
 
 module.exports = Board;
 
-},{"../common/misc.jsx":235,"../modules/abc/abc.jsx":236,"../modules/appointments/appointments.jsx":237,"../modules/birthdays/birthdays.jsx":238,"../modules/blog/blog.jsx":239,"../modules/bus/bus.jsx":240,"../modules/family/family.jsx":241,"../modules/football/football.jsx":242,"../modules/games/games.jsx":245,"../modules/news/news.jsx":249,"../modules/pics/pics.jsx":250,"../modules/timeofday/timeofday.jsx":252,"../modules/weather/weather.jsx":253,"./boardManager.jsx":229,"moment":35,"react":222}],229:[function(require,module,exports){
+},{"../common/misc.jsx":235,"../modules/abc/abc.jsx":236,"../modules/appointments/appointments.jsx":237,"../modules/birthdays/birthdays.jsx":238,"../modules/blog/blog.jsx":239,"../modules/bus/bus.jsx":240,"../modules/family/family.jsx":241,"../modules/football/football.jsx":242,"../modules/games/games.jsx":245,"../modules/news/news.jsx":250,"../modules/pics/pics.jsx":251,"../modules/timeofday/timeofday.jsx":253,"../modules/weather/weather.jsx":254,"./boardManager.jsx":229,"moment":35,"react":222}],229:[function(require,module,exports){
 'use strict';
 var Cursor = require('../common/misc.jsx').Cursor;
 
@@ -29852,6 +29852,7 @@ module.exports = BaseGame;
 var Snake = require('./snake.jsx');
 var TicTacToe = require('./tictactoe.jsx');
 var Pong = require('./pong.jsx');
+var SpaceInvaders = require('./spaceInvaders.jsx');
 
 
 class GameController {
@@ -29860,10 +29861,10 @@ class GameController {
     this.DIM = 32;
     this.index = -1;
     this.games = [
-      new Snake(),
-      new TicTacToe(),
-      new Pong()
-      //new SpaceInvaders()
+      //new Snake(),
+      //new TicTacToe(),
+      //new Pong(),
+      new SpaceInvaders()
     ]
   }
 
@@ -29889,7 +29890,7 @@ class GameController {
 }
 
 module.exports = GameController;
-},{"./pong.jsx":246,"./snake.jsx":247,"./tictactoe.jsx":248}],245:[function(require,module,exports){
+},{"./pong.jsx":246,"./snake.jsx":247,"./spaceInvaders.jsx":248,"./tictactoe.jsx":249}],245:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var GameController = require('./gameController.jsx');
@@ -30217,6 +30218,194 @@ module.exports = Snake;
 'use strict';
 var BaseGame = require('./baseGame.jsx');
 
+
+const FLIP = 0;
+const FLAP = 1;
+const EXPLODE = 2;
+
+
+class Invader {
+  constructor(game) {
+    this.game = game;
+    this.x = 0;
+    this.y = 0;
+    this.dx = 1;
+    this.delay = 0;
+    this.state = FLIP;
+    this.sprites = [
+      [
+        [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0 ],
+        [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 ],
+        [0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0 ],
+        [0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0 ],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
+        [1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1 ],
+        [1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1 ],
+        [0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0 ],
+      ],
+      [
+        [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0 ],
+        [1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1 ],
+        [1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1 ],
+        [1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1 ],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
+        [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 ],
+        [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0 ],
+        [0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0 ],
+      ],
+    ]
+  }
+
+  move() {
+    this.x += this.dx;
+    if (this.x === 0 || this.x === this.game.dim() - this.sprites[0][0].length) {
+      this.dx *= -1;
+    }
+  }
+
+  simulate() {
+    if (this.delay-- <= 0) {
+      this.delay = 20;
+
+      if (this.state === FLIP) {
+        this.state = FLAP;
+        this.move();
+      }
+      else if (this.state === FLAP) {
+        this.state = FLIP;
+        this.move();
+      }
+    }
+    this.draw();
+  }
+
+  draw() {
+    const col = '#03FE04';
+    let s = this.sprites[this.state];
+    for (var y = 0; y < s.length; y++) {
+      for (var x = 0; x < s[y].length; x++) {
+        if (s[y][x] === 1) {
+          this.game.world[this.x + x][y] = col;
+        }
+      }
+    }
+  }
+}
+
+class Defender {
+  constructor(game) {
+    this.game = game;
+    this.x = this.game.dim() / 2;
+    this.y = this.game.dim() - 2;
+    this.move = 0;
+    this.delay = 0;
+  }
+
+  simulate() {
+    if (this.delay-- <= 0) {
+      this.delay = 3;
+      if (this.move === 0) {
+        this.move = this.game.getRandom(this.x * -1 + 1, this.game.dim() - 2 - this.x);
+      }
+      else if (this.move > 0) {
+        this.x++;
+        this.move--;
+      }
+      else {
+        this.x--;
+        this.move++;
+      }
+
+      if (!this.game.projectile.fired) {
+        this.game.projectile.fire(this.x, this.y);
+      }
+    }
+    this.draw();
+  }
+
+  draw() {
+    const col = 'white';
+    this.game.world[this.x][this.y] = col;
+    this.game.world[this.x - 1][this.y + 1] = col;
+    this.game.world[this.x + 0][this.y + 1] = col;
+    this.game.world[this.x + 1][this.y + 1] = col;
+  }
+}
+
+class Projectile {
+  constructor(game) {
+    this.game = game;
+    this.fired = false;
+  }
+
+  fire(x, y) {
+    this.x = x;
+    this.y = y;
+    this.fired = true;
+  }
+
+  simulate() {
+    this.fired = this.y > 0;
+    if (this.fired) {
+      this.y--;
+      this.draw();
+    }
+  }
+
+  draw() {
+    const col = 'red';
+    this.game.world[this.x][this.y - 1] = col;
+    this.game.world[this.x][this.y] = col;
+  }
+}
+
+
+class SpaceInvaders extends BaseGame {  
+  constructor() {
+    super();
+  }
+
+  getInterval() {
+    return 30;
+  }
+   
+  init() {
+    super.init();
+    this.defender = new Defender(this);
+    this.projectile = new Projectile(this);
+    this.invader = new Invader(this);
+    this.reset();
+  }
+  
+  isOver() {
+    return false;
+  }
+  
+  reset() {
+  }  
+  
+  simulate() {
+    this.clear('darkblue');
+    /*
+    let dim = this.dim();
+    for (var i = 0; i < dim; i++) {
+      this.world[dim / 2 - i % 2][i] = 'white';
+    }
+    this.paddle1.simulate();
+    this.paddle2.simulate();
+    */
+    this.defender.simulate();
+    this.projectile.simulate();
+    this.invader.simulate();
+  }
+}
+
+module.exports = SpaceInvaders;
+
+},{"./baseGame.jsx":243}],249:[function(require,module,exports){
+'use strict';
+var BaseGame = require('./baseGame.jsx');
+
 const VOID = 0;
 const GRID = 1;
 const CIRCLE = 2;
@@ -30447,7 +30636,7 @@ class TicTacToe extends BaseGame {
 
 module.exports = TicTacToe;
 
-},{"./baseGame.jsx":243}],249:[function(require,module,exports){
+},{"./baseGame.jsx":243}],250:[function(require,module,exports){
 "use strict";
 var React = require('react');
 var moment = require('moment');
@@ -30485,7 +30674,7 @@ class News extends FetchModule {
 };
 
 module.exports = News;
-},{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],250:[function(require,module,exports){
+},{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],251:[function(require,module,exports){
 "use strict";
 var React = require('react');
 var moment = require('moment');
@@ -30517,7 +30706,7 @@ class Pics extends FetchModule {
 };
 
 module.exports = Pics;
-},{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],251:[function(require,module,exports){
+},{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],252:[function(require,module,exports){
 'use strict';
 
 // emoji:
@@ -31084,7 +31273,7 @@ module.exports = {
   getMatches : getMatchesForTime,
   get : getSingleMatchForTime
 };
-},{}],252:[function(require,module,exports){
+},{}],253:[function(require,module,exports){
 "use strict";
 var React = require('react');
 var moment = require('moment');
@@ -31148,7 +31337,7 @@ class TimeOfDay extends React.Component {
 }
 
 module.exports = TimeOfDay;
-},{"./timeOfDayInfo.jsx":251,"moment":35,"react":222}],253:[function(require,module,exports){
+},{"./timeOfDayInfo.jsx":252,"moment":35,"react":222}],254:[function(require,module,exports){
 "use strict";
 var React = require('react');
 var moment = require('moment');
@@ -31194,7 +31383,7 @@ class Weather extends FetchModule {
 };
 
 module.exports = Weather;
-},{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],254:[function(require,module,exports){
+},{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],255:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var moment = require('moment');
@@ -31233,7 +31422,7 @@ class Overlays extends IntervalModule {
 };
 
 module.exports = Overlays;
-},{"./components/common/intervalModule.jsx":234,"moment":35,"react":222}],255:[function(require,module,exports){
+},{"./components/common/intervalModule.jsx":234,"moment":35,"react":222}],256:[function(require,module,exports){
 "use strict";
 
 var React = require('react');

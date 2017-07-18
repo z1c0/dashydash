@@ -2,6 +2,7 @@
 
 $a-tags: 'a, a:active, a:hover, a:visited, a:active';
 
+
 * {
   margin: 0;
   padding: 0;
@@ -42,14 +43,16 @@ h1 {
   height: calc(100% - 2 * #{$default-padding});
 }
 
+$bottom-tile-dim :2.7em;
+
 .bottomTile {
   background-color: $tile-background;
   position: fixed;
-  height: 3em;
-  line-height: 3em;
+  height: $bottom-tile-dim;
+  line-height: $bottom-tile-dim;
   border-radius: 3px;
-  padding: 0.5em;
-  bottom: 0.5em;
+  padding: $default-padding;
+  bottom: $default-padding;
   opacity: 0.6;
   z-index: 5000;
   text-align: center;
@@ -57,15 +60,15 @@ h1 {
 
 #home {
   @extend .bottomTile;
-  width: 3em;
-  left: 0.5em;
+  width: $bottom-tile-dim;
+  left: $default-padding;
   i {
     font-size: $big-font;
   }
 }
 #datetime {
   @extend .bottomTile;
-  right: 0.5em;
+  right: $default-padding;
   .time {
     font-size: $big-font;
   }

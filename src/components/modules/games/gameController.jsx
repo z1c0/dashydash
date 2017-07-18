@@ -2,6 +2,7 @@
 var Snake = require('./snake.jsx');
 var TicTacToe = require('./tictactoe.jsx');
 var Pong = require('./pong.jsx');
+var SpaceInvaders = require('./spaceInvaders.jsx');
 
 
 class GameController {
@@ -10,10 +11,10 @@ class GameController {
     this.DIM = 32;
     this.index = -1;
     this.games = [
-      new Snake(),
-      new TicTacToe(),
-      new Pong()
-      //new SpaceInvaders()
+      //new Snake(),
+      //new TicTacToe(),
+      //new Pong(),
+      new SpaceInvaders()
     ]
   }
 
