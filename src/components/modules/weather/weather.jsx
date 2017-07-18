@@ -16,7 +16,7 @@ class Weather extends FetchModule {
       icon : ''
 
     }
-    this.interval = moment.duration(15, 'minutes');
+    this.interval = moment.duration(25, 'minutes');
     this.callback = function(body) {
       this.setState({
         name : body.name,
@@ -31,9 +31,9 @@ class Weather extends FetchModule {
 
   render() {
     return (
-      <div id='weather'>
+      <div className='weather'>
         <p><span>{this.state.name}: {this.state.description}</span></p>
-        <i className={`wi ${ this.state.icon }`}></i>
+        <img src={this.state.icon} />
         <span className="temperature">{this.state.temperature} °C</span>
         <span className="temperatureMinMax">&darr; {this.state.min}°</span>
         <span className="temperatureMinMax">&uarr; {this.state.max}°</span>
