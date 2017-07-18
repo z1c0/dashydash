@@ -18,7 +18,6 @@ function getWeather(req, res) {
   .then(function(result) {
     let body1 = result[0];
     let body2 = result[1];
-    console.log(body2);
     res.json({
       name : body1.current_observation.display_location.city,
       temperature : Math.round(body1.current_observation.temp_c),

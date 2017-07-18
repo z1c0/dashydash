@@ -39,7 +39,7 @@ class BoardManager {
     }];
     boards = boards.concat(this.manualBoards);
     boards = boards.concat(this.boards.array());
-    console.log(boards);
+    //console.log(boards);
     return boards;
   }
 
