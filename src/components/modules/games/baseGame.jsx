@@ -33,8 +33,20 @@ class BaseGame {
     }
   }
 
+  dim() {
+    return this.world.length;
+  }
+
+  clear(color) {
+    for (var i = 0; i < this.dim(); i++) {
+      for (var j = 0; j < this.dim(); j++) {
+        this.world[i][j] = color;
+      }  
+    }
+  }
+
   mapColor(x, y) {
-    return 'white';
+    return this.world[x][y];
   }
 
   getRandom (min, max) {

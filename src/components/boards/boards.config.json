@@ -6,7 +6,6 @@
         "appointments" : [ 1, 2, 2, 3 ],
         "birthdays" :    [ 3, 2, 2, 3 ],
         "pics" : [ 5, 1, 4, 3 ],
-        //"news" : [ 5, 1, 4, 3 ],
         "games" : [ 5, 4, 1, 1 ],
         "family" : [ 1, 5, 2, 1],
         "blog" :   [ 3, 6, 2, 1 ],
@@ -37,6 +36,11 @@
   },
 
   "manual" : {
+    "play" : {
+      "modules" : {
+        "games" : [ 1, 1, 8, 6 ]
+      }
+    },
     "abc" : {
       "modules" : {
         "abc" : [ 1, 1, 8, 6 ]

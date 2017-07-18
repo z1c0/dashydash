@@ -29072,7 +29072,7 @@ ReactDOM.render(
     React.createElement(Overlays, null)
   ),
   document.getElementById('app'));
-},{"./overlays.jsx":253,"./routes.jsx":254,"react":222,"react-dom":46,"react-router-dom":184}],228:[function(require,module,exports){
+},{"./overlays.jsx":254,"./routes.jsx":255,"react":222,"react-dom":46,"react-router-dom":184}],228:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var moment = require('moment');
@@ -29158,7 +29158,7 @@ class Board extends React.Component {
 
 module.exports = Board;
 
-},{"../common/misc.jsx":235,"../modules/abc/abc.jsx":236,"../modules/appointments/appointments.jsx":237,"../modules/birthdays/birthdays.jsx":238,"../modules/blog/blog.jsx":239,"../modules/bus/bus.jsx":240,"../modules/family/family.jsx":241,"../modules/football/football.jsx":242,"../modules/games/games.jsx":245,"../modules/news/news.jsx":248,"../modules/pics/pics.jsx":249,"../modules/timeofday/timeofday.jsx":251,"../modules/weather/weather.jsx":252,"./boardManager.jsx":229,"moment":35,"react":222}],229:[function(require,module,exports){
+},{"../common/misc.jsx":235,"../modules/abc/abc.jsx":236,"../modules/appointments/appointments.jsx":237,"../modules/birthdays/birthdays.jsx":238,"../modules/blog/blog.jsx":239,"../modules/bus/bus.jsx":240,"../modules/family/family.jsx":241,"../modules/football/football.jsx":242,"../modules/games/games.jsx":245,"../modules/news/news.jsx":249,"../modules/pics/pics.jsx":250,"../modules/timeofday/timeofday.jsx":252,"../modules/weather/weather.jsx":253,"./boardManager.jsx":229,"moment":35,"react":222}],229:[function(require,module,exports){
 'use strict';
 var Cursor = require('../common/misc.jsx').Cursor;
 
@@ -29225,7 +29225,6 @@ module.exports={
         "appointments" : [ 1, 2, 2, 3 ],
         "birthdays" :    [ 3, 2, 2, 3 ],
         "pics" : [ 5, 1, 4, 3 ],
-        //"news" : [ 5, 1, 4, 3 ],
         "games" : [ 5, 4, 1, 1 ],
         "family" : [ 1, 5, 2, 1],
         "blog" :   [ 3, 6, 2, 1 ],
@@ -29256,6 +29255,11 @@ module.exports={
   },
 
   "manual" : {
+    "play" : {
+      "modules" : {
+        "games" : [ 1, 1, 8, 6 ]
+      }
+    },
     "abc" : {
       "modules" : {
         "abc" : [ 1, 1, 8, 6 ]
@@ -29800,8 +29804,20 @@ class BaseGame {
     }
   }
 
+  dim() {
+    return this.world.length;
+  }
+
+  clear(color) {
+    for (var i = 0; i < this.dim(); i++) {
+      for (var j = 0; j < this.dim(); j++) {
+        this.world[i][j] = color;
+      }  
+    }
+  }
+
   mapColor(x, y) {
-    return 'white';
+    return this.world[x][y];
   }
 
   getRandom (min, max) {
@@ -29835,6 +29851,7 @@ module.exports = BaseGame;
 'use strict';
 var Snake = require('./snake.jsx');
 var TicTacToe = require('./tictactoe.jsx');
+var Pong = require('./pong.jsx');
 
 
 class GameController {
@@ -29845,6 +29862,7 @@ class GameController {
     this.games = [
       new Snake(),
       new TicTacToe(),
+      new Pong()
       //new SpaceInvaders()
     ]
   }
@@ -29871,7 +29889,7 @@ class GameController {
 }
 
 module.exports = GameController;
-},{"./snake.jsx":246,"./tictactoe.jsx":247}],245:[function(require,module,exports){
+},{"./pong.jsx":246,"./snake.jsx":247,"./tictactoe.jsx":248}],245:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var GameController = require('./gameController.jsx');
@@ -29907,6 +29925,109 @@ class Games extends React.Component {
 
 module.exports = Games;
 },{"./gameController.jsx":244,"react":222}],246:[function(require,module,exports){
+'use strict';
+var BaseGame = require('./baseGame.jsx');
+
+
+const BALL_COLOR = 'yellow';
+const PADDLE_COLOR = 'whitesmoke';
+
+
+class Ball {
+  constructor(game) {
+    this.game = game;
+    this.max = this.game.dim() - 1;
+    this.dx = 1;
+    this.dy = 1;
+    this.x = this.game.paddle1.x + 2;
+    this.y = this.game.paddle1.y;
+  }
+
+  simulate() {
+    if (this.x <= 1 || this.x >= this.max - 1) {
+      this.dx *= -1;
+      this.game.rounds--;
+    }
+    if (this.y === 0 || this.y === this.max) {
+      this.dy *= -1;
+    }
+    this.x += this.dx;
+    this.y += this.dy;
+
+    this.game.world[this.x][this.y] = BALL_COLOR; 
+  }
+}
+
+class Paddle {
+  constructor(playerOne, game) {
+    this.playerOne = playerOne;
+    this.game = game;
+    this.x = this.playerOne ? 0 : this.game.dim() - 1;
+    this.y = this.game.getRandom(2, this.game.dim() - 3);
+  }
+
+  simulate() {
+    if (this.playerOne && this.game.ball.dx === -1 || !this.playerOne && this.game.ball.dx === 1) {
+      if (this.y > this.game.ball.y) {
+        this.y--;
+      }
+      else if (this.y < this.game.ball.y) {
+        this.y++;
+      }
+    }
+    this.draw();
+  }
+
+  draw() {
+    this.game.world[this.x][this.y - 2] = PADDLE_COLOR;
+    this.game.world[this.x][this.y - 1] = PADDLE_COLOR;
+    this.game.world[this.x][this.y] = PADDLE_COLOR;
+    this.game.world[this.x][this.y + 1] = PADDLE_COLOR;
+    this.game.world[this.x][this.y + 2] = PADDLE_COLOR;
+  }
+}
+
+
+class Pong extends BaseGame {  
+  constructor() {
+    super();
+  }
+
+  getInterval() {
+    return 100;
+  }
+   
+  init() {
+    super.init();
+    this.paddle1 = new Paddle(true, this);
+    this.paddle2 = new Paddle(false, this);
+    this.ball = new Ball(this);
+    this.reset();
+  }
+  
+  isOver() {
+    return this.rounds === 0;
+  }
+  
+  reset() {
+    this.rounds = 50;
+  }  
+  
+  simulate() {
+    this.clear('darkgreen');
+    let dim = this.dim();
+    for (var i = 0; i < dim; i++) {
+      this.world[dim / 2 - i % 2][i] = 'white';
+    }
+    this.ball.simulate();
+    this.paddle1.simulate();
+    this.paddle2.simulate();
+  }
+}
+
+
+module.exports = Pong;
+},{"./baseGame.jsx":243}],247:[function(require,module,exports){
 'use strict';
 var BaseGame = require('./baseGame.jsx');
 
@@ -30092,7 +30213,7 @@ class Snake extends BaseGame {
 
 
 module.exports = Snake;
-},{"./baseGame.jsx":243}],247:[function(require,module,exports){
+},{"./baseGame.jsx":243}],248:[function(require,module,exports){
 'use strict';
 var BaseGame = require('./baseGame.jsx');
 
@@ -30326,7 +30447,7 @@ class TicTacToe extends BaseGame {
 
 module.exports = TicTacToe;
 
-},{"./baseGame.jsx":243}],248:[function(require,module,exports){
+},{"./baseGame.jsx":243}],249:[function(require,module,exports){
 "use strict";
 var React = require('react');
 var moment = require('moment');
@@ -30364,7 +30485,7 @@ class News extends FetchModule {
 };
 
 module.exports = News;
-},{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],249:[function(require,module,exports){
+},{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],250:[function(require,module,exports){
 "use strict";
 var React = require('react');
 var moment = require('moment');
@@ -30396,7 +30517,7 @@ class Pics extends FetchModule {
 };
 
 module.exports = Pics;
-},{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],250:[function(require,module,exports){
+},{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],251:[function(require,module,exports){
 'use strict';
 
 // emoji:
@@ -30963,7 +31084,7 @@ module.exports = {
   getMatches : getMatchesForTime,
   get : getSingleMatchForTime
 };
-},{}],251:[function(require,module,exports){
+},{}],252:[function(require,module,exports){
 "use strict";
 var React = require('react');
 var moment = require('moment');
@@ -31027,7 +31148,7 @@ class TimeOfDay extends React.Component {
 }
 
 module.exports = TimeOfDay;
-},{"./timeOfDayInfo.jsx":250,"moment":35,"react":222}],252:[function(require,module,exports){
+},{"./timeOfDayInfo.jsx":251,"moment":35,"react":222}],253:[function(require,module,exports){
 "use strict";
 var React = require('react');
 var moment = require('moment');
@@ -31073,7 +31194,7 @@ class Weather extends FetchModule {
 };
 
 module.exports = Weather;
-},{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],253:[function(require,module,exports){
+},{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],254:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var moment = require('moment');
@@ -31112,7 +31233,7 @@ class Overlays extends IntervalModule {
 };
 
 module.exports = Overlays;
-},{"./components/common/intervalModule.jsx":234,"moment":35,"react":222}],254:[function(require,module,exports){
+},{"./components/common/intervalModule.jsx":234,"moment":35,"react":222}],255:[function(require,module,exports){
 "use strict";
 
 var React = require('react');

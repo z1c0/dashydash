@@ -1,6 +1,7 @@
 'use strict';
 var Snake = require('./snake.jsx');
 var TicTacToe = require('./tictactoe.jsx');
+var Pong = require('./pong.jsx');
 
 
 class GameController {
@@ -11,6 +12,7 @@ class GameController {
     this.games = [
       new Snake(),
       new TicTacToe(),
+      new Pong()
       //new SpaceInvaders()
     ]
   }
