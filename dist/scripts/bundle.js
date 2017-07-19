@@ -31417,10 +31417,10 @@ class Weather extends FetchModule {
     return (
       React.createElement("div", {className: "weather"}, 
         React.createElement("p", null, React.createElement("span", null, this.state.name, ": ", this.state.description)), 
-        React.createElement("img", {src: this.state.icon}), 
+         React.createElement("i", {className: `wi ${ this.state.icon }`}), 
         React.createElement("span", {className: "temperature"}, this.state.temperature, " °C"), 
-        React.createElement("span", {className: "temperatureMinMax"}, "↓ ", this.state.min, "°"), 
-        React.createElement("span", {className: "temperatureMinMax"}, "↑ ", this.state.max, "°")
+        React.createElement("span", {id: "minTemp"}, " ↓ "), React.createElement("span", null, this.state.min, "°"), 
+        React.createElement("span", {id: "maxTemp"}, " ↑ "), React.createElement("span", null, this.state.max, "°")
       )
     );
   }

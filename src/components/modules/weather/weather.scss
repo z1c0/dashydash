@@ -2,7 +2,7 @@
 
 .weather {
   font-size: $big-font;
-  padding: 0.5em;
+  padding: $default-padding;
   img {
     vertical-align: middle;
     margin-right: $default-padding;
@@ -13,15 +13,19 @@
   vertical-align: middle;
   font-size: $biggest-font;
   font-weight: bold;
-  margin-right: 0.5em;
+  margin-right: $default-padding; 
 }
 
-.temperatureMinMax {
-  font-weight: bo;
-  margin-right: 0.5em;
+#minTemp {
+  color: #52D9E2;
 }
+#maxTemp {
+  color: #D82665
+}
+
 
 .wi {
+  vertical-align: middle;
   font-size: $biggest-font;
-  margin-right: 0.5em;
+  margin-right: $default-padding;
 }

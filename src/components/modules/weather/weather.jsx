@@ -33,10 +33,10 @@ class Weather extends FetchModule {
     return (
       <div className='weather'>
         <p><span>{this.state.name}: {this.state.description}</span></p>
-        <img src={this.state.icon} />
+         <i className={`wi ${ this.state.icon }`}></i>
         <span className="temperature">{this.state.temperature} °C</span>
-        <span className="temperatureMinMax">&darr; {this.state.min}°</span>
-        <span className="temperatureMinMax">&uarr; {this.state.max}°</span>
+        <span id="minTemp"> &darr; </span><span>{this.state.min}°</span>
+        <span id="maxTemp"> &uarr; </span><span>{this.state.max}°</span>
       </div>
     );
   }

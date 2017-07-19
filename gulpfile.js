@@ -17,11 +17,13 @@ var config = {
     html: './src/*.html',
     js : './src/**/*.js*',
     styles : [
+      './node_modules/weather-icons/css/weather-icons.min.css',
       './node_modules/emojione/lib/emojione-awesome/emojione-awesome.scss',
       './src/**/*.scss',
     ],
     images : './src/images/*',
     fonts : [
+      './node_modules/weather-icons/font/weathericons-regular-webfont.woff',
       './src/fonts/*'
     ],
     dist: './dist',
