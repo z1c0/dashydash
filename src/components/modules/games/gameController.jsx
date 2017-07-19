@@ -1,4 +1,6 @@
 'use strict';
+var misc = require('../../common/misc.jsx');
+var Cursor = misc.Cursor;
 var Snake = require('./snake.jsx');
 var TicTacToe = require('./tictactoe.jsx');
 var Pong = require('./pong.jsx');
@@ -9,13 +11,12 @@ class GameController {
   constructor(canvas) {
     this.canvas = canvas;
     this.DIM = 32;
-    this.index = -1;
-    this.games = [
+    this.games = new Cursor(misc.shuffle([
       new Snake(),
       new TicTacToe(),
       new Pong(),
       new SpaceInvaders()
-    ]
+    ]));
   }
 
   clear()  {
@@ -27,12 +28,11 @@ class GameController {
   nextGame() {
     this.clear();
 
-    this.index = (this.index + 1) % this.games.length;
-    let game = this.games[this.index];
+    let game = this.games.next();
 
     game.init();
     let self = this;
-    this.timer = setInterval(function() {
+    this.timer = misc.setIntervalAndExecute(function() {
       game.simulate();
       game.render(self.canvas);
       

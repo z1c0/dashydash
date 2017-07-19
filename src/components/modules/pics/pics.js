@@ -123,16 +123,6 @@ function getRandomPhoto(callback) {
 }
 
 
-function shuffle(a) {
-  var j, x, i;
-  for (i = a.length; i; i--) {
-    x = a[i - 1];
-    a[i - 1] = a[j];
-    a[j] = x;
-  }
-}
-
-
 function checkForNewPhotos(config) {
   refreshToken(config, updatePhotos);
 }

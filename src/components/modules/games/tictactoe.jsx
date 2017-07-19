@@ -1,4 +1,5 @@
 'use strict';
+var misc = require('../../common/misc.jsx');
 var BaseGame = require('./baseGame.jsx');
 
 const VOID = 0;
@@ -68,7 +69,7 @@ class TicTacToe extends BaseGame {
         }
       }
     }
-    candidates = this.shuffle(candidates);
+    candidates = misc.shuffle(candidates);
     
     if (this.playSmart) {
       // evaluate fields

@@ -155,6 +155,7 @@ class Projectile {
         this.fired = false;
         this.game.invader.state = EXPLODING;
         this.game.invader.explodingDelay = 3;
+        this.game.rounds++;
       }
       else {
         this.y--;
@@ -189,10 +190,11 @@ class SpaceInvaders extends BaseGame {
   }
   
   isOver() {
-    return false;
+    return this.rounds === 10;
   }
   
   reset() {
+    this.rounds = 0
   }  
   
   simulate() {

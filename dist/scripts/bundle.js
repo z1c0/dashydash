@@ -29462,8 +29462,14 @@ function setIntervalAndExecute(f, t) {
   return setInterval(f, t);
 }
 
+function shuffle(o) {
+  for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+  return o;
+}
+
 module.exports = {
   setIntervalAndExecute : setIntervalAndExecute,
+  shuffle : shuffle,
 
   Cursor : function(array) {
     var idx = 0;
@@ -29837,12 +29843,7 @@ class BaseGame {
   
   getRandomBool() {
     return Math.random() > 0.5;
-  }
-  
-  shuffle(o) {
-    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-    return o;
-  }
+  }  
   
   getRandomPos() {
     var x = this.getRandom(0, this.world.length);
@@ -29860,6 +29861,8 @@ module.exports = BaseGame;
 
 },{}],244:[function(require,module,exports){
 'use strict';
+var misc = require('../../common/misc.jsx');
+var Cursor = misc.Cursor;
 var Snake = require('./snake.jsx');
 var TicTacToe = require('./tictactoe.jsx');
 var Pong = require('./pong.jsx');
@@ -29870,13 +29873,12 @@ class GameController {
   constructor(canvas) {
     this.canvas = canvas;
     this.DIM = 32;
-    this.index = -1;
-    this.games = [
+    this.games = new Cursor(misc.shuffle([
       new Snake(),
       new TicTacToe(),
       new Pong(),
       new SpaceInvaders()
-    ]
+    ]));
   }
 
   clear()  {
@@ -29888,12 +29890,11 @@ class GameController {
   nextGame() {
     this.clear();
 
-    this.index = (this.index + 1) % this.games.length;
-    let game = this.games[this.index];
+    let game = this.games.next();
 
     game.init();
     let self = this;
-    this.timer = setInterval(function() {
+    this.timer = misc.setIntervalAndExecute(function() {
       game.simulate();
       game.render(self.canvas);
       
@@ -29905,7 +29906,7 @@ class GameController {
 }
 
 module.exports = GameController;
-},{"./pong.jsx":246,"./snake.jsx":247,"./spaceInvaders.jsx":248,"./tictactoe.jsx":249}],245:[function(require,module,exports){
+},{"../../common/misc.jsx":235,"./pong.jsx":246,"./snake.jsx":247,"./spaceInvaders.jsx":248,"./tictactoe.jsx":249}],245:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var GameController = require('./gameController.jsx');
@@ -30049,6 +30050,7 @@ class Pong extends BaseGame {
 module.exports = Pong;
 },{"./baseGame.jsx":243}],247:[function(require,module,exports){
 'use strict';
+var misc = require('../../common/misc.jsx');
 var BaseGame = require('./baseGame.jsx');
 
 const VOID = 0;
@@ -30158,10 +30160,10 @@ class Snake extends BaseGame {
     if (!this.checkMove(this.head, dir)) {
       var o = [];
       if (dir == SNAKE_UP || dir == SNAKE_DOWN) {
-        o = this.shuffle([SNAKE_LEFT, SNAKE_RIGHT]);
+        o = misc.shuffle([SNAKE_LEFT, SNAKE_RIGHT]);
       } 
       else {
-        o = this.shuffle([SNAKE_UP, SNAKE_DOWN]);
+        o = misc.shuffle([SNAKE_UP, SNAKE_DOWN]);
       }
       if (!this.checkMove(this.head, o[0])) {
         this.checkMove(this.head, o[1]);
@@ -30233,7 +30235,7 @@ class Snake extends BaseGame {
 
 
 module.exports = Snake;
-},{"./baseGame.jsx":243}],248:[function(require,module,exports){
+},{"../../common/misc.jsx":235,"./baseGame.jsx":243}],248:[function(require,module,exports){
 'use strict';
 var BaseGame = require('./baseGame.jsx');
 
@@ -30391,6 +30393,7 @@ class Projectile {
         this.fired = false;
         this.game.invader.state = EXPLODING;
         this.game.invader.explodingDelay = 3;
+        this.game.rounds++;
       }
       else {
         this.y--;
@@ -30425,10 +30428,11 @@ class SpaceInvaders extends BaseGame {
   }
   
   isOver() {
-    return false;
+    return this.rounds === 10;
   }
   
   reset() {
+    this.rounds = 0
   }  
   
   simulate() {
@@ -30443,6 +30447,7 @@ module.exports = SpaceInvaders;
 
 },{"./baseGame.jsx":243}],249:[function(require,module,exports){
 'use strict';
+var misc = require('../../common/misc.jsx');
 var BaseGame = require('./baseGame.jsx');
 
 const VOID = 0;
@@ -30512,7 +30517,7 @@ class TicTacToe extends BaseGame {
         }
       }
     }
-    candidates = this.shuffle(candidates);
+    candidates = misc.shuffle(candidates);
     
     if (this.playSmart) {
       // evaluate fields
@@ -30675,7 +30680,7 @@ class TicTacToe extends BaseGame {
 
 module.exports = TicTacToe;
 
-},{"./baseGame.jsx":243}],250:[function(require,module,exports){
+},{"../../common/misc.jsx":235,"./baseGame.jsx":243}],250:[function(require,module,exports){
 "use strict";
 var React = require('react');
 var moment = require('moment');

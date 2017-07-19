@@ -55,12 +55,7 @@ class BaseGame {
   
   getRandomBool() {
     return Math.random() > 0.5;
-  }
-  
-  shuffle(o) {
-    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-    return o;
-  }
+  }  
   
   getRandomPos() {
     var x = this.getRandom(0, this.world.length);

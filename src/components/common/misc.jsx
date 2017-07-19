@@ -5,8 +5,14 @@ function setIntervalAndExecute(f, t) {
   return setInterval(f, t);
 }
 
+function shuffle(o) {
+  for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+  return o;
+}
+
 module.exports = {
   setIntervalAndExecute : setIntervalAndExecute,
+  shuffle : shuffle,
 
   Cursor : function(array) {
     var idx = 0;

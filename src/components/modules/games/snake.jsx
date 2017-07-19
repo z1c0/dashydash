@@ -1,4 +1,5 @@
 'use strict';
+var misc = require('../../common/misc.jsx');
 var BaseGame = require('./baseGame.jsx');
 
 const VOID = 0;
@@ -108,10 +109,10 @@ class Snake extends BaseGame {
     if (!this.checkMove(this.head, dir)) {
       var o = [];
       if (dir == SNAKE_UP || dir == SNAKE_DOWN) {
-        o = this.shuffle([SNAKE_LEFT, SNAKE_RIGHT]);
+        o = misc.shuffle([SNAKE_LEFT, SNAKE_RIGHT]);
       } 
       else {
-        o = this.shuffle([SNAKE_UP, SNAKE_DOWN]);
+        o = misc.shuffle([SNAKE_UP, SNAKE_DOWN]);
       }
       if (!this.checkMove(this.head, o[0])) {
         this.checkMove(this.head, o[1]);
