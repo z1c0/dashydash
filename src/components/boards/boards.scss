@@ -27,5 +27,6 @@
 .part {
   background: $part-background-color;
   border-radius: 5px;
+  overflow: hidden;
   //outline: 1px solid whitesmoke;
 }

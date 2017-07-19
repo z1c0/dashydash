@@ -29234,6 +29234,16 @@ module.exports={
         "football" : [ 7, 6, 1, 1]
       }
     },
+    "playful" : {
+      "modules" : {     
+        "games" :        [ 1, 1, 5, 5 ],
+        "timeofday" :    [ 1, 6, 6, 1 ],
+        "appointments" : [ 6, 1, 3, 2 ],
+        "birthdays" :    [ 6, 3, 3, 1 ],
+        "bus" :          [ 6, 4, 3, 2 ],
+        "weather" :      [ 7, 6, 2, 1 ]
+      }
+    },
     "photoic" : {
       "modules" : {     
         "pics" :         [ 1, 1, 5, 6 ],
@@ -29861,17 +29871,21 @@ class GameController {
     this.DIM = 32;
     this.index = -1;
     this.games = [
-      //new Snake(),
-      //new TicTacToe(),
-      //new Pong(),
+      new Snake(),
+      new TicTacToe(),
+      new Pong(),
       new SpaceInvaders()
     ]
   }
 
-  nextGame() {
+  clear()  {
     if (this.timer) {
       clearInterval(this.timer);
     }
+  }
+
+  nextGame() {
+    this.clear();
 
     this.index = (this.index + 1) % this.games.length;
     let game = this.games[this.index];
@@ -29922,6 +29936,10 @@ class Games extends React.Component {
     this.gameController = new GameController(canvas);
     this.gameController.nextGame();
   }
+
+  componentWillUnmount() {
+    this.gameController.clear();
+  }  
 }
 
 module.exports = Games;
@@ -30221,17 +30239,13 @@ var BaseGame = require('./baseGame.jsx');
 
 const FLIP = 0;
 const FLAP = 1;
-const EXPLODE = 2;
+const EXPLODING = 2;
 
+const INVADER = '#03FE04';
 
 class Invader {
   constructor(game) {
     this.game = game;
-    this.x = 0;
-    this.y = 0;
-    this.dx = 1;
-    this.delay = 0;
-    this.state = FLIP;
     this.sprites = [
       [
         [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0 ],
@@ -30253,21 +30267,46 @@ class Invader {
         [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0 ],
         [0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0 ],
       ],
-    ]
+      [
+        [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 ],
+        [1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1 ],
+        [0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0 ],
+        [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0 ],
+        [1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1 ],
+        [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0 ],
+        [0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0 ],
+        [1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1 ],
+      ],
+    ];
+    this.reset();
+  }
+
+  reset() {
+    this.x = 0;
+    this.y = 0;
+    this.dx = 1;
+    this.delay = 0;
+    this.state = FLIP;
   }
 
   move() {
     this.x += this.dx;
     if (this.x === 0 || this.x === this.game.dim() - this.sprites[0][0].length) {
       this.dx *= -1;
+      this.y += 2;
     }
   }
 
   simulate() {
     if (this.delay-- <= 0) {
-      this.delay = 20;
+      this.delay = 3;
 
-      if (this.state === FLIP) {
+      if (this.state === EXPLODING) {
+        if (this.explodingDelay-- == 0) {
+          this.reset();
+        }
+      }
+      else if (this.state === FLIP) {
         this.state = FLAP;
         this.move();
       }
@@ -30280,12 +30319,12 @@ class Invader {
   }
 
   draw() {
-    const col = '#03FE04';
+    const col = this.state === EXPLODING ? 'yellow' : INVADER;
     let s = this.sprites[this.state];
     for (var y = 0; y < s.length; y++) {
       for (var x = 0; x < s[y].length; x++) {
         if (s[y][x] === 1) {
-          this.game.world[this.x + x][y] = col;
+          this.game.world[this.x + x][this.y + y] = col;
         }
       }
     }
@@ -30303,7 +30342,7 @@ class Defender {
 
   simulate() {
     if (this.delay-- <= 0) {
-      this.delay = 3;
+      this.delay = 4;
       if (this.move === 0) {
         this.move = this.game.getRandom(this.x * -1 + 1, this.game.dim() - 2 - this.x);
       }
@@ -30316,7 +30355,7 @@ class Defender {
         this.move++;
       }
 
-      if (!this.game.projectile.fired) {
+      if (!this.game.projectile.fired && this.game.invader.state !== EXPLODING && this.game.getRandom(0, 10) === 5) {
         this.game.projectile.fire(this.x, this.y);
       }
     }
@@ -30347,7 +30386,14 @@ class Projectile {
   simulate() {
     this.fired = this.y > 0;
     if (this.fired) {
-      this.y--;
+      if (this.game.world[this.x][this.y] === INVADER) {
+        this.fired = false;
+        this.game.invader.state = EXPLODING;
+        this.game.invader.explodingDelay = 3;
+      }
+      else {
+        this.y--;
+      }
       this.draw();
     }
   }
@@ -30386,17 +30432,9 @@ class SpaceInvaders extends BaseGame {
   
   simulate() {
     this.clear('darkblue');
-    /*
-    let dim = this.dim();
-    for (var i = 0; i < dim; i++) {
-      this.world[dim / 2 - i % 2][i] = 'white';
-    }
-    this.paddle1.simulate();
-    this.paddle2.simulate();
-    */
     this.defender.simulate();
-    this.projectile.simulate();
     this.invader.simulate();
+    this.projectile.simulate();
   }
 }
 

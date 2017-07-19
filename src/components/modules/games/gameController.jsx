@@ -11,17 +11,21 @@ class GameController {
     this.DIM = 32;
     this.index = -1;
     this.games = [
-      //new Snake(),
-      //new TicTacToe(),
-      //new Pong(),
+      new Snake(),
+      new TicTacToe(),
+      new Pong(),
       new SpaceInvaders()
     ]
   }
 
-  nextGame() {
+  clear()  {
     if (this.timer) {
       clearInterval(this.timer);
     }
+  }
+
+  nextGame() {
+    this.clear();
 
     this.index = (this.index + 1) % this.games.length;
     let game = this.games[this.index];

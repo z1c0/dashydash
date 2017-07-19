@@ -29,6 +29,10 @@ class Games extends React.Component {
     this.gameController = new GameController(canvas);
     this.gameController.nextGame();
   }
+
+  componentWillUnmount() {
+    this.gameController.clear();
+  }  
 }
 
 module.exports = Games;
