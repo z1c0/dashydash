@@ -20,9 +20,10 @@ class Bus extends FetchModule {
 
   render() {
     return (
-      <div id='bus'>
+      <div className='bus'>
+        <i className="e1a-oncoming_bus"></i>
         {this.state.times.map(function(time, i){
-          return <p key={i}><span>{time}</span></p>
+          return <p key={i}>{time}</p>
         })}
       </div>
     );

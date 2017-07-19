@@ -29655,9 +29655,10 @@ class Bus extends FetchModule {
 
   render() {
     return (
-      React.createElement("div", {id: "bus"}, 
+      React.createElement("div", {className: "bus"}, 
+        React.createElement("i", {className: "e1a-oncoming_bus"}), 
         this.state.times.map(function(time, i){
-          return React.createElement("p", {key: i}, React.createElement("span", null, time))
+          return React.createElement("p", {key: i}, time)
         })
       )
     );
