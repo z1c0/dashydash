@@ -149,9 +149,11 @@ class Projectile {
   }
 
   simulate() {
-    this.fired = this.y > 0;
     if (this.fired) {
-      if (this.game.world[this.x][this.y] === INVADER) {
+      if (this.y === 0) {
+        this.fired = false;
+      }
+      else if (this.game.world[this.x][this.y] === INVADER) {
         this.fired = false;
         this.game.invader.state = EXPLODING;
         this.game.invader.explodingDelay = 3;
