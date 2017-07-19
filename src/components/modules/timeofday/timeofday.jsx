@@ -19,11 +19,11 @@ class TimeOfDay extends React.Component {
     }
     return (
       <div className='timeofday'>
+        <div className="giphy" style={divStyle}></div>
         <p>
           <span>{this.state.text}</span>
           <i className={this.state.emoji}></i>
         </p>
-        <div className="giphy" style={divStyle}></div>
       </div>
     );
   }

@@ -29221,14 +29221,14 @@ module.exports={
   "default" : {
     "main" : {
       "modules" : {     
-        "timeofday" : [ 1, 1, 4, 1 ],
+        "timeofday" :    [ 1, 1, 5, 1 ],
         "appointments" : [ 1, 2, 2, 3 ],
         "birthdays" :    [ 3, 2, 2, 3 ],
-        "pics" : [ 5, 1, 4, 3 ],
-        "games" : [ 5, 4, 1, 1 ],
+        "pics" :         [ 5, 2, 4, 3 ],
+        "games" :        [ 4, 5, 1, 1 ],
         "family" : [ 1, 5, 2, 1],
         "blog" :   [ 3, 6, 2, 1 ],
-        "weather" : [ 6, 4, 3, 1 ],
+        "weather" :      [ 6, 1, 3, 1 ],
         "bus" : [ 5, 5, 2, 2 ],
         "abc" : [ 8, 5, 1, 1],
         "football" : [ 7, 6, 1, 1]
@@ -31334,11 +31334,11 @@ class TimeOfDay extends React.Component {
     }
     return (
       React.createElement("div", {className: "timeofday"}, 
+        React.createElement("div", {className: "giphy", style: divStyle}), 
         React.createElement("p", null, 
           React.createElement("span", null, this.state.text), 
           React.createElement("i", {className: this.state.emoji})
-        ), 
-        React.createElement("div", {className: "giphy", style: divStyle})
+        )
       )
     );
   }

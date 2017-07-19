@@ -24,6 +24,6 @@
 
 .pic{width:100%;height:100%;background-repeat:no-repeat;background-size:contain;background-position:center;transition:background 1.0s ease-in}
 
-.small-text{font-size:.9vw}.big-text{font-size:1.7vw}.bold-text{font-weight:bold}.padded{padding:.5em}.timeofday{height:100%;width:100%;display:flex}.timeofday p{width:70%;font-size:3vw}.timeofday p i{padding-top:.5em;font-size:5vw}.timeofday .giphy{width:30%;background-repeat:no-repeat;background-size:contain;background-position-x:right;background-position-y:center;transition:background 0.5s ease-in}
+.small-text{font-size:.9vw}.big-text{font-size:1.7vw}.bold-text{font-weight:bold}.padded{padding:.5em}.timeofday{height:100%;width:100%;display:flex}.timeofday p{width:70%;font-size:3vw}.timeofday p i{padding-top:.5em;font-size:5vw}.timeofday .giphy{width:30%;background-repeat:no-repeat;background-size:contain;background-position-x:center;background-position-y:center;transition:background 0.5s ease-in}
 
 .small-text{font-size:.9vw}.big-text{font-size:1.7vw}.bold-text{font-weight:bold}.padded{padding:.5em}.weather{font-size:1.7vw;padding:0.5em}.weather img{vertical-align:middle;margin-right:.5em}.temperature{vertical-align:middle;font-size:3vw;font-weight:bold;margin-right:0.5em}.temperatureMinMax{font-weight:bo;margin-right:0.5em}.wi{font-size:3vw;margin-right:0.5em}
