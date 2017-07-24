@@ -1,5 +1,5 @@
 {
-  "root": true,
+  "root": true,   
   "parserOptions": {
     "ecmaVersion": 6,
     "ecmaFeatures": {
@@ -8,8 +8,7 @@
   },
   "env": {
     "browser": true,
-    "node": true,
-    "jquery": true
+    "node": true
   },
   "rules": {
     "quotes": 0,
@@ -19,9 +18,5 @@
     "no-underscore-dangle": 0,
     "no-alert": 0,
     "no-lone-blocks": 0
-  },
-  "globals": {
-    "jQuery": true,
-    "$": true
   }
 }

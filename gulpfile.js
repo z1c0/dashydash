@@ -79,7 +79,6 @@ gulp.task('images', function() {
 });
 */
 
-
 gulp.task('fonts', function() {
   gulp
   .src(config.paths.fonts)

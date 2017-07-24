@@ -64,7 +64,7 @@ class Invader {
 
   simulate() {
     if (this.delay-- <= 0) {
-      this.delay = 3;
+      this.delay = 2;
 
       if (this.state === EXPLODING) {
         if (this.explodingDelay-- == 0) {
@@ -107,7 +107,7 @@ class Defender {
 
   simulate() {
     if (this.delay-- <= 0) {
-      this.delay = 4;
+      this.delay = 2;
       if (this.move === 0) {
         this.move = this.game.getRandom(this.x * -1 + 1, this.game.dim() - 2 - this.x);
       }
@@ -120,7 +120,7 @@ class Defender {
         this.move++;
       }
 
-      if (!this.game.projectile.fired && this.game.invader.state !== EXPLODING && this.game.getRandom(0, 10) === 5) {
+      if (!this.game.projectile.fired && this.game.invader.state !== EXPLODING && this.game.getRandom(0, 6) === 3) {
         this.game.projectile.fire(this.x, this.y);
       }
     }
@@ -160,9 +160,9 @@ class Projectile {
         this.game.rounds++;
       }
       else {
-        this.y--;
+        this.y -= 2;
+        this.draw();
       }
-      this.draw();
     }
   }
 
@@ -180,7 +180,7 @@ class SpaceInvaders extends BaseGame {
   }
 
   getInterval() {
-    return 30;
+    return 100;
   }
    
   init() {

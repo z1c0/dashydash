@@ -15,6 +15,8 @@ const browserUrl =
   "client_id=" + this.config.clientId;
 */
 
+const IMAGE_DIR = './dist/images/photos';
+
 const postUrl =  "https://www.googleapis.com/oauth2/v4/token";
 
 function retrieveTokens() {
@@ -101,7 +103,7 @@ function updatePhotos(config, token) {
 function fetchPhoto(config, photo) {
   try {
     if (photo) {
-      var fileName = path.join(config.imageDir, photo.name);
+      var fileName = path.join(IMAGE_DIR, photo.name);
       if (!fs.existsSync(fileName)) {
         console.log("GET: " + photo.url);
         request
@@ -117,7 +119,7 @@ function fetchPhoto(config, photo) {
 
 function getRandomPhoto(callback) {
   // TODO: jpeg filter
-  let files = fs.readdirSync(config.imageDir) 
+  let files = fs.readdirSync(IMAGE_DIR) 
   let index = Math.floor(Math.random() * files.length);
   return files[index];
 }
