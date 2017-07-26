@@ -1,6 +1,7 @@
 'use strict';
 
 // emoji:
+// https://www.emojione.com/emoji/v2
 // https://emoji.codes/
 // https://www.emojicopy.com/
 

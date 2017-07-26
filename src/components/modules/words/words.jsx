@@ -4,6 +4,18 @@ var moment = require('moment');
 var misc = require('../../common/misc.jsx');
 
 const wordList = [
+  [ 'Klo', 'toilet' ],
+  [ 'Pizza', 'pizza' ],
+  [ 'Herz', 'heart' ],
+  [ 'Sonne', 'sunny' ],
+  [ 'Katze', 'cat' ],
+  [ 'Bad', 'bath_tone1' ],
+  [ 'Ei', 'egg' ],
+  [ 'Kiwi', 'kiwi' ],
+  [ 'Uhu', 'owl' ],
+  [ 'Bus', 'bus' ],
+  [ 'Rose', 'rose' ],
+  [ 'Hase', 'rabbit' ],
   [ 'Hund', 'dog' ],
   [ 'Maus', 'mouse' ],
   [ 'Tiger', 'tiger' ],
