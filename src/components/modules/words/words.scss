@@ -1,0 +1,20 @@
+.words {
+  height: 100%;
+  background: white;
+  color:black;
+  display: flex;
+  align-items: center;
+
+  p {
+    width: 100%;
+    text-align: center;
+    span {
+      font-size: 2em;
+      line-height: 1em;
+      font-weight: bold;
+    }
+    i {
+      vertical-align: text-top;
+    }
+  }
+}

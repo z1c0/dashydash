@@ -59,3 +59,4 @@ typings/
 
 secrets.json
 dist/images/*
+store/*.json
