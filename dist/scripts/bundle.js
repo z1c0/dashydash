@@ -29072,7 +29072,7 @@ ReactDOM.render(
     React.createElement(Overlays, null)
   ),
   document.getElementById('app'));
-},{"./overlays.jsx":255,"./routes.jsx":256,"react":222,"react-dom":46,"react-router-dom":184}],228:[function(require,module,exports){
+},{"./overlays.jsx":256,"./routes.jsx":257,"react":222,"react-dom":46,"react-router-dom":184}],228:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var moment = require('moment');
@@ -29088,6 +29088,7 @@ var Pics = require('../modules/pics/pics.jsx');
 var Games = require('../modules/games/games.jsx');
 var News = require('../modules/news/news.jsx');
 var Football = require('../modules/football/football.jsx');
+var Words = require('../modules/words/words.jsx');
 var misc  = require('../common/misc.jsx');
 var BoardManager = require('./boardManager.jsx');
 
@@ -29158,7 +29159,7 @@ class Board extends React.Component {
 
 module.exports = Board;
 
-},{"../common/misc.jsx":235,"../modules/abc/abc.jsx":236,"../modules/appointments/appointments.jsx":237,"../modules/birthdays/birthdays.jsx":238,"../modules/blog/blog.jsx":239,"../modules/bus/bus.jsx":240,"../modules/family/family.jsx":241,"../modules/football/football.jsx":242,"../modules/games/games.jsx":245,"../modules/news/news.jsx":250,"../modules/pics/pics.jsx":251,"../modules/timeofday/timeofday.jsx":253,"../modules/weather/weather.jsx":254,"./boardManager.jsx":229,"moment":35,"react":222}],229:[function(require,module,exports){
+},{"../common/misc.jsx":235,"../modules/abc/abc.jsx":236,"../modules/appointments/appointments.jsx":237,"../modules/birthdays/birthdays.jsx":238,"../modules/blog/blog.jsx":239,"../modules/bus/bus.jsx":240,"../modules/family/family.jsx":241,"../modules/football/football.jsx":242,"../modules/games/games.jsx":245,"../modules/news/news.jsx":250,"../modules/pics/pics.jsx":251,"../modules/timeofday/timeofday.jsx":253,"../modules/weather/weather.jsx":254,"../modules/words/words.jsx":255,"./boardManager.jsx":229,"moment":35,"react":222}],229:[function(require,module,exports){
 'use strict';
 var Cursor = require('../common/misc.jsx').Cursor;
 
@@ -29254,6 +29255,15 @@ module.exports={
         "birthdays" :    [ 6, 1, 3, 3 ],
         "bus" :          [ 6, 4, 3, 2 ],
         "weather" :      [ 6, 6, 3, 1 ]
+      }
+    },
+    "wordy" : {
+      "modules" : {     
+        "words" :          [ 1, 1, 5, 5 ],
+        "timeofday" :      [ 1, 6, 5, 1 ],
+        "appointments" :   [ 6, 1, 3, 3 ],
+        "bus" :            [ 6, 4, 3, 2 ],
+        "weather" :        [ 6, 6, 3, 1 ]
       }
     },
     "playful" : {
@@ -31451,6 +31461,73 @@ class Weather extends FetchModule {
 
 module.exports = Weather;
 },{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],255:[function(require,module,exports){
+"use strict";
+var React = require('react');
+var moment = require('moment');
+var misc = require('../../common/misc.jsx');
+
+const wordList = [
+  [ 'Hund', 'dog' ],
+  [ 'Maus', 'mouse' ],
+  [ 'Tiger', 'tiger' ],
+  [ 'Hose', 'jeans' ],
+  [ 'Mund', 'lips' ],
+  [ 'Hut', 'tophat' ],
+  [ 'Pirat', 'skull_crossbones' ],
+  [ 'Mond', 'full_moon_with_face' ],
+  [ 'Auto', 'red_car' ],
+  [ 'Taxi', 'taxi' ],
+  [ 'Ball', 'soccer' ],
+  [ 'Papa', 'man_tone1' ],
+  [ 'Mama', 'woman_tone1' ],
+  [ 'Timo', 'boy_tone1' ],
+  [ 'Nico', 'baby_tone1' ],
+  [ 'Popo', 'peach' ],
+  [ 'Affe', 'monkey_face' ],
+  [ 'Fisch', 'fish' ],
+  [ 'Nase', 'nose' ],
+];
+
+
+class Words extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      index : 0
+    }
+    this.words = misc.shuffle(wordList);
+  }
+
+  componentDidMount() {
+    const div = this.refs.words;
+    div.style.fontSize = 0.175 * div.clientWidth + 'px';
+
+    const self = this;
+    this.intervalId = setInterval(function() {
+      self.setState({
+        index : (self.state.index + 1) % self.words.length
+      });
+    }, moment.duration(30, 'seconds'));
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.intervalId);
+  }
+  
+
+  render() {
+    var l = this.words[this.state.index];
+    return (
+      React.createElement("div", {className: "words", ref: "words"}, 
+        React.createElement("p", null, l[0].toUpperCase()), 
+        React.createElement("i", {key: l[1], className: 'e1a-' + l[1]})
+      )
+    );
+  }
+};
+
+module.exports = Words;
+},{"../../common/misc.jsx":235,"moment":35,"react":222}],256:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var moment = require('moment');
@@ -31489,7 +31566,7 @@ class Overlays extends IntervalModule {
 };
 
 module.exports = Overlays;
-},{"./components/common/intervalModule.jsx":234,"moment":35,"react":222}],256:[function(require,module,exports){
+},{"./components/common/intervalModule.jsx":234,"moment":35,"react":222}],257:[function(require,module,exports){
 "use strict";
 
 var React = require('react');

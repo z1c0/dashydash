@@ -35,9 +35,9 @@
 
 #abc{height:100%;background:white;color:black;display:flex;align-items:center}#abc p{width:100%;text-align:center}#abc p span{font-size:2em;line-height:1em;font-weight:bold}#abc p i{vertical-align:text-top}
 
-.small-text{font-size:.9vw}.big-text{font-size:1.7vw}.bold-text{font-weight:bold}.padded{padding:.5em}.blog{height:100%;width:100%;background-size:cover}.blog-overlay{height:100%;background-color:rgba(0,0,0,0.75)}
-
 .small-text{font-size:.9vw}.big-text{font-size:1.7vw}.bold-text{font-weight:bold}.padded{padding:.5em}@font-face{font-family:'LcdFont';src:url("/font/LEDBDREV.TTF") format("truetype")}.bus{padding:.5em;position:relative;font-family:"LcdFont";color:#32cd32;white-space:pre;font-size:1.7vw}.bus i{font-size:5vw;margin-bottom:10px}
+
+.small-text{font-size:.9vw}.big-text{font-size:1.7vw}.bold-text{font-weight:bold}.padded{padding:.5em}.blog{height:100%;width:100%;background-size:cover}.blog-overlay{height:100%;background-color:rgba(0,0,0,0.75)}
 
 .small-text{font-size:.9vw}.big-text{font-size:1.7vw}.bold-text{font-weight:bold}.padded{padding:.5em}@keyframes move-image{0%{background-size:100%}15%{background-size:100%}50%{background-size:150%}85%{background-size:150%}100%{background-size:100%}}.family{height:100%;width:100%;animation:move-image 30s linear infinite;position:relative}.family i{position:absolute;bottom:5px;right:5px;font-size:3vw}.family-overlay{height:100%;background-color:rgba(0,0,0,0.5)}
 
@@ -53,4 +53,4 @@
 
 .small-text{font-size:.9vw}.big-text{font-size:1.7vw}.bold-text{font-weight:bold}.padded{padding:.5em}.weather{font-size:1.7vw;padding:.5em}.weather img{vertical-align:middle;margin-right:.5em}.temperature{vertical-align:middle;font-size:3vw;font-weight:bold;margin-right:.5em}#minTemp{color:#52D9E2}#maxTemp{color:#D82665}.wi{vertical-align:middle;font-size:3vw;margin-right:.5em}
 
-.words{height:100%;background:white;color:black;display:flex;align-items:center}.words p{width:100%;text-align:center}.words p span{font-size:2em;line-height:1em;font-weight:bold}.words p i{vertical-align:text-top}
+.small-text{font-size:.9vw}.big-text{font-size:1.7vw}.bold-text{font-weight:bold}.padded{padding:.5em}@keyframes fadein{0%{opacity:0}50%{opacity:0}60%{opacity:1}100%{opacity:1}}.words{height:100%;background:white;color:black;display:flex;flex-direction:column;justify-content:center;align-items:center}.words p{font-weight:bold;width:100%;text-align:center}.words i{margin:.5em;animation:fadein 20s}

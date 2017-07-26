@@ -1,9 +1,28 @@
 "use strict";
 var React = require('react');
 var moment = require('moment');
+var misc = require('../../common/misc.jsx');
 
-const words = [
-  [ 'Auto', 'car' ],
+const wordList = [
+  [ 'Hund', 'dog' ],
+  [ 'Maus', 'mouse' ],
+  [ 'Tiger', 'tiger' ],
+  [ 'Hose', 'jeans' ],
+  [ 'Mund', 'lips' ],
+  [ 'Hut', 'tophat' ],
+  [ 'Pirat', 'skull_crossbones' ],
+  [ 'Mond', 'full_moon_with_face' ],
+  [ 'Auto', 'red_car' ],
+  [ 'Taxi', 'taxi' ],
+  [ 'Ball', 'soccer' ],
+  [ 'Papa', 'man_tone1' ],
+  [ 'Mama', 'woman_tone1' ],
+  [ 'Timo', 'boy_tone1' ],
+  [ 'Nico', 'baby_tone1' ],
+  [ 'Popo', 'peach' ],
+  [ 'Affe', 'monkey_face' ],
+  [ 'Fisch', 'fish' ],
+  [ 'Nase', 'nose' ],
 ];
 
 
@@ -13,18 +32,19 @@ class Words extends React.Component {
     this.state = {
       index : 0
     }
+    this.words = misc.shuffle(wordList);
   }
 
   componentDidMount() {
     const div = this.refs.words;
-    div.style.fontSize = 0.25 * div.clientWidth + 'px';
+    div.style.fontSize = 0.175 * div.clientWidth + 'px';
 
     const self = this;
     this.intervalId = setInterval(function() {
       self.setState({
-        index : (self.state.index + 1) % words.length
+        index : (self.state.index + 1) % self.words.length
       });
-    }, moment.duration(15, 'seconds'));
+    }, moment.duration(30, 'seconds'));
   }
 
   componentWillUnmount() {
@@ -33,13 +53,11 @@ class Words extends React.Component {
   
 
   render() {
-    var l = letters[this.state.index];
+    var l = this.words[this.state.index];
     return (
       <div className='words' ref='words'>
-        <p>
-          <span>{l[0]}</span>
-          <i className={'e1a-' + l[1]}></i>
-        </p>
+        <p>{l[0].toUpperCase()}</p>
+        <i key={l[1]} className={'e1a-' + l[1]}></i>
       </div>
     );
   }
