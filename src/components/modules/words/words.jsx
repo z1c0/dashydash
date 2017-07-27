@@ -31,7 +31,7 @@ const wordList = [
   [ 'Mama', 'woman_tone1' ],
   [ 'Timo', 'boy_tone1' ],
   [ 'Nico', 'baby_tone1' ],
-  [ 'Popo', 'peach' ],
+  [ 'Popo', 'poop' ],
   [ 'Affe', 'monkey_face' ],
   [ 'Fisch', 'fish' ],
   [ 'Nase', 'nose' ],
