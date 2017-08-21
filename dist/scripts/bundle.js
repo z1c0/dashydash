@@ -29677,12 +29677,16 @@ class Bus extends FetchModule {
   constructor(props) {
     super(props);
     this.state = {
-      times : []
+      times : [],
+      from : '',
+      to : ''
     }
     this.interval = moment.duration(1, 'minute');
     this.callback = function(body) {
       this.setState({
-        times : body
+        times : body.times,
+        from : body.from,
+        to : body.to
       });
     }
   }
@@ -29691,8 +29695,12 @@ class Bus extends FetchModule {
     return (
       React.createElement("div", {className: "bus"}, 
         React.createElement("i", {className: "e1a-oncoming_bus"}), 
+        React.createElement("div", null, 
+          React.createElement("p", null, this.state.from), 
+          React.createElement("p", null, this.state.to)
+        ), 
         this.state.times.map(function(time, i){
-          return React.createElement("p", {key: i}, time)
+          return React.createElement("p", {className: "busTime", key: i}, time)
         })
       )
     );
@@ -31471,45 +31479,50 @@ class Weather extends FetchModule {
 module.exports = Weather;
 
 },{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],255:[function(require,module,exports){
-"use strict";
+'use strict';
 var React = require('react');
 var moment = require('moment');
 var misc = require('../../common/misc.jsx');
 
 const wordList = [
-  [ 'Klo', 'toilet' ],
-  [ 'Pizza', 'pizza' ],
-  [ 'Herz', 'heart' ],
-  [ 'Sonne', 'sunny' ],
-  [ 'Katze', 'cat' ],
-  [ 'Bad', 'bath_tone1' ],
-  [ 'Ei', 'egg' ],
-  [ 'Kiwi', 'kiwi' ],
-  [ 'Uhu', 'owl' ],
-  [ 'Bus', 'bus' ],
-  [ 'Rose', 'rose' ],
-  [ 'Hase', 'rabbit' ],
-  [ 'Hund', 'dog' ],
-  [ 'Maus', 'mouse' ],
-  [ 'Tiger', 'tiger' ],
-  [ 'Hose', 'jeans' ],
-  [ 'Mund', 'lips' ],
-  [ 'Hut', 'tophat' ],
-  [ 'Pirat', 'skull_crossbones' ],
-  [ 'Mond', 'full_moon_with_face' ],
   [ 'Auto', 'red_car' ],
-  [ 'Taxi', 'taxi' ],
+  [ 'Affe', 'monkey_face' ],
+  [ 'Ampel', 'vertical_traffic_light' ],
+  [ 'Bad', 'bath_tone1' ],
   [ 'Ball', 'soccer' ],
-  [ 'Papa', 'man_tone1' ],
+  [ 'Bus', 'bus' ],
+  [ 'Ei', 'egg' ],
+  [ 'Eis', 'icecream' ],
+  [ 'Fisch', 'fish' ],
+  [ 'Hase', 'rabbit' ],
+  [ 'Herz', 'heart' ],
+  [ 'Hose', 'jeans' ],
+  [ 'Hund', 'dog' ],
+  [ 'Hut', 'tophat' ],
+  [ 'Katze', 'cat' ],
+  [ 'Kino', 'film_frames' ],
+  [ 'Kiwi', 'kiwi' ],
+  [ 'Kacka', 'poop' ],
+  [ 'Klo', 'toilet' ],
+  [ 'Lolli', 'lollipop' ],
   [ 'Mama', 'woman_tone1' ],
+  [ 'Maus', 'mouse' ],
+  [ 'Mond', 'full_moon_with_face' ],
+  [ 'Mund', 'lips' ],
+  [ 'Nase', 'nose' ],
+  [ 'Nico', 'baby_tone1' ],
+  [ 'Papa', 'man_tone1' ],
+  [ 'Pirat', 'skull_crossbones' ],
+  [ 'Popo', 'peach' ],
+  [ 'Pizza', 'pizza' ],
+  [ 'Radio', 'radio' ],
+  [ 'Rose', 'rose' ],
+  [ 'Sonne', 'sunny' ],
+  [ 'Taxi', 'taxi' ],
+  [ 'Tiger', 'tiger' ],
   [ 'Tim',  'space_invader' ],
   [ 'Timo', 'boy_tone1' ],
-  [ 'Nico', 'baby_tone1' ],
-  [ 'Popo', 'peach' ],
-  [ 'Kacka', 'poop' ],
-  [ 'Affe', 'monkey_face' ],
-  [ 'Fisch', 'fish' ],
-  [ 'Nase', 'nose' ],
+  [ 'Uhu', 'owl' ],
 ];
 
 

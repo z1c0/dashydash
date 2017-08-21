@@ -2,8 +2,9 @@
 
 @keyframes fadein {
     0% { opacity: 0; }
-   50% { opacity: 0; }
-   60% { opacity: 1; }
+   60% { opacity: 0; }
+   70% { opacity: 0.5; }
+   80% { opacity: 1; }
   100% { opacity: 1; }
 }
 
@@ -22,6 +23,6 @@
   }
   i {
     margin: $default-padding;
-    animation: fadein 25s;
+    animation: fadein 30s;
   }
 }

@@ -23,7 +23,8 @@ String.prototype.padRight = function(maxLen, padChar) {
 
 
 const FROM = 'Gallneukirchen, Marktplatz';
-const TO = 'Linz, Hinsenkampplatz';
+//const TO = 'Linz, Hinsenkampplatz';
+const TO = 'Linz, Hessenplatz';
 const URL = 'http://fahrplan.oebb.at/bin/query.exe/dn?start=1&S=' +
   encodeURIComponent(FROM) +'&Z=' + encodeURIComponent(TO) +
   '&timesel=depart&time='
@@ -82,7 +83,11 @@ function fetch(req, res) {
     times = [].concat.apply([], times);
     // remove duplicates
     times = times.filter(function(value, index) { return times.indexOf(value) === index })
-    res.json(times);
+    res.json({
+      times : times,
+      from : FROM,
+      to : TO
+    });
   }); 
 }
 

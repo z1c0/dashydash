@@ -8,22 +8,30 @@ class Bus extends FetchModule {
   constructor(props) {
     super(props);
     this.state = {
-      times : []
+      times : [],
+      from : '',
+      to : ''
     }
     this.interval = moment.duration(1, 'minute');
     this.callback = function(body) {
       this.setState({
-        times : body
+        times : body.times,
+        from : body.from,
+        to : body.to
       });
     }
   }
 
   render() {
     return (
-      <div className='bus'>
+      <div className='bus'>        
         <i className="e1a-oncoming_bus"></i>
+        <div>
+          <p>{this.state.from}</p>
+          <p>{this.state.to}</p>
+        </div>
         {this.state.times.map(function(time, i){
-          return <p key={i}>{time}</p>
+          return <p className='busTime' key={i}>{time}</p>
         })}
       </div>
     );

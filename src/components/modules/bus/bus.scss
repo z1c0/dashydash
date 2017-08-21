@@ -8,13 +8,17 @@ $color-lcd-font: limegreen;
 
 .bus {
   padding: $default-padding;
-  position : relative;
-  font-family: "LcdFont";
-  color: $color-lcd-font;
-  white-space: pre;
-  font-size: $big-font;
   i {
     font-size: $icon-font;
+    float: left;
     margin-bottom: 10px;
+    margin-right: 10px;
+  }
+  .busTime {
+    clear: both;   
+    font-family: "LcdFont";
+    color: $color-lcd-font;
+    white-space: pre;
+    font-size: $big-font;
   }
 }
