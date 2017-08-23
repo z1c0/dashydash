@@ -29270,11 +29270,14 @@ module.exports={
         "bus" :          [ 6, 4, 3, 2 ],
         "weather" :      [ 6, 6, 3, 1 ]
       }
-    },
+    },   
     "duophoto" : {
       "modules" : {     
-        "pics"   :       [ 1, 1, 4, 3 ],
-        "pics.1" :       [ 5, 2, 4, 3 ]
+        "pics" :         [ 1, 1, 4, 4 ],
+        "bus" :          [ 1, 5, 2, 2 ],
+        "appointments" : [ 3, 5, 2, 2 ],
+        "pics.1" :       [ 5, 2, 5, 5 ],
+        "weather" :      [ 5, 1, 5, 1 ]
       }
     },
     "photoic" : {
