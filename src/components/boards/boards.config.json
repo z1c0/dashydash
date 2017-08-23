@@ -54,6 +54,12 @@
         "weather" :      [ 6, 6, 3, 1 ]
       }
     },
+    "duophoto" : {
+      "modules" : {     
+        "pics"   :       [ 1, 1, 4, 3 ],
+        "pics.1" :       [ 5, 2, 4, 3 ]
+      }
+    },
     "photoic" : {
       "modules" : {     
         "pics" :         [ 1, 1, 5, 6 ],

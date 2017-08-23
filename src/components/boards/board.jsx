@@ -58,7 +58,10 @@ class Board extends React.Component {
   render() {
     const createPart = function(moduleInfo) {
       //console.log(moduleInfo);
-      const name = moduleInfo.name;
+      let name = moduleInfo.name;
+      if (name.indexOf('.')) {
+        name = name.split('.')[0];
+      }
       const gridPos = {
         gridColumn : moduleInfo.pos[0],
         gridRow : moduleInfo.pos[1],
@@ -68,7 +71,7 @@ class Board extends React.Component {
       
       var Module = require('../modules/' + name + '/' + name + '.jsx');
       return (
-        <div key={name} className="part" style={gridPos}>
+        <div key={moduleInfo.name} className="part" style={gridPos}>
           <Module/>
         </div>
       );

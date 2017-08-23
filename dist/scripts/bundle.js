@@ -29126,7 +29126,10 @@ class Board extends React.Component {
   render() {
     const createPart = function(moduleInfo) {
       //console.log(moduleInfo);
-      const name = moduleInfo.name;
+      let name = moduleInfo.name;
+      if (name.indexOf('.')) {
+        name = name.split('.')[0];
+      }
       const gridPos = {
         gridColumn : moduleInfo.pos[0],
         gridRow : moduleInfo.pos[1],
@@ -29136,7 +29139,7 @@ class Board extends React.Component {
       
       var Module = require('../modules/' + name + '/' + name + '.jsx');
       return (
-        React.createElement("div", {key: name, className: "part", style: gridPos}, 
+        React.createElement("div", {key: moduleInfo.name, className: "part", style: gridPos}, 
           React.createElement(Module, null)
         )
       );
@@ -29266,6 +29269,12 @@ module.exports={
         "appointments" : [ 6, 1, 3, 3 ],
         "bus" :          [ 6, 4, 3, 2 ],
         "weather" :      [ 6, 6, 3, 1 ]
+      }
+    },
+    "duophoto" : {
+      "modules" : {     
+        "pics"   :       [ 1, 1, 4, 3 ],
+        "pics.1" :       [ 5, 2, 4, 3 ]
       }
     },
     "photoic" : {
@@ -29798,9 +29807,9 @@ class Football extends FetchModule {
       });
       if (m) {
         this.setState({
-          team1 : m.Team1.ShortName,
+          team1 : m.Team1.ShortName || m.Team1.TeamName,
           icon1 : m.Team1.TeamIconUrl,
-          team2 : m.Team2.ShortName,
+          team2 : m.Team2.ShortName || m.Team2.TeamName,
           icon2 : m.Team2.TeamIconUrl,
           date : moment(m.MatchDateTime).format("dd, DD.MM.YYYY, HH:mm")
         });

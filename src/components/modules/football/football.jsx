@@ -21,9 +21,9 @@ class Football extends FetchModule {
       });
       if (m) {
         this.setState({
-          team1 : m.Team1.ShortName,
+          team1 : m.Team1.ShortName || m.Team1.TeamName,
           icon1 : m.Team1.TeamIconUrl,
-          team2 : m.Team2.ShortName,
+          team2 : m.Team2.ShortName || m.Team2.TeamName,
           icon2 : m.Team2.TeamIconUrl,
           date : moment(m.MatchDateTime).format("dd, DD.MM.YYYY, HH:mm")
         });
