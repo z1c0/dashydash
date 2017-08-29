@@ -9,6 +9,7 @@ const wordList = [
   [ 'Ampel', 'vertical_traffic_light' ],
   [ 'Bad', 'bath_tone1' ],
   [ 'Ball', 'soccer' ],
+  [ 'Benni', 'boy_tone1' ],
   [ 'Bus', 'bus' ],
   [ 'Ei', 'egg' ],
   [ 'Eis', 'icecream' ],
@@ -18,6 +19,7 @@ const wordList = [
   [ 'Hose', 'jeans' ],
   [ 'Hund', 'dog' ],
   [ 'Hut', 'tophat' ],
+  [ 'Kathi', 'girl_tone1' ],
   [ 'Katze', 'cat' ],
   [ 'Kino', 'film_frames' ],
   [ 'Kiwi', 'kiwi' ],
@@ -30,7 +32,8 @@ const wordList = [
   [ 'Mund', 'lips' ],
   [ 'Nase', 'nose' ],
   [ 'Nico', 'baby_tone1' ],
-  [ 'Papa', 'man_tone1' ],
+  [ 'Oma', 'older_woman_tone1' ],
+  [ 'Opa', 'older_man_tone1' ],
   [ 'Pirat', 'skull_crossbones' ],
   [ 'Popo', 'peach' ],
   [ 'Pizza', 'pizza' ],
@@ -42,6 +45,8 @@ const wordList = [
   [ 'Tim',  'space_invader' ],
   [ 'Timo', 'boy_tone1' ],
   [ 'Uhu', 'owl' ],
+  [ 'Vulkan', 'volcano' ],
+  [ 'Ziel', 'checkered_flag' ],
 ];
 
 

@@ -34,11 +34,16 @@ class Football extends FetchModule {
   render() {
     return (
       <div className='football'>
-        <p className='padded bold-text'>{this.state.team1}</p>
-        <p style={{ backgroundImage: 'url(' + this.state.icon1 + ')' }}>&nbsp;</p>
+        <p>
+          <span className='padded bold-text'>{this.state.team1}</span>
+          <span className='teamLogo' style={{ backgroundImage: 'url(' + this.state.icon1 + ')' }}></span>
+        </p>
         <p className='padded small-text'>vs.</p>
-        <p style={{ backgroundImage: 'url(' + this.state.icon2 + ')' }}>&nbsp;</p>
-        <p className='padded bold-text'>{this.state.team2}</p>
+        <p>
+          <span className='padded bold-text'>{this.state.team2}</span>
+          <span className='teamLogo' style={{ backgroundImage: 'url(' + this.state.icon2 + ')' }}></span>
+        </p>
+        <br/>
         <p className='small-text'>{this.state.date}</p>
       </div>
     );

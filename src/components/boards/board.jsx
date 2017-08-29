@@ -14,8 +14,10 @@ var Games = require('../modules/games/games.jsx');
 var News = require('../modules/news/news.jsx');
 var Football = require('../modules/football/football.jsx');
 var Words = require('../modules/words/words.jsx');
+var Recipe = require('../modules/recipe/recipe.jsx');
 var misc  = require('../common/misc.jsx');
 var BoardManager = require('./boardManager.jsx');
+
 
 
 class Board extends React.Component {
