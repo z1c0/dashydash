@@ -29804,7 +29804,7 @@ class Football extends FetchModule {
       icon1 : '',
       team2 : '',
       icon2 : '',
-      date : ''
+      info : ''
     }
     this.interval = moment.duration(1, 'hour');
     this.callback = function(matches) {
@@ -29812,12 +29812,19 @@ class Football extends FetchModule {
         return m.Team1.ShortName === 'BVB' || m.Team2.ShortName === 'BVB';
       });
       if (m) {
+        let info = '';
+        if (m.MatchIsFinished) {
+          info = m.MatchResults[1].PointsTeam1 + ' : ' + m.MatchResults[1].PointsTeam2;
+        }
+        else {
+          info = moment(m.MatchDateTime).format("dd, DD.MM.YYYY, HH:mm")
+        }
         this.setState({
           team1 : m.Team1.ShortName || m.Team1.TeamName,
           icon1 : m.Team1.TeamIconUrl,
           team2 : m.Team2.ShortName || m.Team2.TeamName,
           icon2 : m.Team2.TeamIconUrl,
-          date : moment(m.MatchDateTime).format("dd, DD.MM.YYYY, HH:mm")
+          info : info
         });
       }
     }
@@ -29836,7 +29843,7 @@ class Football extends FetchModule {
           React.createElement("span", {className: "teamLogo", style: { backgroundImage: 'url(' + this.state.icon2 + ')'}})
         ), 
         React.createElement("br", null), 
-        React.createElement("p", {className: "small-text"}, this.state.date)
+        React.createElement("p", null, this.state.info)
       )
     );
   }
@@ -30847,11 +30854,9 @@ class Recipe extends FetchModule {
       backgroundImage: 'url(' + this.state.image + ')'
     }
     return (
-      React.createElement("div", {className: "blog", style: style}, 
-        React.createElement("div", {className: "blog-overlay"}, 
-          React.createElement("p", {className: "padded bold-text"}, this.state.title), 
-          React.createElement("p", {className: "padded small-text"}, this.state.text)
-        )
+      React.createElement("div", {className: "recipe", style: style}, 
+        React.createElement("p", {className: "padded bold-text"}, this.state.title), 
+        React.createElement("p", {className: "padded small-text"}, this.state.text)
       )
     );
   }

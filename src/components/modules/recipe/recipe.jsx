@@ -27,11 +27,9 @@ class Recipe extends FetchModule {
       backgroundImage: 'url(' + this.state.image + ')'
     }
     return (
-      <div className='blog' style={style}>
-        <div className='blog-overlay'>
-          <p className="padded bold-text">{this.state.title}</p>
-          <p className="padded small-text">{this.state.text}</p>
-        </div>
+      <div className='recipe' style={style}>
+        <p className="padded bold-text">{this.state.title}</p>
+        <p className="padded small-text">{this.state.text}</p>
       </div>
     );
   }
