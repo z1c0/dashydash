@@ -93,3 +93,6 @@ So, displaying a component (e.g. pictures) full screen can be done like this:
 ```
 
 Switching between these layouts ("boards") happens automatically after a certain amount of time or - of course - manually.
+
+## More?
+This [blog post](https://wolfgang-ziegler.com/blog/family-dashboard) gives so more detail on how the dashboard (both hardware and software) were made.
