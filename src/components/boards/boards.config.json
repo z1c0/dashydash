@@ -61,7 +61,8 @@
         "bus" :          [ 1, 5, 2, 2 ],
         "appointments" : [ 3, 5, 2, 2 ],
         "pics.1" :       [ 5, 2, 5, 5 ],
-        "weather" :      [ 5, 1, 5, 1 ]
+        "football" :     [ 5, 1, 1, 1 ],
+        "weather" :      [ 6, 1, 4, 1 ]
       }
     },
     "photoic" : {

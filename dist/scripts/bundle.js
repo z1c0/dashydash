@@ -29280,7 +29280,8 @@ module.exports={
         "bus" :          [ 1, 5, 2, 2 ],
         "appointments" : [ 3, 5, 2, 2 ],
         "pics.1" :       [ 5, 2, 5, 5 ],
-        "weather" :      [ 5, 1, 5, 1 ]
+        "football" :     [ 5, 1, 1, 1 ],
+        "weather" :      [ 6, 1, 4, 1 ]
       }
     },
     "photoic" : {
@@ -29506,9 +29507,15 @@ function shuffle(o) {
   return o;
 }
 
+function randomIntFromInterval(min, max)
+{
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
 module.exports = {
   setIntervalAndExecute : setIntervalAndExecute,
   shuffle : shuffle,
+  randomIntFromInterval : randomIntFromInterval,
 
   Cursor : function(array) {
     var idx = 0;
@@ -30796,7 +30803,7 @@ module.exports = News;
 var React = require('react');
 var moment = require('moment');
 var FetchModule = require('../../common/fetchModule.jsx');
-
+var misc = require('../../common/misc.jsx');
 
 class Pics extends FetchModule {
   constructor(props) {
@@ -30804,7 +30811,7 @@ class Pics extends FetchModule {
     this.state = {
       image : ''
     }
-    this.interval = moment.duration(20, 'seconds');
+    this.interval = moment.duration(misc.randomIntFromInterval(20, 30), 'seconds');
     this.callback = function(body) {
       this.setState({
         image : body.url
@@ -30824,7 +30831,7 @@ class Pics extends FetchModule {
 
 module.exports = Pics;
 
-},{"../../common/fetchModule.jsx":233,"moment":35,"react":222}],252:[function(require,module,exports){
+},{"../../common/fetchModule.jsx":233,"../../common/misc.jsx":235,"moment":35,"react":222}],252:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var moment = require('moment');
