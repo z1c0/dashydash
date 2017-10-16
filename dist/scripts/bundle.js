@@ -29295,11 +29295,11 @@ module.exports={
     },
     "less" : {
       "modules" : {     
-        "news" :         [ 1, 1, 4, 4 ],
+        "pics" :         [ 1, 1, 4, 4 ],
         "appointments" : [ 1, 5, 2, 2 ],
         "bus" :          [ 3, 5, 2, 2 ],
-        "pics" :    [ 5, 1, 5, 5 ],
-        "weather" : [ 5, 6, 5, 1 ]
+        "pics.1" :       [ 5, 1, 5, 5 ],
+        "weather" :      [ 5, 6, 5, 1 ]
       }
     }
   },
@@ -31569,6 +31569,7 @@ const wordList = [
   [ 'Ei', 'egg' ],
   [ 'Eis', 'icecream' ],
   [ 'Fisch', 'fish' ],
+  [ 'Hallo', 'person_raising_hand' ],
   [ 'Hase', 'rabbit' ],
   [ 'Herz', 'heart' ],
   [ 'Hose', 'jeans' ],

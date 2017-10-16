@@ -22,9 +22,10 @@ String.prototype.padRight = function(maxLen, padChar) {
 
 
 
-const FROM = 'Gallneukirchen, Marktplatz';
-//const TO = 'Linz, Hinsenkampplatz';
-const TO = 'Linz, Hessenplatz';
+//const FROM = 'Gallneukirchen, Marktplatz';
+//const TO = 'Linz, Hessenplatz';
+const FROM = 'Gallneukirchen';
+const TO = "Linz Altenberger Straße (B125)";
 const URL = 'http://fahrplan.oebb.at/bin/query.exe/dn?start=1&S=' +
   encodeURIComponent(FROM) +'&Z=' + encodeURIComponent(TO) +
   '&timesel=depart&time='

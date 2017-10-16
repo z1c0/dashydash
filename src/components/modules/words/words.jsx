@@ -14,6 +14,7 @@ const wordList = [
   [ 'Ei', 'egg' ],
   [ 'Eis', 'icecream' ],
   [ 'Fisch', 'fish' ],
+  [ 'Hallo', 'person_raising_hand' ],
   [ 'Hase', 'rabbit' ],
   [ 'Herz', 'heart' ],
   [ 'Hose', 'jeans' ],
