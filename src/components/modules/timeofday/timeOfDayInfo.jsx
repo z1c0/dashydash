@@ -284,6 +284,26 @@ var candidates = [
       'champagne_glass', 'man_in_tuxedo', 'ring', 'bride_with_veil'
     ]
   },
+  {
+    id : 'ProgrammersDay',
+    match : is(function(dt) {
+      var timestmp = new Date().setFullYear(dt.getFullYear(), 0, 1);
+      var yearFirstDay = Math.floor(timestmp / 86400000);
+      var today = Math.ceil(dt.getTime() / 86400000);
+      var dayOfYear = today - yearFirstDay;
+      return dayOfYear === 256;
+    }),
+    probability : Probability.veryLikely,
+    text : [
+      'Day of the Programmer!',
+      "Programmer's Day!",
+      'Tag des Programmierers!'
+    ],
+    tag : [ 'programming', 'programmer', 'nerd', 'geek' ],
+    emoji : [ 
+      'nerd', 'computer', 'keyboard', 'desktop', 'floppy_disk', 'mouse_three_button'
+    ]
+  },
 
   birthday('Steffi', 23, 2),
   birthday('Timo', 16, 10),
