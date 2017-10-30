@@ -31236,7 +31236,7 @@ var candidates = [
       var dayOfYear = today - yearFirstDay;
       return dayOfYear === 256;
     }),
-    probability : Probability.certain, //possible,
+    probability : Probability.veryLikely,
     text : [
       'Day of the Programmer!',
       "Programmer's Day!",
