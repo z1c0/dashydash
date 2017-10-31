@@ -222,7 +222,7 @@ var candidates = [
     text: [
       'Halloween!',
       'Happy Halloween!',
-      ['Heute is Weltspartag', [ 'moneybag', 'dollar', 'euro', 'money_with_wings', 'money_mouth']],
+      ['Heute ist Weltspartag', [ 'moneybag', 'dollar', 'euro', 'money_with_wings', 'money_mouth']],
       ['Alles Gute zum Namenstag!', [ 'blush', 'kissing_closed_eyes', 'wink' ]],
       ['Trick or Treat!', [ 'chocolate_bar', 'lollipop', 'candy' ]],
       ['Süßes oder Saures!', [ 'chocolate_bar', 'lollipop', 'candy' ]]
