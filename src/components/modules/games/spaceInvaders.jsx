@@ -6,12 +6,12 @@ const FLIP = 0;
 const FLAP = 1;
 const EXPLODING = 2;
 
-const INVADER = '#03FE04';
+const INVADER_CELL = 100;
 
 class Invader {
   constructor(game) {
     this.game = game;
-    this.sprites = [
+    this.invader1Sprites = [
       [
         [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0 ],
         [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 ],
@@ -32,16 +32,60 @@ class Invader {
         [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0 ],
         [0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0 ],
       ],
+    ];
+    this.invader2Sprites = [
       [
-        [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 ],
-        [1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1 ],
-        [0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0 ],
-        [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0 ],
-        [1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1 ],
-        [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0 ],
-        [0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0 ],
-        [1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1 ],
+        [0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0 ],
+        [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 ],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
+        [1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1 ],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
+        [0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0 ],
+        [0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0 ],
+        [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 ],
       ],
+      [
+        [0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0 ],
+        [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 ],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
+        [1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1 ],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
+        [0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0 ],
+        [0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0 ],
+        [0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0 ],
+      ]
+    ];
+    this.invader3Sprites = [
+      [
+        [0, 0, 0, 1, 1, 0, 0, 0 ],
+        [0, 0, 1, 1, 1, 1, 0, 0 ],
+        [0, 1, 1, 1, 1, 1, 1, 0 ],
+        [1, 1, 0, 1, 1, 0, 1, 1 ],
+        [1, 1, 1, 1, 1, 1, 1, 1 ],
+        [0, 0, 1, 0, 0, 1, 0, 0 ],
+        [0, 1, 0, 1, 1, 0, 1, 0 ],
+        [1, 0, 1, 0, 0, 1, 0, 1 ],
+      ],
+      [
+        [0, 0, 0, 1, 1, 0, 0, 0 ],
+        [0, 0, 1, 1, 1, 1, 0, 0 ],
+        [0, 1, 1, 1, 1, 1, 1, 0 ],
+        [1, 1, 0, 1, 1, 0, 1, 1 ],
+        [1, 1, 1, 1, 1, 1, 1, 1 ],
+        [0, 1, 0, 1, 1, 0, 1, 0 ],
+        [1, 0, 0, 0, 0, 0, 0, 1 ],
+        [0, 1, 0, 0, 0, 0, 1, 0 ],
+      ]
+    ];
+    this.explosionSprite = [
+      [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 ],
+      [1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1 ],
+      [0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0 ],
+      [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0 ],
+      [1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1 ],
+      [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0 ],
+      [0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0 ],
+      [1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1 ],
     ];
     this.reset();
   }
@@ -52,11 +96,26 @@ class Invader {
     this.dx = 1;
     this.delay = 0;
     this.state = FLIP;
+    this.invaderIndex = this.game.getRandom(0, 3);
+  }
+
+  getInvaderSprites() {
+    switch (this.invaderIndex) {
+      case 0:
+        return this.invader1Sprites;
+
+      case 1:
+        return this.invader2Sprites;
+        
+      case 2:
+        return this.invader3Sprites;
+    }
   }
 
   move() {
+    let s = this.getInvaderSprites();
     this.x += this.dx;
-    if (this.x === 0 || this.x === this.game.dim() - this.sprites[0][0].length) {
+    if (this.x === 0 || this.x === this.game.dim() - s[0][0].length) {
       this.dx *= -1;
       this.y += 2;
     }
@@ -84,8 +143,14 @@ class Invader {
   }
 
   draw() {
-    const col = this.state === EXPLODING ? 'yellow' : INVADER;
-    let s = this.sprites[this.state];
+    let col = INVADER_CELL;
+    let s = this.explosionSprite;
+    if (this.state === EXPLODING) {
+      col = 'yellow';
+    }
+    else {
+      s = this.getInvaderSprites()[this.state];
+    }
     for (var y = 0; y < s.length; y++) {
       for (var x = 0; x < s[y].length; x++) {
         if (s[y][x] === 1) {
@@ -153,7 +218,7 @@ class Projectile {
       if (this.y === 0) {
         this.fired = false;
       }
-      else if (this.game.world[this.x][this.y] === INVADER) {
+      else if (this.game.world[this.x][this.y] === INVADER_CELL) {
         this.fired = false;
         this.game.invader.state = EXPLODING;
         this.game.invader.explodingDelay = 3;
@@ -192,12 +257,32 @@ class SpaceInvaders extends BaseGame {
   }
   
   isOver() {
-    return this.rounds === 10;
+    return this.rounds === 15;
   }
   
   reset() {
     this.rounds = 0
   }  
+
+  mapColor(x, y) {
+    let col = this.world[x][y];
+    if (col === INVADER_CELL) {
+      switch (this.invader.invaderIndex) {
+        case 0:
+          col = '#03FE04';
+          break;
+
+        case 1:
+          col = 'orange';
+          break;
+
+        case 2:
+          col = 'turquoise';
+          break;
+        }
+    }
+    return col;
+  }
   
   simulate() {
     this.clear('darkblue');

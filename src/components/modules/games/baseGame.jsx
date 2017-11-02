@@ -26,7 +26,7 @@ class BaseGame {
     for (var y = 0; y < DIM; y++){ 
       for (var x = 0; x < DIM; x++) {
         ctx.fillStyle = this.mapColor(x, y);
-        ctx.strokeStyle = "#AAA";
+        //ctx.strokeStyle = "#AAA";
         ctx.strokeRect(x * step, y * step, step, step);
         ctx.fillRect(x * step, y * step, step, step);
       }    

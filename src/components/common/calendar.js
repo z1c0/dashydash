@@ -14,10 +14,12 @@ function isFullDayEvent(event) {
   var startDate = new Date(start);
   var end = event.end || 0;
 
-  if (end - start === 24 * 60 * 60 * 1000 && startDate.getHours() === 0 && startDate.getMinutes() === 0) {
+  //if (end - start === 24 * 60 * 60 * 1000 && startDate.getHours() === 0 && startDate.getMinutes() === 0) {
+  if (startDate.getHours() === 0 && startDate.getMinutes() === 0) {
     // Is 24 hours, and starts on the middle of the night.
     return true;
   }
+  
   return false;
 };
 
@@ -30,7 +32,7 @@ function formatDuration(startDate) {
   else if (days === 1) {
     return 'morgen'; 
   }
-  return moment.duration(moment(startDate).diff(today)).humanize(true);
+  return moment.duration(days, 'days').humanize(true);
 }
 
 function formatTime(a) {

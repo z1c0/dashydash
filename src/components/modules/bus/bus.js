@@ -51,7 +51,9 @@ function transform(body) {
       let arrives = row.find('.planed').eq(0).html().split('<br>')[1].trim().substr(0, 5);
       let duration = row.find('.duration').text().trim();
       let line = row.find('.product').first().attr('title').trim();
-      let time = line.substr(4).padRight(4) + ' ' + departs + ' (' + duration + ')';
+      let prefix = from.indexOf('Marktplatz') > 0 ? 'M' : 'A';
+      let time = prefix + ':' + line.substr(4).padRight(4) + ' ' + departs + ' ' + duration;
+      console.log(from);
       times.push(time);
     }
   }
