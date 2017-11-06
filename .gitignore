@@ -62,3 +62,4 @@ dist/images/*
 store/*.json
 secrets.py
 *.pyc
+util/*.log.*
