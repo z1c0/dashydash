@@ -29259,11 +29259,11 @@ module.exports={
     },
     "picpics" : {
       "modules" : {     
-        "pics" :         [ 1, 1, 4, 3 ],
-        "timeofday" :    [ 1, 4, 5, 1 ],
+        "timeofday" :    [ 1, 1, 5, 1 ],
+        "pics" :         [ 1, 2, 5, 3 ],
         "bus" :          [ 1, 5, 3, 2 ],
         "appointments" : [ 4, 5, 2, 2 ],
-        "pics.1" :       [ 5, 1, 5, 3 ],
+        "pics.1" :       [ 6, 1, 5, 3 ],
         "pics.2" :       [ 6, 4, 5, 3 ]
       }
     },
@@ -31673,6 +31673,8 @@ var React = require('react');
 var moment = require('moment');
 var misc = require('../../common/misc.jsx');
 
+//https://emoji.codes/
+
 const wordList = [
   [ 'Auto', 'red_car' ],
   [ 'Affe', 'monkey_face' ],
@@ -31684,7 +31686,7 @@ const wordList = [
   [ 'Ei', 'egg' ],
   [ 'Eis', 'icecream' ],
   [ 'Fisch', 'fish' ],
-  [ 'Hallo', 'person_raising_hand' ],
+  [ 'Hallo', 'wave' ],
   [ 'Hase', 'rabbit' ],
   [ 'Herz', 'heart' ],
   [ 'Hose', 'jeans' ],
@@ -31717,7 +31719,7 @@ const wordList = [
   [ 'Timo', 'boy_tone1' ],
   [ 'Uhu', 'owl' ],
   [ 'Vulkan', 'volcano' ],
-  [ 'Ziel', 'checkered_flag' ],
+  [ 'Ziel', 'checkered_flag' ]
 ];
 
 

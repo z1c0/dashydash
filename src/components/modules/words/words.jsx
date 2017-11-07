@@ -3,6 +3,8 @@ var React = require('react');
 var moment = require('moment');
 var misc = require('../../common/misc.jsx');
 
+//https://emoji.codes/
+
 const wordList = [
   [ 'Auto', 'red_car' ],
   [ 'Affe', 'monkey_face' ],
@@ -14,7 +16,7 @@ const wordList = [
   [ 'Ei', 'egg' ],
   [ 'Eis', 'icecream' ],
   [ 'Fisch', 'fish' ],
-  [ 'Hallo', 'person_raising_hand' ],
+  [ 'Hallo', 'wave' ],
   [ 'Hase', 'rabbit' ],
   [ 'Herz', 'heart' ],
   [ 'Hose', 'jeans' ],
@@ -47,7 +49,7 @@ const wordList = [
   [ 'Timo', 'boy_tone1' ],
   [ 'Uhu', 'owl' ],
   [ 'Vulkan', 'volcano' ],
-  [ 'Ziel', 'checkered_flag' ],
+  [ 'Ziel', 'checkered_flag' ]
 ];
 
 

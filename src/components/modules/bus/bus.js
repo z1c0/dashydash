@@ -53,7 +53,7 @@ function transform(body) {
       let line = row.find('.product').first().attr('title').trim();
       let prefix = from.indexOf('Marktplatz') > 0 ? 'M' : 'A';
       let time = prefix + ':' + line.substr(4).padRight(4) + ' ' + departs + ' ' + duration;
-      console.log(from);
+      //console.log(from);
       times.push(time);
     }
   }
