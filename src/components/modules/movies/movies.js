@@ -1,19 +1,29 @@
 'use strict';
 var cron = require('cron');
-var soap = require('soap');
 var moment = require('moment');
 var request = require('request');
 var db = require('../../common/db');
+const secrets = require('../../../secrets.json');
 
-const iftttkey = require('../../../secrets.json').iftttkey;
-const megaplexWsdlUrl = "http://linz.megaplex.at/webservice/serviceext.asmx?wsdl";
-const megaplexContentUrl = "http://www.megaplex.at/content/";
+String.prototype.replaceAll = function(search, replacement) {
+  var target = this;
+  return target.replace(new RegExp(search, 'g'), replacement);
+};
 
-
-function getIftttUrl(eventName, iftttkey) {
-  let url = 'https://maker.ifttt.com/trigger/' + eventName + '/with/key/' + iftttkey;
+function getIftttUrl(eventName, key) {
+  let url = 'https://maker.ifttt.com/trigger/' + eventName + '/with/key/' + key;
   //console.log(url);
   return url;
+}
+
+function sendNotification(text) {
+  request({
+    url: getIftttUrl('new_movie', secrets.iftttkey),
+    method: 'POST',
+    json: {
+      value1: text
+    }
+  });
 }
 
 function updateDb(movies) {
@@ -29,13 +39,7 @@ function updateDb(movies) {
         };
         table.insert(doc);
 
-        request({
-          url: getIftttUrl('new_movie', iftttkey),
-          method: 'POST',
-          json: {
-            value1: m.title,
-          }
-        });
+        sendNotification(m.title);
       }
     });
   }, this);
@@ -55,39 +59,37 @@ function canonicalizeTitle(title) {
 
 function checkMovies() {
   let movies = [];
-  var url = megaplexWsdlUrl;
-  soap.createClient(url, function (err, client) {
-    if (!err) {
-      var from = moment().format('YYYY-MM-DD');
-      var to = moment().add(2, 'w').format('YYYY-MM-DD');
-      var args = { FromDate: from, ToDate: to, SQLFilter: '', SQLSort: '' };
-      client.GetSchedule(args, function (err, result) {
-        try {
-          var movieMap = [];
-          var details = result.GetScheduleResult.ScheduleDetails;
-          details.forEach(function (d) {
-            var title = canonicalizeTitle(d.FilmTitle);
-            if (title) {
-              //console.log(d);
-              movieMap[title] = {
-                title: title,
-                image: megaplexContentUrl + d.FilmImg.split('/')[1],
-                start: moment(d.FilmStart).format('MMMM Do'),
-                url: 'http://www.megaplex.at/film/' + title.replace(' ', '-')
-              };
-            }
-          }, this);
-          // Create array from map.
-          for (var key in movieMap) {
-            movies.push(movieMap[key]);
-          }
-          //console.log(movies);
-          updateDb(movies);
-        }
-        catch (e) {
-          console.log(e);
+
+  request.get({
+    url : secrets.movieUrl,
+    json : true
+  },
+  function(err, httpResponse, body) {
+    if (err) {
+      sendNotification(err);
+    }
+    else if (body.Error) {
+      sendNotification(body.Error);
+    }
+    else {
+      var movieMap = [];
+      body.Filme.forEach(function (f) {
+        var title = canonicalizeTitle(f.Anzeigetitel);
+        if (title) {
+          movieMap[title] = {
+            title: title,
+            image: f.Bild,
+            start: moment(f.Filmstart).format('MMMM Do'),
+            url: 'http://www.megaplex.at/film/' + title.replaceAll(' ', '-')
+          };
         }
       });
+      // create array from map.
+      for (var key in movieMap) {
+        movies.push(movieMap[key]);
+      }
+      //console.log(movies);
+      updateDb(movies);
     }
   });
 }
