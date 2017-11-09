@@ -46,15 +46,21 @@ class Board extends React.Component {
   }
 
   componentDidMount() {
-    let id = this.props.match.params.boardId;
+    let id = this.props.match.params.boardId;    
+    let duration = null;
+    let board = null;
     if (id === 'auto') {
-      misc.setIntervalAndExecute(() => {
-        this.switchToBoard(this.boardManager.next());
-      }, moment.duration(15, 'minutes'));
+      duration = moment.duration(15, 'minutes');
+      board = this.boardManager.next();
     }
     else {
-      this.switchToBoard(this.boardManager.getBoard(id));
+      duration = moment.duration(1, 'hour');
+      board = this.boardManager.getBoard(id);
     }
+
+    misc.setIntervalAndExecute(() => {
+      this.switchToBoard(board);
+    }, duration);
   }
   
   render() {

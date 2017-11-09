@@ -45,7 +45,10 @@ $color-calendar-main: #EF4D3C;
   }
   ul {
     position : relative;
-    li {
+    li {      
+      border-radius: 3px;
+      border-left: 3px solid transparent;
+      padding-left: 3px;
       list-style-type: none;
       margin-bottom: 0.5em;
       strong {
@@ -55,6 +58,9 @@ $color-calendar-main: #EF4D3C;
         font-style: normal;
         font-size: $small-font;
       }
+    }
+    .isToday {
+      border-color: rgb(224, 224, 56);
     }
     &:after {
       content : "";

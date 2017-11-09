@@ -34,8 +34,10 @@ class Calendar extends FetchModule {
   render() {
     var createModule = function (a, i) {
       let time = this.showTime ? (<span>, {a.time}</span>) : null;
+      let isToday = !moment().isBefore(a.startDate, 'day');
+      let className = isToday ? 'isToday' : '';
       return (
-        <li key={i}>
+        <li key={i} className={className}>
           <strong>{a.title}</strong><br />
           <i><span>{a.due}</span>{time}</i>
         </li>);

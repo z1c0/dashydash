@@ -61,6 +61,7 @@ function getAppointments(text) {
     };
     a.due = formatDuration(startDate);
     a.time = formatTime(a);
+    
     appointments.push(a);
   }
 
