@@ -33,10 +33,7 @@ class BoardManager {
   }
 
   getBoards() {
-    let boards = [ {
-      name : 'auto',
-      icon : 'fa-automobile'
-    }];
+    let boards = [];
     boards = boards.concat(this.manualBoards);
     boards = boards.concat(this.boards.array());
     //console.log(boards);

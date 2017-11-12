@@ -29114,21 +29114,10 @@ class Board extends React.Component {
   }
 
   componentDidMount() {
-    let id = this.props.match.params.boardId;    
-    let duration = null;
-    let board = null;
-    if (id === 'auto') {
-      duration = moment.duration(15, 'minutes');
-      board = this.boardManager.next();
-    }
-    else {
-      duration = moment.duration(1, 'hour');
-      board = this.boardManager.getBoard(id);
-    }
-
+    let duration = moment.duration(20, 'minutes');
     misc.setIntervalAndExecute(() => {
-      this.switchToBoard(board);
-    }, duration);
+        this.switchToBoard(this.boardManager.next());
+      }, duration);
   }
   
   render() {
@@ -29199,10 +29188,7 @@ class BoardManager {
   }
 
   getBoards() {
-    let boards = [ {
-      name : 'auto',
-      icon : 'fa-automobile'
-    }];
+    let boards = [];
     boards = boards.concat(this.manualBoards);
     boards = boards.concat(this.boards.array());
     //console.log(boards);
