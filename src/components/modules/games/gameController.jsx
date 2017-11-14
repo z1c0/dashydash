@@ -5,6 +5,7 @@ var Snake = require('./snake.jsx');
 var TicTacToe = require('./tictactoe.jsx');
 var Pong = require('./pong.jsx');
 var SpaceInvaders = require('./spaceInvaders.jsx');
+var PacMan = require('./pacman.jsx');
 
 
 class GameController {
@@ -12,10 +13,11 @@ class GameController {
     this.canvas = canvas;
     this.DIM = 32;
     this.games = new Cursor(misc.shuffle([
-      new Snake(),
+      new PacMan(),
       new TicTacToe(),
       new Pong(),
-      new SpaceInvaders()
+      new Snake(),
+      new SpaceInvaders(),
     ]));
   }
 

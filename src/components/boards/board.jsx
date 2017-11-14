@@ -46,10 +46,12 @@ class Board extends React.Component {
   }
 
   componentDidMount() {
+    let id = this.props.match.params.boardId;
     let duration = moment.duration(20, 'minutes');
-    misc.setIntervalAndExecute(() => {
+    setInterval(() => {
         this.switchToBoard(this.boardManager.next());
       }, duration);
+    this.switchToBoard(this.boardManager.getBoard(id));
   }
   
   render() {

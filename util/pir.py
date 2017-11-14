@@ -18,7 +18,7 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 
-COOL_DOWN = (60 * 5)
+COOL_DOWN = (60 * 10)
 
 lastPrint = lastAction = dt.datetime.now()
 state = -1
