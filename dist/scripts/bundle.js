@@ -31243,6 +31243,18 @@ var candidates = [
     emoji : [ 'santa_tone1', 'christmas_tree', 'snowman2', 'gift']
   },
   {
+    id : 'Giraffe',
+    match : is(specialDay(21, 6, false)),
+    probability : Probability.possible,
+    text : [
+      'Weltgiraffentag!',
+      'Tag der Giraffe!',
+      'World Giraffe Day!'
+    ],
+    tag : [ 'giraffe' ],
+    emoji : [ 'dromedary_camel' ] // ;-)
+  },
+  {
     id : 'StarWars',
     match : is(specialDay(4, 5, false)), 
     probability : Probability.possible,

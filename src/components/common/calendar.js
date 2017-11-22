@@ -25,14 +25,17 @@ function isFullDayEvent(event) {
 
 function formatDuration(startDate) {
   const today = moment().startOf("day").toDate();
-  const days = moment(startDate).diff(today, 'days');
+  const days = startDate.diff(today, 'days');
   if (days === 0) {
     return 'heute'; 
   }
   else if (days === 1) {
     return 'morgen'; 
   }
-  return moment.duration(days, 'days').humanize(true);
+  else if (days === 2) {
+    return 'übermorgen';
+  }
+  return 'am ' + startDate.format('Do MMMM');
 }
 
 function formatTime(a) {
