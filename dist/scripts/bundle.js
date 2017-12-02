@@ -31431,12 +31431,12 @@ var candidates = [
   {
     id : 'XmasCalendar',
     match : is(function(dt) {
-      return dt.getMonth() === 11 && dt.getDate() <= 24 && dt.getHours() >= 6 && dt.getHours() < 9;
+      return dt.getMonth() === 11 && dt.getDate() <= 24 && dt.getHours() >= 6 && dt.getHours() < 11;
     }),
     probability : Probability.likely,
     text : [ 
       'Was war im Adventkalender?',
-      'Hast du die ' + new Date().getDate() + '. Tür aufgemacht?'
+      'Hast du das Türchen aufgemacht?'
     ],
     tag : [ 'christmas+calendar' ],
     emoji : [ 

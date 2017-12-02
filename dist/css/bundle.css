@@ -39,9 +39,9 @@
 
 .small-text{font-size:.8vw}.big-text{font-size:1.7vw}.bold-text{font-weight:bold}.padded{padding:.5em}@keyframes move-image{0%{background-size:100%}15%{background-size:100%}50%{background-size:150%}85%{background-size:150%}100%{background-size:100%}}.family{height:100%;width:100%;animation:move-image 30s linear infinite;position:relative}.family i{position:absolute;bottom:5px;right:5px;font-size:3vw}.family-overlay{height:100%;background-color:rgba(0,0,0,0.5)}
 
-.small-text{font-size:.8vw}.big-text{font-size:1.7vw}.bold-text{font-weight:bold}.padded{padding:.5em}.football{margin-top:.5em;height:100%;width:100%;font-size:.8vw}.football p{text-align:center}.football .teamLogo{vertical-align:middle;display:inline-block;background-repeat:no-repeat;background-position-x:center;width:20px;height:20px}
-
 #games{height:100%;width:100%}
+
+.small-text{font-size:.8vw}.big-text{font-size:1.7vw}.bold-text{font-weight:bold}.padded{padding:.5em}.football{margin-top:.5em;height:100%;width:100%;font-size:.8vw}.football p{text-align:center}.football .teamLogo{vertical-align:middle;display:inline-block;background-repeat:no-repeat;background-position-x:center;width:20px;height:20px}
 
 #news{height:100%;background-size:cover;transition:background 1s ease-in}.articleText{padding:1em;background-color:rgba(0,0,0,0.5)}
 
