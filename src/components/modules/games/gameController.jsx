@@ -1,11 +1,12 @@
 'use strict';
-var misc = require('../../common/misc.jsx');
-var Cursor = misc.Cursor;
-var Snake = require('./snake.jsx');
-var TicTacToe = require('./tictactoe.jsx');
-var Pong = require('./pong.jsx');
-var SpaceInvaders = require('./spaceInvaders.jsx');
-var PacMan = require('./pacman.jsx');
+const misc = require('../../common/misc.jsx');
+const Cursor = misc.Cursor;
+const Snake = require('./snake.jsx');
+const TicTacToe = require('./tictactoe.jsx');
+const Pong = require('./pong.jsx');
+const SpaceInvaders = require('./spaceInvaders.jsx');
+const PacMan = require('./pacman.jsx');
+const Arkanoid = require('./arkanoid.jsx');
 
 
 class GameController {
@@ -18,6 +19,7 @@ class GameController {
       new Pong(),
       new Snake(),
       new SpaceInvaders(),
+      new Arkanoid()
     ]));
   }
 

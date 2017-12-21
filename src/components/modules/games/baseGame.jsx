@@ -2,8 +2,6 @@
 
 const DIM = 32;
  
-
-
 class BaseGame {
   init() {
     this.world = this.createMatrix(DIM);
@@ -66,7 +64,7 @@ class BaseGame {
     else {
       return this.getRandomPos();
     }
-  }   
+  }
 }
 
 module.exports = BaseGame;
