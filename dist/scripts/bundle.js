@@ -29306,25 +29306,13 @@ module.exports={
         "weather" :      [ 5, 6, 5, 1 ]
       }
     }
-  }
-  /*
-  "manual" : {
+    /*,
     "play" : {
       "modules" : {
         "games" : [ 1, 1, 8, 6 ]
       }
-    },
-    "abc" : {
-      "modules" : {
-        "abc" : [ 1, 1, 8, 6 ]
-      }
-    } ,
-    "photos" : {
-      "modules" : {     
-        "pics" : [ 1, 1, 8, 6 ]
-      }
-    }  
-  }*/
+    }*/
+  }
 }
 },{}],231:[function(require,module,exports){
 'use strict';
@@ -29888,7 +29876,7 @@ class Ball {
     if (this.x === 0 || this.x === this.max) {
       this.dx *= -1;
     }
-    if (this.y === 0 || this.y === this.max) {
+    if (this.y === 0 || (this.dy === 1 && this.y === this.max - 1)) {
       this.dy *= -1;
     }
     this.game.world[this.x][this.y] = CLEAR_COLOR;
@@ -30064,7 +30052,15 @@ class BaseGame {
     return this.world[x][y];
   }
 
-  getRandom (min, max) {
+  makeColor(rgb) {
+    return "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] +")";
+  }
+
+  setColor(x, y, rgb) {
+    this.world[x][y] = makeColor(rgb);
+  }
+
+  getRandom(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
   }
   

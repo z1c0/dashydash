@@ -21,7 +21,7 @@ class Ball {
     if (this.x === 0 || this.x === this.max) {
       this.dx *= -1;
     }
-    if (this.y === 0 || this.y === this.max) {
+    if (this.y === 0 || (this.dy === 1 && this.y === this.max - 1)) {
       this.dy *= -1;
     }
     this.game.world[this.x][this.y] = CLEAR_COLOR;

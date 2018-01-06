@@ -47,7 +47,15 @@ class BaseGame {
     return this.world[x][y];
   }
 
-  getRandom (min, max) {
+  makeColor(rgb) {
+    return "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] +")";
+  }
+
+  setColor(x, y, rgb) {
+    this.world[x][y] = makeColor(rgb);
+  }
+
+  getRandom(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
   }
   

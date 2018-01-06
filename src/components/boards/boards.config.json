@@ -93,23 +93,11 @@
         "weather" :      [ 5, 6, 5, 1 ]
       }
     }
-  }
-  /*
-  "manual" : {
+    /*,
     "play" : {
       "modules" : {
         "games" : [ 1, 1, 8, 6 ]
       }
-    },
-    "abc" : {
-      "modules" : {
-        "abc" : [ 1, 1, 8, 6 ]
-      }
-    } ,
-    "photos" : {
-      "modules" : {     
-        "pics" : [ 1, 1, 8, 6 ]
-      }
-    }  
-  }*/
+    }*/
+  }
 }
