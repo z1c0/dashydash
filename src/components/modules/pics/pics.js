@@ -90,11 +90,18 @@ function updatePhotos(config, token) {
     }
     else {
       //console.log(body);
-      var photos = body.feed.entry.map(
-        entry => parseEntry(entry)
-      );
-      for (var i in photos) {
-        fetchPhoto(config, photos[i]);
+      try {
+        if (body.feed) {
+          var photos = body.feed.entry.map(
+            entry => parseEntry(entry)
+          );
+          for (var i in photos) {
+            fetchPhoto(config, photos[i]);
+          }
+        }
+      }
+      catch (e) {
+        console.log(e)
       }
     }
   });
