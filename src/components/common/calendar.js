@@ -35,7 +35,7 @@ function formatDuration(startDate) {
   else if (days === 2) {
     return 'übermorgen';
   }
-  return 'am ' + startDate.format('Do MMMM');
+  return startDate.format('dd. Do MMMM');
 }
 
 function formatTime(a) {
