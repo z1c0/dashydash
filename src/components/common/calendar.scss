@@ -69,8 +69,7 @@ $color-calendar-main: #EF4D3C;
       bottom : 0;
       left : 0;
       pointer-events : none;
-      background-image : linear-gradient(to bottom, 
-                        rgba(0, 0, 0, 0) 50%, $part-background-color 100%);
+      background-image : linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, $part-background-color 100%);
       width : 100%;
       height : 2em;
     }
