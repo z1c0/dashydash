@@ -30136,7 +30136,7 @@ class GameController {
     let last = performance.now();
     let self = this;
     function step(now) {
-      if (now - last >= 10 /* game.getInterval() */) {
+      if (now - last >= game.getInterval()) {
         last = now;
         game.simulate();
         game.render();
