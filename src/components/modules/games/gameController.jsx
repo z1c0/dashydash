@@ -24,8 +24,8 @@ class GameController {
   }
 
   clear()  {
-    if (this.timer) {
-      clearInterval(this.timer);
+    if (this.animationFrameId) {
+      window.cancelAnimationFrame(this.animationFrameId);
     }
   }
 
@@ -34,16 +34,23 @@ class GameController {
 
     let game = this.games.next();
 
-    game.init();
+    game.create(this.canvas);
+
+    let last = performance.now();
     let self = this;
-    this.timer = misc.setIntervalAndExecute(function() {
-      game.simulate();
-      game.render(self.canvas);
-      
-      if (game.isOver()) {
-        self.nextGame();
+    function step(now) {
+      if (now - last >= game.getInterval()) {
+        last = now;
+        game.simulate();
+        game.render();
+        
+        if (game.isOver()) {
+          self.nextGame();
+        }
       }
-    }, game.getInterval());
+      window.requestAnimationFrame(step);
+    }
+    this.animationFrameId = window.requestAnimationFrame(step);
   }
 }
 

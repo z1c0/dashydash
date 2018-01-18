@@ -30015,6 +30015,14 @@ module.exports = Arkanoid;
 const DIM = 32;
  
 class BaseGame {
+  create(canvas) {
+    this.canvas = canvas;
+    this.step = Math.floor(canvas.width / DIM);
+    this.ctx = canvas.getContext('2d');
+
+    this.init();
+  }
+
   init() {
     this.world = this.createMatrix(DIM);
   }
@@ -30030,15 +30038,12 @@ class BaseGame {
     return arr;
   }      
 
-  render(canvas) {
-    const step = canvas.width / DIM;
-    const ctx = canvas.getContext('2d');
+  render() {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     for (var y = 0; y < DIM; y++){ 
       for (var x = 0; x < DIM; x++) {
-        ctx.fillStyle = this.mapColor(x, y);
-        //ctx.strokeStyle = "#AAA";
-        ctx.strokeRect(x * step, y * step, step, step);
-        ctx.fillRect(x * step, y * step, step, step);
+        this.ctx.fillStyle = this.mapColor(x, y);
+        this.ctx.fillRect(x * this.step + 1, y * this.step + 1, this.step - 2, this.step - 2);
       }    
     }
   }
@@ -30116,8 +30121,8 @@ class GameController {
   }
 
   clear()  {
-    if (this.timer) {
-      clearInterval(this.timer);
+    if (this.animationFrameId) {
+      window.cancelAnimationFrame(this.animationFrameId);
     }
   }
 
@@ -30126,16 +30131,23 @@ class GameController {
 
     let game = this.games.next();
 
-    game.init();
+    game.create(this.canvas);
+
+    let last = performance.now();
     let self = this;
-    this.timer = misc.setIntervalAndExecute(function() {
-      game.simulate();
-      game.render(self.canvas);
-      
-      if (game.isOver()) {
-        self.nextGame();
+    function step(now) {
+      if (now - last >= game.getInterval()) {
+        last = now;
+        game.simulate();
+        game.render();
+        
+        if (game.isOver()) {
+          self.nextGame();
+        }
       }
-    }, game.getInterval());
+      window.requestAnimationFrame(step);
+    }
+    this.animationFrameId = window.requestAnimationFrame(step);
   }
 }
 

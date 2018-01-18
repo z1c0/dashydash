@@ -62,4 +62,4 @@ while True:
     state = 0
     toggleScreen(False)
 
-  time.sleep(0.5)
+  time.sleep(2.0)
