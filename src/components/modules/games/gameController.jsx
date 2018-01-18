@@ -39,16 +39,17 @@ class GameController {
     let last = performance.now();
     let self = this;
     function step(now) {
-      if (now - last >= game.getInterval()) {
+      if (now - last >= 10 /* game.getInterval() */) {
         last = now;
         game.simulate();
         game.render();
-        
-        if (game.isOver()) {
-          self.nextGame();
-        }
       }
-      window.requestAnimationFrame(step);
+      if (game.isOver()) {
+        self.nextGame();
+      }
+      else {
+        window.requestAnimationFrame(step);
+      }
     }
     this.animationFrameId = window.requestAnimationFrame(step);
   }
