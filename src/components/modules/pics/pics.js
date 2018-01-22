@@ -53,7 +53,8 @@ function refreshToken(config, callback) {
       console.log(err);
     }
     else {
-      callback(config, body.access_token);
+      callback(config, body.access_token, 1);
+      callback(config, body.access_token, 1000);
     }
   });
 }
@@ -65,39 +66,44 @@ function parseEntry(entry)  {
       url : entry.content.src
     }
   }
+  else {
+    console.log(entry);
+  }
   return null;
 }
 
-function updatePhotos(config, token) {
-  //console.log(token);
+function updatePhotos(config, token, startIndex) {
+  //console.log('updatePhotos - token: ' + token + ' (' + startIndex + ')');
   request({
-    url: "https://picasaweb.google.com/data/feed/api/user/default/albumid/" + config.albumId,
+    url: 'https://picasaweb.google.com/data/feed/api/user/default/albumid/' + config.albumId,
     headers: {
       'GData-Version': '2'
     },
     qs: {
       access_token : token,
-      kind : "photo",
-      alt : "json",
-      //"max-results" : 3,
-      fields : "entry(title, content)"
+      kind : 'photo',
+      alt : 'json',
+      'start-index' : startIndex,
+      fields : 'gphoto:numphotos, entry(title, content)'
     },
     method: 'GET',
     json : true
-  }, function(error, response, body){
+  }, function(error, response, body) {
     if (error) {
       console.log(error);
     }
     else {
-      //console.log(body);
       try {
-        if (body.feed) {
-          var photos = body.feed.entry.map(
-            entry => parseEntry(entry)
-          );
-          for (var i in photos) {
-            fetchPhoto(config, photos[i]);
-          }
+          //console.log(body);
+          if (body.feed && body.feed.entry) {
+            //console.log(body.feed.entry.length);
+            var photos = body.feed.entry.map(
+              entry => parseEntry(entry)
+            );
+            let p = Promise.resolve();
+            photos.forEach(photo => {
+              p = p.then(fetchPhoto(photo));
+            });
         }
       }
       catch (e) {
@@ -107,20 +113,25 @@ function updatePhotos(config, token) {
   });
 }
 
-function fetchPhoto(config, photo) {
-  try {
-    if (photo) {
-      var fileName = path.join(IMAGE_DIR, photo.name);
-      if (!fs.existsSync(fileName)) {
-        console.log("GET: " + photo.url);
-        request
-          .get(photo.url + "?imgmax=1280")
-          .pipe(fs.createWriteStream(fileName));
-      }
-    }
+function fetchPhoto(photo) {
+  const fileName = path.join(IMAGE_DIR, photo.name);
+  if (fs.existsSync(fileName)) {
+    return Promise.resolve();
   }
-  catch (e) {
-    console.log(e)
+  else {
+    return new Promise(function(resolve, reject) {
+      console.log("GET: " + photo.url);
+      request(
+        { url : photo.url + '?imgmax=1280' },
+        function(err, res, body) {
+          if (err) {
+            return reject(err);
+          }
+          res.pipe(fs.createWriteStream(fileName));
+          //console.log("done: " + photo.name + " - " + body.length);
+          return resolve(body);
+        });
+    });
   }
 }
 
