@@ -100,11 +100,16 @@ function updatePhotos(config, token, startIndex) {
             var photos = body.feed.entry.map(
               entry => parseEntry(entry)
             );
-            let p = Promise.resolve();
-            photos.forEach(photo => {
-              p = p.then(fetchPhoto(photo));
-            });
-        }
+            let count = 0;
+            for (var i in photos) {
+              if (fetchPhoto(config, photos[i])) {
+                count++;
+              }
+              if (count == 25) {
+                break;
+              }
+            }
+          }
       }
       catch (e) {
         console.log(e)
@@ -113,26 +118,23 @@ function updatePhotos(config, token, startIndex) {
   });
 }
 
-function fetchPhoto(photo) {
-  const fileName = path.join(IMAGE_DIR, photo.name);
-  if (fs.existsSync(fileName)) {
-    return Promise.resolve();
+function fetchPhoto(config, photo) {
+  try {
+    if (photo) {
+      var fileName = path.join(IMAGE_DIR, photo.name);
+      if (!fs.existsSync(fileName)) {
+        console.log("GET: " + photo.url);
+        request
+          .get(photo.url + "?imgmax=1280")
+          .pipe(fs.createWriteStream(fileName));
+        return true;
+      }
+    }
   }
-  else {
-    return new Promise(function(resolve, reject) {
-      console.log("GET: " + photo.url);
-      request(
-        { url : photo.url + '?imgmax=1280' },
-        function(err, res, body) {
-          if (err) {
-            return reject(err);
-          }
-          res.pipe(fs.createWriteStream(fileName));
-          //console.log("done: " + photo.name + " - " + body.length);
-          return resolve(body);
-        });
-    });
+  catch (e) {
+    console.log(e)
   }
+  return false;
 }
 
 function getRandomPhoto(callback) {
