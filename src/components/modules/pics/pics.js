@@ -36,7 +36,7 @@ function retrieveTokens() {
   );
 }
 
-function refreshToken(config, callback) {
+function refreshToken(config) {
   request.post({
     url : postUrl,
     form : { 
@@ -53,26 +53,42 @@ function refreshToken(config, callback) {
       console.log(err);
     }
     else {
-      callback(config, body.access_token, 1);
-      callback(config, body.access_token, 1000);
+      getPhotoList(config, body.access_token, 1);
+      getPhotoList(config, body.access_token, 1000);
     }
   });
 }
 
-function parseEntry(entry)  {
-  if (entry.content.type === 'image/jpeg') {
-    return {
-      name : entry.title["$t"],
-      url : entry.content.src
+function createDownloadJob(photo) {
+  return new Promise(
+    function(resolve, reject) {
+      console.log("GET: " + photo.url);
+      request
+        .get(photo.url + "?imgmax=1280")
+        .pipe(fs.createWriteStream(photo.fileName)
+          .on('finish', resolve)
+        );
     }
-  }
-  else {
-    console.log(entry);
-  }
-  return null;
+  ).catch((e) => {
+    console.log(e);
+  });
 }
 
-function updatePhotos(config, token, startIndex) {
+const CHUNK_SIZE = 5;
+function createJobs(jobs) {
+  //console.log(jobs);
+  let job = jobs.splice(0, CHUNK_SIZE);
+  if (job.length) {
+    const p = Promise.all(job.map(createDownloadJob));
+    p.then(() => {
+      createJobs(jobs);
+    });
+    
+  }
+}
+
+function getPhotoList(config, token, startIndex) {
+  let photos = [];
   //console.log('updatePhotos - token: ' + token + ' (' + startIndex + ')');
   request({
     url: 'https://picasaweb.google.com/data/feed/api/user/default/albumid/' + config.albumId,
@@ -97,18 +113,19 @@ function updatePhotos(config, token, startIndex) {
           //console.log(body);
           if (body.feed && body.feed.entry) {
             //console.log(body.feed.entry.length);
-            var photos = body.feed.entry.map(
-              entry => parseEntry(entry)
-            );
-            let count = 0;
-            for (var i in photos) {
-              if (fetchPhoto(config, photos[i])) {
-                count++;
+            let photos = body.feed.entry.reduce((filtered, entry) => {
+              if (entry.content.type === 'image/jpeg') {
+                const fileName = path.join(IMAGE_DIR, entry.title["$t"]);
+                if (!fs.existsSync(fileName)) {
+                  filtered.push({
+                    fileName : fileName,
+                    url : entry.content.src
+                  });
+                }
               }
-              if (count == 25) {
-                break;
-              }
-            }
+              return filtered;
+            }, []);
+            createJobs(photos);
           }
       }
       catch (e) {
@@ -116,25 +133,6 @@ function updatePhotos(config, token, startIndex) {
       }
     }
   });
-}
-
-function fetchPhoto(config, photo) {
-  try {
-    if (photo) {
-      var fileName = path.join(IMAGE_DIR, photo.name);
-      if (!fs.existsSync(fileName)) {
-        console.log("GET: " + photo.url);
-        request
-          .get(photo.url + "?imgmax=1280")
-          .pipe(fs.createWriteStream(fileName));
-        return true;
-      }
-    }
-  }
-  catch (e) {
-    console.log(e)
-  }
-  return false;
 }
 
 function getRandomPhoto(callback) {
@@ -146,7 +144,7 @@ function getRandomPhoto(callback) {
 
 
 function checkForNewPhotos(config) {
-  refreshToken(config, updatePhotos);
+  refreshToken(config);
 }
 
 //retrieveTokens();
