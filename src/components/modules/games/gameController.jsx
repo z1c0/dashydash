@@ -39,12 +39,19 @@ class GameController {
     let last = performance.now();
     let self = this;
     function step(now) {
-      if (now - last >= game.getInterval()) {
+      let switchToNextGame = false;
+      if ((now - last) >= (game.isOver() ? 90 : game.getInterval())) {
         last = now;
-        game.simulate();
-        game.render();
+
+        if (!game.isOver()) {
+          game.simulate();
+          game.render();
+        }
+        else {
+          switchToNextGame = game.renderGameOver();
+        }
       }
-      if (game.isOver()) {
+      if (switchToNextGame) {
         self.nextGame();
       }
       else {

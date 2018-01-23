@@ -29203,10 +29203,11 @@ module.exports={
     /*,
     "TEST" : {
       "modules" : {
-        "todo" :   [ 1, 1, 1, 2 ],
-        "pics" :   [ 2, 2, 3, 3 ],
-        "timeofday" : [2, 1, 5, 1],
-        "blog" :      [4, 2, 2, 2]
+        "games" :   [ 1, 1, 4, 4 ]
+        //"todo" :   [ 1, 1, 1, 2 ],
+        //"pics" :   [ 2, 2, 3, 3 ],
+        //"timeofday" : [2, 1, 5, 1],
+        //"blog" :      [4, 2, 2, 2]
       }
     }*/
   }
@@ -29914,6 +29915,7 @@ class BaseGame {
   }
 
   init() {
+    this.gameOverAnimationY = 0;
     this.world = this.createMatrix(DIM);
   }
 
@@ -29926,14 +29928,29 @@ class BaseGame {
       }    
     }
     return arr;
-  }      
+  }
+
+  setPixel(x, y, color) {
+    this.ctx.fillStyle = color;
+    this.ctx.fillRect(x * this.step + 1, y * this.step + 1, this.step - 2, this.step - 2);
+  }
+
+  renderGameOver() {
+    for (var y = 0; y < this.gameOverAnimationY; y++){ 
+      for (var x = 0; x < DIM; x++) {
+        if (this.getRandomBool()) {
+          this.setPixel(x, y, this.getRandomColor());
+        }
+      }
+    }
+    return this.gameOverAnimationY++ == DIM;
+  }
 
   render() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     for (var y = 0; y < DIM; y++){ 
       for (var x = 0; x < DIM; x++) {
-        this.ctx.fillStyle = this.mapColor(x, y);
-        this.ctx.fillRect(x * this.step + 1, y * this.step + 1, this.step - 2, this.step - 2);
+        this.setPixel(x, y, this.mapColor(x, y));
       }    
     }
   }
@@ -29954,6 +29971,20 @@ class BaseGame {
     return this.world[x][y];
   }
 
+  getRandomColor() {
+    switch (this.getRandom(0, 9)) {
+      case 0: return 'red';
+      case 1: return 'yellow';
+      case 2: return 'chartreuse ';
+      case 3: return 'dodgerblue';
+      case 4: return 'fuchsia';
+      case 5: return 'cyan';
+      case 6: return 'deeppink';
+      case 7: return 'orange';
+      case 8: return 'purple';
+    }
+  }
+
   makeColor(rgb) {
     return "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] +")";
   }
@@ -29963,6 +29994,7 @@ class BaseGame {
   }
 
   getRandom(min, max) {
+    // max is exclusive.
     return Math.floor(Math.random() * (max - min)) + min;
   }
   
@@ -30026,12 +30058,19 @@ class GameController {
     let last = performance.now();
     let self = this;
     function step(now) {
-      if (now - last >= game.getInterval()) {
+      let switchToNextGame = false;
+      if ((now - last) >= (game.isOver() ? 90 : game.getInterval())) {
         last = now;
-        game.simulate();
-        game.render();
+
+        if (!game.isOver()) {
+          game.simulate();
+          game.render();
+        }
+        else {
+          switchToNextGame = game.renderGameOver();
+        }
       }
-      if (game.isOver()) {
+      if (switchToNextGame) {
         self.nextGame();
       }
       else {
@@ -30696,7 +30735,7 @@ class Projectile {
       if (this.y === 0) {
         this.fired = false;
       }
-      else if (this.game.world[this.x][this.y] === INVADER_CELL) {
+      else if (this.game.world[this.x][this.y - 2] === INVADER_CELL) {
         this.fired = false;
         this.game.invader.state = EXPLODING;
         this.game.invader.explodingDelay = 3;
@@ -30723,7 +30762,7 @@ class SpaceInvaders extends BaseGame {
   }
 
   getInterval() {
-    return 100;
+    return 90;
   }
    
   init() {
