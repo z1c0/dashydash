@@ -6,7 +6,11 @@
   .e1a-clipboard {
     margin-right: 5px;
   }
+  h2  {
+    font-size: $big-font;  
+  }
   ul {
+    font-size: $small-font;
     li {
       margin-top: 4px;
       white-space: nowrap;

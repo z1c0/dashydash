@@ -36,7 +36,7 @@ function retrieveTokens() {
   );
 }
 
-function refreshToken(config, callback) {
+function refreshToken(config) {
   request.post({
     url : postUrl,
     form : { 
@@ -53,75 +53,86 @@ function refreshToken(config, callback) {
       console.log(err);
     }
     else {
-      callback(config, body.access_token);
+      getPhotoList(config, body.access_token, 1);
+      getPhotoList(config, body.access_token, 1000);
     }
   });
 }
 
-function parseEntry(entry)  {
-  if (entry.content.type === 'image/jpeg') {
-    return {
-      name : entry.title["$t"],
-      url : entry.content.src
+function createDownloadJob(photo) {
+  return new Promise(
+    function(resolve, reject) {
+      console.log("GET: " + photo.url);
+      request
+        .get(photo.url + "?imgmax=1280")
+        .pipe(fs.createWriteStream(photo.fileName)
+          .on('finish', resolve)
+        );
     }
-  }
-  return null;
+  ).catch((e) => {
+    console.log(e);
+  });
 }
 
-function updatePhotos(config, token) {
-  //console.log(token);
+const CHUNK_SIZE = 5;
+function createJobs(jobs) {
+  //console.log(jobs);
+  let job = jobs.splice(0, CHUNK_SIZE);
+  if (job.length) {
+    const p = Promise.all(job.map(createDownloadJob));
+    p.then(() => {
+      createJobs(jobs);
+    });
+    
+  }
+}
+
+function getPhotoList(config, token, startIndex) {
+  let photos = [];
+  //console.log('updatePhotos - token: ' + token + ' (' + startIndex + ')');
   request({
-    url: "https://picasaweb.google.com/data/feed/api/user/default/albumid/" + config.albumId,
+    url: 'https://picasaweb.google.com/data/feed/api/user/default/albumid/' + config.albumId,
     headers: {
       'GData-Version': '2'
     },
     qs: {
       access_token : token,
-      kind : "photo",
-      alt : "json",
-      //"max-results" : 3,
-      fields : "entry(title, content)"
+      kind : 'photo',
+      alt : 'json',
+      'start-index' : startIndex,
+      fields : 'gphoto:numphotos, entry(title, content)'
     },
     method: 'GET',
     json : true
-  }, function(error, response, body){
+  }, function(error, response, body) {
     if (error) {
       console.log(error);
     }
     else {
-      //console.log(body);
       try {
-        if (body.feed) {
-          var photos = body.feed.entry.map(
-            entry => parseEntry(entry)
-          );
-          for (var i in photos) {
-            fetchPhoto(config, photos[i]);
+          //console.log(body);
+          if (body.feed && body.feed.entry) {
+            //console.log(body.feed.entry.length);
+            let photos = body.feed.entry.reduce((filtered, entry) => {
+              if (entry.content.type === 'image/jpeg') {
+                const fileName = path.join(IMAGE_DIR, entry.title["$t"]);
+                if (!fs.existsSync(fileName)) {
+                  filtered.push({
+                    fileName : fileName,
+                    url : entry.content.src
+                  });
+                }
+              }
+              return filtered;
+            }, []);
+            createJobs(photos);
           }
-        }
       }
       catch (e) {
         console.log(e)
       }
     }
   });
-}
-
-function fetchPhoto(config, photo) {
-  try {
-    if (photo) {
-      var fileName = path.join(IMAGE_DIR, photo.name);
-      if (!fs.existsSync(fileName)) {
-        console.log("GET: " + photo.url);
-        request
-          .get(photo.url + "?imgmax=1280")
-          .pipe(fs.createWriteStream(fileName));
-      }
-    }
-  }
-  catch (e) {
-    console.log(e)
-  }
 }
 
 function getRandomPhoto(callback) {
@@ -133,7 +144,7 @@ function getRandomPhoto(callback) {
 
 
 function checkForNewPhotos(config) {
-  refreshToken(config, updatePhotos);
+  refreshToken(config);
 }
 
 //retrieveTokens();

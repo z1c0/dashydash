@@ -218,7 +218,7 @@ class Projectile {
       if (this.y === 0) {
         this.fired = false;
       }
-      else if (this.game.world[this.x][this.y] === INVADER_CELL) {
+      else if (this.game.world[this.x][this.y - 2] === INVADER_CELL) {
         this.fired = false;
         this.game.invader.state = EXPLODING;
         this.game.invader.explodingDelay = 3;
@@ -245,7 +245,7 @@ class SpaceInvaders extends BaseGame {
   }
 
   getInterval() {
-    return 100;
+    return 90;
   }
    
   init() {
