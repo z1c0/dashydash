@@ -30670,8 +30670,9 @@ class Invader {
     }
     for (var y = 0; y < s.length; y++) {
       for (var x = 0; x < s[y].length; x++) {
-        if (s[y][x] === 1) {
-          this.game.world[this.x + x][this.y + y] = col;
+        const drawX = this.x + x;
+        if (drawX < this.game.dim() && s[y][x] === 1) {
+          this.game.world[drawX][this.y + y] = col;
         }
       }
     }
