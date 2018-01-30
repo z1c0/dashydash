@@ -29137,11 +29137,12 @@ module.exports={
     "abc-ic" : {
       "modules" : {     
         "abc" :          [ 1, 1, 5, 5 ],
-        "timeofday" :    [ 1, 6, 5, 1 ],
+        "timeofday" :    [ 1, 6, 4, 1 ],
         "birthdays" :    [ 6, 1, 2, 3 ],
         "todo" :         [ 8, 1, 1, 3 ],
         "bus" :          [ 6, 4, 3, 2 ],
-        "weather" :      [ 6, 6, 3, 1 ]
+        "weather" :      [ 6, 6, 3, 1 ],
+        "pics" :         [ 5, 6, 1, 1 ]
       }
     },
     "picpics" : {
@@ -29159,7 +29160,8 @@ module.exports={
         "words" :          [ 1, 1, 5, 6 ],
         "todo" :           [ 6, 1, 1, 3 ],
         "appointments" :   [ 7, 1, 2, 3 ],
-        "bus" :            [ 6, 4, 3, 2 ],
+        "bus"  :           [ 6, 4, 2, 2 ],
+        "pics" :           [ 8, 4, 1, 2 ],
         "weather" :        [ 6, 6, 3, 1 ]
       }
     },
@@ -29199,17 +29201,16 @@ module.exports={
         "pics.1" :       [ 5, 1, 5, 5 ],
         "weather" :      [ 5, 6, 5, 1 ]
       }
-    }
-    /*,
+    },
     "TEST" : {
       "modules" : {
-        "games" :   [ 1, 1, 4, 4 ]
-        //"todo" :   [ 1, 1, 1, 2 ],
+        //"games" :   [ 1, 1, 4, 4 ]
+        "todo" :   [ 1, 1, 1, 2 ]
         //"pics" :   [ 2, 2, 3, 3 ],
         //"timeofday" : [2, 1, 5, 1],
         //"blog" :      [4, 2, 2, 2]
       }
-    }*/
+    }
   }
 }
 },{}],234:[function(require,module,exports){
@@ -31841,16 +31842,28 @@ class ToDo extends FetchModule {
     this.interval = moment.duration(30, 'minutes');
     this.callback = function(body) {
       this.setState({ 
-        items : body
+        items : body.sort((a, b) => {
+          const large = moment().add(10, 'years');
+          const dta = a.due ? moment(a.due.date) : large;
+          const dtb = b.due ? moment(b.due.date) : large;
+          return dta.diff(dtb);
+        })
       });
     }
   }
 
   render() {
     var createItem = function(item, i) {
+      let dotClass = 'e1a-white_circle';
+      if (item.due) {
+        const days = Math.round(moment.duration(moment(item.due.date).diff(moment())).asDays());
+        if (days <= 3) {
+          dotClass = 'e1a-red_circle';
+        }
+      }
       return (
         React.createElement("li", {key: i, className: "todoItem"}, 
-          React.createElement("span", null, React.createElement("i", {className: "e1a-white_circle"}), item.content)
+          React.createElement("span", null, React.createElement("i", {className: dotClass}), item.content)
         ));
     };
     
