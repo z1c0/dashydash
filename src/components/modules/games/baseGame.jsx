@@ -6,6 +6,8 @@ class BaseGame {
   create(canvas) {
     this.canvas = canvas;
     this.step = Math.floor(canvas.width / DIM);
+    this.offsetX = Math.round((canvas.width - this.step * DIM) / 2);
+    this.offsetY = Math.round((canvas.height - this.step * DIM) / 2);
     this.ctx = canvas.getContext('2d');
 
     this.init();
@@ -29,7 +31,7 @@ class BaseGame {
 
   setPixel(x, y, color) {
     this.ctx.fillStyle = color;
-    this.ctx.fillRect(x * this.step + 1, y * this.step + 1, this.step - 2, this.step - 2);
+    this.ctx.fillRect(x * this.step + 1 + this.offsetX, y * this.step + 1 + this.offsetY, this.step - 2, this.step - 2);
   }
 
   renderGameOver() {

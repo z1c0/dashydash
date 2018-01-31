@@ -23,6 +23,12 @@ class Games extends React.Component {
     canvas.style.width = w;
     canvas.style.height = w;
     canvas.style.marginLeft = ((div.clientWidth - w) / 2) + 'px'; 
+    //canvas.style.marginTop = ((div.clientHeight - w) / 2) + 'px'; 
+    console.log(div.clientWidth);
+    console.log(div.clientHeight);
+    console.log(canvas.style.marginLeft);
+    console.log(canvas.style.marginLeft);
+    console.log(w);
     canvas.width = w;
     canvas.height = w;
 

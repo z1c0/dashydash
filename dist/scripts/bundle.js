@@ -29201,7 +29201,8 @@ module.exports={
         "pics.1" :       [ 5, 1, 5, 5 ],
         "weather" :      [ 5, 6, 5, 1 ]
       }
-    },
+    }
+    /*,
     "TEST" : {
       "modules" : {
         //"games" :   [ 1, 1, 4, 4 ]
@@ -29210,7 +29211,7 @@ module.exports={
         //"timeofday" : [2, 1, 5, 1],
         //"blog" :      [4, 2, 2, 2]
       }
-    }
+    }*/
   }
 }
 },{}],234:[function(require,module,exports){
@@ -29656,23 +29657,26 @@ class Family extends FetchModule {
     var style = {
       backgroundImage: 'url(' + this.state.image + ')'
     }
-    var emoji = 'white_check_mark';
-    if (!this.state.done) {
-      let day = new Date().getDate();
-      if (day <= 5) {
-        emoji = 'slight_smile';
-      }
-      else if (day <= 10) {
-        emoji = 'neutral_face';
-      }
-      else if (day <= 15) {
-        emoji = 'thinking';
-      }
-      else if (day <= 25) {
-        emoji = 'angry';
-      }
-      else {
-        emoji = 'rage';
+    let emoji = '';
+    if (this.state.title)  {
+      emoji = 'white_check_mark';
+      if (!this.state.done) {
+        let day = new Date().getDate();
+        if (day <= 5) {
+          emoji = 'slight_smile';
+        }
+        else if (day <= 10) {
+          emoji = 'neutral_face';
+        }
+        else if (day <= 15) {
+          emoji = 'thinking';
+        }
+        else if (day <= 25) {
+          emoji = 'angry';
+        }
+        else {
+          emoji = 'rage';
+        }
       }
     }
     return (
@@ -29910,6 +29914,8 @@ class BaseGame {
   create(canvas) {
     this.canvas = canvas;
     this.step = Math.floor(canvas.width / DIM);
+    this.offsetX = Math.round((canvas.width - this.step * DIM) / 2);
+    this.offsetY = Math.round((canvas.height - this.step * DIM) / 2);
     this.ctx = canvas.getContext('2d');
 
     this.init();
@@ -29933,7 +29939,7 @@ class BaseGame {
 
   setPixel(x, y, color) {
     this.ctx.fillStyle = color;
-    this.ctx.fillRect(x * this.step + 1, y * this.step + 1, this.step - 2, this.step - 2);
+    this.ctx.fillRect(x * this.step + 1 + this.offsetX, y * this.step + 1 + this.offsetY, this.step - 2, this.step - 2);
   }
 
   renderGameOver() {
@@ -30110,6 +30116,12 @@ class Games extends React.Component {
     canvas.style.width = w;
     canvas.style.height = w;
     canvas.style.marginLeft = ((div.clientWidth - w) / 2) + 'px'; 
+    //canvas.style.marginTop = ((div.clientHeight - w) / 2) + 'px'; 
+    console.log(div.clientWidth);
+    console.log(div.clientHeight);
+    console.log(canvas.style.marginLeft);
+    console.log(canvas.style.marginLeft);
+    console.log(w);
     canvas.width = w;
     canvas.height = w;
 

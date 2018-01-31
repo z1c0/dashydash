@@ -29,23 +29,26 @@ class Family extends FetchModule {
     var style = {
       backgroundImage: 'url(' + this.state.image + ')'
     }
-    var emoji = 'white_check_mark';
-    if (!this.state.done) {
-      let day = new Date().getDate();
-      if (day <= 5) {
-        emoji = 'slight_smile';
-      }
-      else if (day <= 10) {
-        emoji = 'neutral_face';
-      }
-      else if (day <= 15) {
-        emoji = 'thinking';
-      }
-      else if (day <= 25) {
-        emoji = 'angry';
-      }
-      else {
-        emoji = 'rage';
+    let emoji = '';
+    if (this.state.title)  {
+      emoji = 'white_check_mark';
+      if (!this.state.done) {
+        let day = new Date().getDate();
+        if (day <= 5) {
+          emoji = 'slight_smile';
+        }
+        else if (day <= 10) {
+          emoji = 'neutral_face';
+        }
+        else if (day <= 15) {
+          emoji = 'thinking';
+        }
+        else if (day <= 25) {
+          emoji = 'angry';
+        }
+        else {
+          emoji = 'rage';
+        }
       }
     }
     return (
