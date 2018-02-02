@@ -327,7 +327,7 @@ var candidates = [
     match : is(timeOfWeekDay(Day.Mon, 6, 7)).
       or(timeOfWeekDay(Day.Wed, 6, 7)).
       or(timeOfWeekDay(Day.Fr, 6, 7)),
-    probability : Probability.impossible,
+    probability : Probability.veryLikely,
     text : [ 
       "Go get 'em!",
       ['Good morning champion!', [ 'star', 'trophy', 'first_place', 'first_place' ]],

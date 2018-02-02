@@ -29909,6 +29909,35 @@ module.exports = Arkanoid;
 'use strict';
 
 const DIM = 32;
+
+
+class GameOverAnimation {
+  constructor(game) {
+    this.game = game;
+    this.steps = -5;
+    this.useColors = this.game.getRandomBool();
+  }
+  
+  render() {
+    if (this.steps >= 0) {
+      for (let y = 0; y < Math.min(DIM, this.steps); y++){ 
+        for (let x = 0; x < DIM; x++) {
+          if (this.useColors) {
+            if (this.game.getRandomBool()) {
+              this.game.setPixel(x, y, this.game.getRandomColor());
+            }
+          }
+          else {
+            this.game.setPixel(x, y, this.game.getRandomGray());
+          }
+        }
+      }
+    }
+    return this.steps++ == (DIM + 15);
+  }
+}
+
+
  
 class BaseGame {
   create(canvas) {
@@ -29922,7 +29951,7 @@ class BaseGame {
   }
 
   init() {
-    this.gameOverAnimationY = 0;
+    this.gameOverAnimation = new GameOverAnimation(this);
     this.world = this.createMatrix(DIM);
   }
 
@@ -29943,14 +29972,7 @@ class BaseGame {
   }
 
   renderGameOver() {
-    for (var y = 0; y < this.gameOverAnimationY; y++){ 
-      for (var x = 0; x < DIM; x++) {
-        if (this.getRandomBool()) {
-          this.setPixel(x, y, this.getRandomColor());
-        }
-      }
-    }
-    return this.gameOverAnimationY++ == DIM;
+    return this.gameOverAnimation.render();
   }
 
   render() {
@@ -29978,8 +30000,13 @@ class BaseGame {
     return this.world[x][y];
   }
 
+  getRandomGray() {
+    const g = this.getRandom(0, 256);
+    return this.makeColor([g, g, g]);
+  }
+
   getRandomColor() {
-    switch (this.getRandom(0, 9)) {
+    switch (this.getRandom(0, 14)) {
       case 0: return 'red';
       case 1: return 'yellow';
       case 2: return 'chartreuse ';
@@ -29989,6 +30016,8 @@ class BaseGame {
       case 6: return 'deeppink';
       case 7: return 'orange';
       case 8: return 'purple';
+      
+      default: return 'black';
     }
   }
 
@@ -30066,7 +30095,7 @@ class GameController {
     let self = this;
     function step(now) {
       let switchToNextGame = false;
-      if ((now - last) >= (game.isOver() ? 90 : game.getInterval())) {
+      if ((now - last) >= (game.isOver() ? 100 : game.getInterval())) {
         last = now;
 
         if (!game.isOver()) {
@@ -30116,12 +30145,7 @@ class Games extends React.Component {
     canvas.style.width = w;
     canvas.style.height = w;
     canvas.style.marginLeft = ((div.clientWidth - w) / 2) + 'px'; 
-    //canvas.style.marginTop = ((div.clientHeight - w) / 2) + 'px'; 
-    console.log(div.clientWidth);
-    console.log(div.clientHeight);
-    console.log(canvas.style.marginLeft);
-    console.log(canvas.style.marginLeft);
-    console.log(w);
+    canvas.style.marginTop = ((div.clientHeight - w) / 2) + 'px'; 
     canvas.width = w;
     canvas.height = w;
 
@@ -31502,7 +31526,7 @@ var candidates = [
     match : is(timeOfWeekDay(Day.Mon, 6, 7)).
       or(timeOfWeekDay(Day.Wed, 6, 7)).
       or(timeOfWeekDay(Day.Fr, 6, 7)),
-    probability : Probability.impossible,
+    probability : Probability.veryLikely,
     text : [ 
       "Go get 'em!",
       ['Good morning champion!', [ 'star', 'trophy', 'first_place', 'first_place' ]],

@@ -40,7 +40,7 @@ class GameController {
     let self = this;
     function step(now) {
       let switchToNextGame = false;
-      if ((now - last) >= (game.isOver() ? 90 : game.getInterval())) {
+      if ((now - last) >= (game.isOver() ? 100 : game.getInterval())) {
         last = now;
 
         if (!game.isOver()) {
