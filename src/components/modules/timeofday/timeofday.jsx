@@ -1,9 +1,9 @@
 "use strict";
 var React = require('react');
 var moment = require('moment');
-var info = require('./timeOfDayInfo.jsx');
+var FetchModule = require('../../common/fetchModule.jsx');
 
-class TimeOfDay extends React.Component {
+class TimeOfDay extends FetchModule {
   constructor(props){
     super(props);
     this.state = {
@@ -11,6 +11,14 @@ class TimeOfDay extends React.Component {
       emoji : '',
       image : ''
     }
+    this.interval = moment.duration(1, 'minute');
+    this.callback = function(body) {
+      this.setState({
+        image : body.imageUrl,
+        text : body.text,
+        emoji : body.emoji,
+      });
+    }    
   }
 
   render() {
@@ -28,6 +36,7 @@ class TimeOfDay extends React.Component {
     );
   }
 
+  /*
   update() {
     let self = this;
     const data = info.get();
@@ -58,6 +67,7 @@ class TimeOfDay extends React.Component {
   componentWillUnmount() {
     clearInterval(this.intervalId);
   }
+  */
 }
 
 module.exports = TimeOfDay;
