@@ -1,4 +1,17 @@
 {
+  "small" : {
+    "main" : {
+      "modules" : {
+        "pics" :         [ 1, 1, 8, 6 ]
+      }
+    },
+    "dates" : {
+      "modules" : {
+        "appointments" :        [ 1, 1, 4, 6 ],
+        "birthdays"   :         [ 5, 1, 4, 6 ]
+      }
+    }
+  },
   "default" : {
     "main" : {
       "modules" : {     

@@ -25,11 +25,14 @@ module.exports = {
     this.array = function() {
       return array;
     }
-    this.previous = function () {
+    this.previous = function() {
       idx = (!!idx ? idx : array.length) - 1;
       return array[idx];
     };
-    this.current = function () {
+    this.current = function(i) {
+      if (i) {
+        idx = i;
+      }
       return array[idx];
     };
     this.next = function() {

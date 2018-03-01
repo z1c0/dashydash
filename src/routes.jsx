@@ -12,8 +12,8 @@ var NotFound = require('./404.jsx');
 
 var routes = (
   <Switch>
-    <Route exact path="/" component={Home} />
-    <Route path="/board/:boardId" component={Board} />
+    <Route exact path="/:boardSetId?" component={Home} />
+    <Route path="/:boardSetId/:boardId" component={Board} />
     <Route component={NotFound} />
   </Switch>
 )

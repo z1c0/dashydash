@@ -13,15 +13,16 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
+    this.boardSet = this.props.match.params.boardSetId || 'default';
     this.setState({ 
-      boards : new BoardManager().getBoards()
+      boards : new BoardManager().getBoards(this.boardSet)
     });  
   }
 
   render() {
     var createTile = function(board) {
       return (
-        <Link key={board.name} className="tile" to={{ pathname : '/board/' + board.name }}>
+        <Link key={board.name} className="tile" to={{ pathname : '/' + this.boardSet + '/' + board.name }}>
           <i className={"fa " + board.icon + " fa-3x"}></i>
           <p className="padded big-text">{board.name}</p>
         </Link>

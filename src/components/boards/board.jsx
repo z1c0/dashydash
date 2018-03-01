@@ -1,4 +1,5 @@
 'use strict';
+var Cursor = require('../common/misc.jsx').Cursor;
 var React = require('react');
 var moment = require('moment');
 var Weather = require('../modules/weather/weather.jsx');
@@ -29,7 +30,6 @@ class Board extends React.Component {
       modules: [],
       pos : [0, 0, 0, 0]
     };
-    this.boardManager = new BoardManager();
   }
 
   switchToBoard(board) {
@@ -47,12 +47,15 @@ class Board extends React.Component {
   }
 
   componentDidMount() {
-    let id = this.props.match.params.boardId;
-    let duration = moment.duration(20, 'minutes');
+    const boardSetId = this.props.match.params.boardSetId;
+    this.boards = new Cursor(new BoardManager().getBoards(boardSetId));
+    const boardId = this.props.match.params.boardId;
+    const duration = moment.duration(20, 'minutes');
     setInterval(() => {
-        this.switchToBoard(this.boardManager.next());
-      }, duration);
-    this.switchToBoard(this.boardManager.getBoard(id));
+        this.switchToBoard(this.boards.next());
+    }, duration);
+    const index = this.boards.array().findIndex(b => b.name === boardId);
+    this.switchToBoard(this.boards.current(index));
   }
   
   render() {

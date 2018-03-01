@@ -28957,6 +28957,7 @@ ReactDOM.render(
 
 },{"./overlays.jsx":262,"./routes.jsx":263,"react":225,"react-dom":48,"react-router-dom":186}],231:[function(require,module,exports){
 'use strict';
+var Cursor = require('../common/misc.jsx').Cursor;
 var React = require('react');
 var moment = require('moment');
 var Weather = require('../modules/weather/weather.jsx');
@@ -28987,7 +28988,6 @@ class Board extends React.Component {
       modules: [],
       pos : [0, 0, 0, 0]
     };
-    this.boardManager = new BoardManager();
   }
 
   switchToBoard(board) {
@@ -29005,12 +29005,15 @@ class Board extends React.Component {
   }
 
   componentDidMount() {
-    let id = this.props.match.params.boardId;
-    let duration = moment.duration(20, 'minutes');
+    const boardSetId = this.props.match.params.boardSetId;
+    this.boards = new Cursor(new BoardManager().getBoards(boardSetId));
+    const boardId = this.props.match.params.boardId;
+    const duration = moment.duration(20, 'minutes');
     setInterval(() => {
-        this.switchToBoard(this.boardManager.next());
-      }, duration);
-    this.switchToBoard(this.boardManager.getBoard(id));
+        this.switchToBoard(this.boards.next());
+    }, duration);
+    const index = this.boards.array().findIndex(b => b.name === boardId);
+    this.switchToBoard(this.boards.current(index));
   }
   
   render() {
@@ -29047,8 +29050,6 @@ module.exports = Board;
 
 },{"../common/misc.jsx":238,"../modules/abc/abc.jsx":239,"../modules/appointments/appointments.jsx":240,"../modules/birthdays/birthdays.jsx":241,"../modules/blog/blog.jsx":242,"../modules/bus/bus.jsx":243,"../modules/family/family.jsx":244,"../modules/football/football.jsx":245,"../modules/games/games.jsx":249,"../modules/news/news.jsx":255,"../modules/pics/pics.jsx":256,"../modules/recipe/recipe.jsx":257,"../modules/timeofday/timeofday.jsx":258,"../modules/todo/todo.jsx":259,"../modules/weather/weather.jsx":260,"../modules/words/words.jsx":261,"./boardManager.jsx":232,"moment":36,"react":225}],232:[function(require,module,exports){
 'use strict';
-var Cursor = require('../common/misc.jsx').Cursor;
-
 
 function getBoards(collection) {
   let boards = [];
@@ -29074,35 +29075,33 @@ function getBoards(collection) {
 }
 
 class BoardManager {
-  constructor() {
+  getBoards(name) {
+    //console.log(name);
     const boardsConfig = require('./boards.config.json');
-    this.boards = new Cursor(getBoards(boardsConfig.default));
-    this.manualBoards = getBoards(boardsConfig.manual);
-  }
-
-  getBoards() {
-    let boards = [];
-    boards = boards.concat(this.manualBoards);
-    boards = boards.concat(this.boards.array());
+    const collection = boardsConfig[name] || boardsConfig["default"];
+    const boards = getBoards(collection);
     //console.log(boards);
     return boards;
-  }
-
-  getBoard(name) {
-    return this.getBoards().find(b => b.name === name);
-  }
-
-  next() {
-    let b = this.boards.current();
-    this.boards.next();
-    return b;
   }
 }
 
 module.exports = BoardManager;
 
-},{"../common/misc.jsx":238,"./boards.config.json":233}],233:[function(require,module,exports){
+},{"./boards.config.json":233}],233:[function(require,module,exports){
 module.exports={
+  "small" : {
+    "main" : {
+      "modules" : {
+        "pics" :         [ 1, 1, 8, 6 ]
+      }
+    },
+    "dates" : {
+      "modules" : {
+        "appointments" :        [ 1, 1, 4, 6 ],
+        "birthdays"   :         [ 5, 1, 4, 6 ]
+      }
+    }
+  },
   "default" : {
     "main" : {
       "modules" : {     
@@ -29230,15 +29229,16 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
+    this.boardSet = this.props.match.params.boardSetId || 'default';
     this.setState({ 
-      boards : new BoardManager().getBoards()
+      boards : new BoardManager().getBoards(this.boardSet)
     });  
   }
 
   render() {
     var createTile = function(board) {
       return (
-        React.createElement(Link, {key: board.name, className: "tile", to: { pathname : '/board/' + board.name}}, 
+        React.createElement(Link, {key: board.name, className: "tile", to: { pathname : '/' + this.boardSet + '/' + board.name}}, 
           React.createElement("i", {className: "fa " + board.icon + " fa-3x"}), 
           React.createElement("p", {className: "padded big-text"}, board.name)
         )
@@ -29416,11 +29416,14 @@ module.exports = {
     this.array = function() {
       return array;
     }
-    this.previous = function () {
+    this.previous = function() {
       idx = (!!idx ? idx : array.length) - 1;
       return array[idx];
     };
-    this.current = function () {
+    this.current = function(i) {
+      if (i) {
+        idx = i;
+      }
       return array[idx];
     };
     this.next = function() {
@@ -31522,8 +31525,8 @@ var NotFound = require('./404.jsx');
 
 var routes = (
   React.createElement(Switch, null, 
-    React.createElement(Route, {exact: true, path: "/", component: Home}), 
-    React.createElement(Route, {path: "/board/:boardId", component: Board}), 
+    React.createElement(Route, {exact: true, path: "/:boardSetId?", component: Home}), 
+    React.createElement(Route, {path: "/:boardSetId/:boardId", component: Board}), 
     React.createElement(Route, {component: NotFound})
   )
 )

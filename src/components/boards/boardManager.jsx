@@ -1,6 +1,4 @@
 'use strict';
-var Cursor = require('../common/misc.jsx').Cursor;
-
 
 function getBoards(collection) {
   let boards = [];
@@ -26,28 +24,13 @@ function getBoards(collection) {
 }
 
 class BoardManager {
-  constructor() {
+  getBoards(name) {
+    //console.log(name);
     const boardsConfig = require('./boards.config.json');
-    this.boards = new Cursor(getBoards(boardsConfig.default));
-    this.manualBoards = getBoards(boardsConfig.manual);
-  }
-
-  getBoards() {
-    let boards = [];
-    boards = boards.concat(this.manualBoards);
-    boards = boards.concat(this.boards.array());
+    const collection = boardsConfig[name] || boardsConfig["default"];
+    const boards = getBoards(collection);
     //console.log(boards);
     return boards;
-  }
-
-  getBoard(name) {
-    return this.getBoards().find(b => b.name === name);
-  }
-
-  next() {
-    let b = this.boards.current();
-    this.boards.next();
-    return b;
   }
 }
 
