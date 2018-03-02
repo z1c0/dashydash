@@ -15,6 +15,7 @@ const wordList = [
   [ 'Bus', 'bus' ],
   [ 'Ei', 'egg' ],
   [ 'Eis', 'icecream' ],
+  [ 'Ente', 'duck' ],
   [ 'Fisch', 'fish' ],
   [ 'Hallo', 'wave' ],
   [ 'Hase', 'rabbit' ],
