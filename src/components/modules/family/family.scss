@@ -13,11 +13,21 @@
   width: 100%;
   animation: move-image 30s linear infinite;
   position: relative;
-  i {
+  .status {
+    font-size: $biggest-font;
+    line-height: $biggest-font;
+    span {
+      color: indianred;
+      font-weight: bold;
+      margin-right: 0.4em;
+      vertical-align: bottom;
+    }
+    i {
+      margin: 0px;
+    }
     position: absolute;
     bottom: 5px;
     right: 5px;
-    font-size: $biggest-font;
   }
 }
 

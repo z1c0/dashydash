@@ -8,6 +8,7 @@ class Family extends FetchModule {
   constructor(props){
     super(props);
     this.state = {
+      unfinished : 0,
       title: '',
       text : '',
       image: '',
@@ -15,8 +16,15 @@ class Family extends FetchModule {
     }
     this.interval = moment.duration(1, 'hour');
     this.callback = function(body) {
-      var latest = body[body.length - 1];
+      let unfinished = 0;
+      for (let i = 0; i < body.length - 1; i++) {
+        if (!body[i].done) {
+          unfinished++;
+        }
+      }
+      const latest = body[body.length - 1];
       this.setState({
+        unfinished : unfinished,
         title : latest.title,
         text : latest.text,
         image : latest.image,
@@ -57,7 +65,12 @@ class Family extends FetchModule {
           <p className="padded">{this.state.title}</p>
           <p className="padded small-text">{this.state.text}</p>
         </div>
-        <i className={'e1a-' + emoji}></i>
+        <p className="status">
+          {this.state.unfinished > 0 &&
+            <span>{this.state.unfinished}</span>
+          }
+          <i className={'e1a-' + emoji}></i>
+        </p>
       </div>
     );
   }
