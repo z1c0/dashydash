@@ -40,8 +40,8 @@ class ToDo extends FetchModule {
     
     return (
       <div id='todo'>
-        <h2><i className="e1a-clipboard"></i>TODO</h2>
-        <ul>
+        <h1 className="big-text"><i className="e1a-clipboard"></i>TODO</h1>
+        <ul className="small-text">
           { this.state.items.map(createItem, this) }
         </ul>
       </div>

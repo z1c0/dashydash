@@ -14,8 +14,7 @@
   animation: move-image 30s linear infinite;
   position: relative;
   .status {
-    font-size: $biggest-font;
-    line-height: $biggest-font;
+    line-height: 100%;
     span {
       color: indianred;
       font-weight: bold;

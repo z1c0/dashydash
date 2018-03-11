@@ -39,7 +39,7 @@ class Calendar extends FetchModule {
       return (
         <li key={i} className={className}>
           <strong>{a.title}</strong><br />
-          <i><span>{a.due}</span>{time}</i>
+          <i className="small-text"><span>{a.due}</span>{time}</i>
         </li>);
     };
     return (

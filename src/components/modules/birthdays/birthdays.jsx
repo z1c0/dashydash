@@ -9,7 +9,7 @@ class Birthdays extends Calendar {
   }
 
   renderIcon() {
-    return <i className="e1a-birthday"></i>
+    return <i className="e1a-birthday icon-text"></i>
   }
 };
 

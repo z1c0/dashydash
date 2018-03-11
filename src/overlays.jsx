@@ -24,11 +24,11 @@ class Overlays extends IntervalModule {
     return (
       <div>
         <div id="home">
-          <a href="/"><i className="fa fa-home"></i></a>
+          <a href="/"><i className="fa fa-home big-text"></i></a>
         </div>
         <div id="datetime">
-          <span className="time">{this.state.time}</span>
-          <span className="seconds">{this.state.seconds}</span>
+          <span className="time big-text">{this.state.time}</span>
+          <span className="seconds normal-text">{this.state.seconds}</span>
         </div>
       </div>
     );    

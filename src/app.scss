@@ -17,7 +17,6 @@ body {
   //background-color: magenta;
   color: $text-color;
   font-family: 'Quicksand', sans-serif;
-  font-size: $normal-font;
 }
 
 #{$a-tags} {
@@ -27,11 +26,6 @@ body {
 a.plain-link:hover {
   background-color: lighten($tile-background, 10%)
 }
-
-h1 {
-  font-size: $big-font;
-}
-
 
 #app {
   height: 100%;
@@ -62,16 +56,10 @@ $bottom-tile-dim :2.7em;
   @extend .bottomTile;
   width: $bottom-tile-dim;
   left: $default-padding;
-  i {
-    font-size: $big-font;
-  }
 }
 #datetime {
   @extend .bottomTile;
   right: $default-padding;
-  .time {
-    font-size: $big-font;
-  }
   .seconds {
     display: inline-block;
     width: 20px;

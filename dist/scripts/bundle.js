@@ -29299,7 +29299,7 @@ class Calendar extends FetchModule {
       return (
         React.createElement("li", {key: i, className: className}, 
           React.createElement("strong", null, a.title), React.createElement("br", null), 
-          React.createElement("i", null, React.createElement("span", null, a.due), time)
+          React.createElement("i", {className: "small-text"}, React.createElement("span", null, a.due), time)
         ));
     };
     return (
@@ -29534,7 +29534,7 @@ class Birthdays extends Calendar {
   }
 
   renderIcon() {
-    return React.createElement("i", {className: "e1a-birthday"})
+    return React.createElement("i", {className: "e1a-birthday icon-text"})
   }
 };
 
@@ -29613,13 +29613,13 @@ class Bus extends FetchModule {
   render() {
     return (
       React.createElement("div", {className: "bus"}, 
-        React.createElement("i", {className: "e1a-oncoming_bus"}), 
+        React.createElement("i", {className: "e1a-oncoming_bus icon-text"}), 
         React.createElement("div", null, 
           React.createElement("p", null, this.state.from), 
           React.createElement("p", null, this.state.to)
         ), 
         this.state.times.map(function(time, i){
-          return React.createElement("p", {className: "busTime", key: i}, time)
+          return React.createElement("p", {className: "busTime big-text", key: i}, time)
         })
       )
     );
@@ -29696,7 +29696,7 @@ class Family extends FetchModule {
           React.createElement("p", {className: "padded"}, this.state.title), 
           React.createElement("p", {className: "padded small-text"}, this.state.text)
         ), 
-        React.createElement("p", {className: "status"}, 
+        React.createElement("p", {className: "status biggest-text"}, 
           this.state.unfinished > 0 &&
             React.createElement("span", null, this.state.unfinished), 
           
@@ -29752,7 +29752,7 @@ class Football extends FetchModule {
 
   render() {
     return (
-      React.createElement("div", {className: "football"}, 
+      React.createElement("div", {className: "football small-text"}, 
         React.createElement("p", null, 
           React.createElement("span", {className: "padded bold-text"}, this.state.team1), 
           React.createElement("span", {className: "teamLogo", style: { backgroundImage: 'url(' + this.state.icon1 + ')'}})
@@ -31243,46 +31243,13 @@ class TimeOfDay extends FetchModule {
     return (
       React.createElement("div", {className: "timeofday"}, 
         React.createElement("div", {className: "giphy", style: divStyle}), 
-        React.createElement("p", null, 
+        React.createElement("p", {className: "biggest-text"}, 
           React.createElement("span", null, this.state.text), 
-          React.createElement("i", {className: this.state.emoji})
+          React.createElement("i", {className: "icon-text " + this.state.emoji})
         )
       )
     );
   }
-
-  /*
-  update() {
-    let self = this;
-    const data = info.get();
-    const opts = {
-      method: 'GET'
-    };
-    const giphyUrl = 'https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&rating=pg&tag=' + data.tag;
-    fetch(giphyUrl, opts).then(function(response) {
-      return response.json();
-    })
-    .then(function(body) {
-      self.setState({
-        image : body.data.image_original_url,
-        text : data.text,
-        emoji : data.emoji,
-      });
-    })
-    .catch(function(error) {
-      console.log('Error: ', error);
-    });
-  }
-
-  componentDidMount() {
-    this.intervalId = setInterval(this.update.bind(this), moment.duration(30, 'seconds'));
-    this.update();
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.intervalId);
-  }
-  */
 }
 
 module.exports = TimeOfDay;
@@ -31330,8 +31297,8 @@ class ToDo extends FetchModule {
     
     return (
       React.createElement("div", {id: "todo"}, 
-        React.createElement("h2", null, React.createElement("i", {className: "e1a-clipboard"}), "TODO"), 
-        React.createElement("ul", null, 
+        React.createElement("h1", {className: "big-text"}, React.createElement("i", {className: "e1a-clipboard"}), "TODO"), 
+        React.createElement("ul", {className: "small-text"}, 
            this.state.items.map(createItem, this) 
         )
       )
@@ -31375,10 +31342,10 @@ class Weather extends FetchModule {
 
   render() {
     return (
-      React.createElement("div", {className: "weather"}, 
+      React.createElement("div", {className: "weather big-text"}, 
         React.createElement("p", null, this.state.description), 
-         React.createElement("i", {className: `wi ${ this.state.icon }`}), 
-        React.createElement("span", {className: "temperature"}, this.state.temperature, " °C"), 
+         React.createElement("i", {className: "biggest-text " + `wi ${ this.state.icon }`}), 
+        React.createElement("span", {className: "temperature biggest-text"}, this.state.temperature, " °C"), 
         React.createElement("span", {id: "minTemp"}, " ↓ "), React.createElement("span", null, this.state.min, "°"), 
         React.createElement("span", {id: "maxTemp"}, " ↑ "), React.createElement("span", null, this.state.max, "°")
       )
@@ -31511,11 +31478,11 @@ class Overlays extends IntervalModule {
     return (
       React.createElement("div", null, 
         React.createElement("div", {id: "home"}, 
-          React.createElement("a", {href: "/"}, React.createElement("i", {className: "fa fa-home"}))
+          React.createElement("a", {href: "/"}, React.createElement("i", {className: "fa fa-home big-text"}))
         ), 
         React.createElement("div", {id: "datetime"}, 
-          React.createElement("span", {className: "time"}, this.state.time), 
-          React.createElement("span", {className: "seconds"}, this.state.seconds)
+          React.createElement("span", {className: "time big-text"}, this.state.time), 
+          React.createElement("span", {className: "seconds normal-text"}, this.state.seconds)
         )
       )
     );    

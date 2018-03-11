@@ -1,7 +1,6 @@
 @import '../../common/common';
 
 .weather {
-  font-size: $big-font;
   padding: $default-padding;
   img {
     vertical-align: middle;
@@ -11,7 +10,6 @@
 
 .temperature {
   vertical-align: middle;
-  font-size: $biggest-font;
   font-weight: bold;
   margin-right: $default-padding; 
 }
@@ -26,6 +24,5 @@
 
 .wi {
   vertical-align: middle;
-  font-size: $biggest-font;
   margin-right: $default-padding;
 }

@@ -40,7 +40,7 @@ class Football extends FetchModule {
 
   render() {
     return (
-      <div className='football'>
+      <div className='football small-text'>
         <p>
           <span className='padded bold-text'>{this.state.team1}</span>
           <span className='teamLogo' style={{ backgroundImage: 'url(' + this.state.icon1 + ')' }}></span>

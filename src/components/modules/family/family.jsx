@@ -65,7 +65,7 @@ class Family extends FetchModule {
           <p className="padded">{this.state.title}</p>
           <p className="padded small-text">{this.state.text}</p>
         </div>
-        <p className="status">
+        <p className="status biggest-text">
           {this.state.unfinished > 0 &&
             <span>{this.state.unfinished}</span>
           }

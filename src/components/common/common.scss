@@ -7,22 +7,48 @@ $tile-background: #3F3F46;
 $part-background-color: rgb(40, 40, 40);
 
 // font sizes
-$biggest-font: 3vw;
-$big-font: 1.7vw;
-$normal-font: 1.1vw;
-$small-font: 0.8vw;
-$icon-font: 4vw;
+//$biggest-font: 3vw;
+//$big-font: 1.7vw;
+//$normal-font: 1.1vw;
+//$small-font: 0.8vw;
+//$icon-font: 4vw;
 
-
+.normal-text {
+  font-size: 1.1vw;
+}
 .small-text {
-  font-size: $small-font;
+  font-size: 0.8vw;
 }
 .big-text {
-  font-size: $big-font;
+  font-size: 1.7vw;
+}
+.biggest-text {
+  font-size: 3.0vw;
 }
 .bold-text {
   font-weight: bold;
 }
+.icon-text {
+  font-size: 4vw;
+}
 .padded {
   padding: $default-padding;
+}
+
+@media (max-width: 500px) {
+  .small-text {
+    font-size: 2.2vw;
+  }
+  .normal-text {
+    font-size: 2.5vw;
+  }
+  .big-text {
+    font-size: 3.2vw;
+  }
+  .biggest-text {
+    font-size: 6.0vw;
+  }
+  .icon-text {
+    font-size: 8vw;
+  }
 }

@@ -7,7 +7,7 @@ $color-calendar-main: #EF4D3C;
   .icon {
     padding: 0.5em;
     time {
-      font-size: 0.6rem;
+      font-size: 0.45em;
       display: block;
       position: relative;
       width: 7em;
@@ -38,10 +38,6 @@ $color-calendar-main: #EF4D3C;
       padding-top: 0.4em;
       color: #222;
     }
-    .e1a-birthday {
-      font-size: $icon-font;
-    }
-    
   }
   ul {
     position : relative;
@@ -56,7 +52,6 @@ $color-calendar-main: #EF4D3C;
       }
       i {
         font-style: normal;
-        font-size: $small-font;
       }
     }
     .isToday {
