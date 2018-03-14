@@ -152,6 +152,18 @@ var candidates = [
       'rose', 'bouquet', 'couplekiss', 'couple_with_heart' ]
   },
   {
+    id : 'PiDay',
+    match : is(specialDay(14, 3, false)),
+    probability : Probability.possible,
+    text : [
+      "It's Pi Day!",
+      "Happy Pi Day!",
+      "3.14159265359"
+    ],
+    tag : [ 'pi', 'nerd' ],
+    emoji : [ 'pencil', '1234', 'cake', 'nerd' ]
+  },
+  {
     id : 'PaddysDay',
     match : is(specialDay(17, 3, false)),
     probability : Probability.possible,
