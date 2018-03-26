@@ -122,6 +122,26 @@ function birthday(who, day, month) {
   };
 };
 
+function easterWeekend() {
+  return function(dt) {
+    const year = dt.getFullYear();
+    const g = year % 19;
+    const c = Math.floor(year / 100);
+    const h = (c - Math.floor(c / 4) - Math.floor((8 * c + 13) / 25) + 19 * g + 15) % 30;
+    const i = h - Math.floor(h / 28) * (1 - Math.floor(h / 28) * Math.floor(29 / (h + 1)) * Math.floor((21 - g) / 11));
+
+    let day = i - ((year + Math.floor(year / 4) + i + 2 - c + Math.floor(c / 4)) % 7) + 28;
+    let month = 3;
+    if (day > 31) {
+        month++;
+        day -= 31;
+    }
+    let dt2 = new Date(2018, month - 1, day);
+    dt2.setDate(day + 1);
+    return dt.getDate() === day && (dt.getMonth() + 1) === month ||  // sunday
+      dt.getDate() === dt2.getDate() && dt.getMonth() + dt2.getMonth(); // monday
+  }}
+
 
 var candidates = [
   {
@@ -187,6 +207,17 @@ var candidates = [
     ],
     tag : [ 'xmas', 'santa' ],
     emoji : [ 'santa_tone1', 'christmas_tree', 'snowman2', 'gift']
+  },
+  {
+    id : 'Easter',
+    match : is(easterWeekend()),
+    probability : Probability.possible,
+    text : [
+      'Frohe Ostern!',
+      'Happy Easter!',
+    ],
+    tag : [ 'easter', 'easteregg', 'easterbunny' ],
+    emoji : [ 'egg', 'rabbit' ]
   },
   {
     id : 'Giraffe',

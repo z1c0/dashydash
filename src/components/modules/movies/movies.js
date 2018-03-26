@@ -96,10 +96,12 @@ function checkMovies() {
 
 module.exports = {
   init: function () {
-    var cronJob = cron.job("0 0 */1 * * *", function () {
+    if (secrets.iftttkey) {
+      var cronJob = cron.job("0 0 */1 * * *", function () {
+        checkMovies();
+      });
+      cronJob.start();
       checkMovies();
-    });
-    cronJob.start();
-    checkMovies();
-  },
+    }
+  }
 }

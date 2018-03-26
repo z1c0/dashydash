@@ -29754,6 +29754,7 @@ class Football extends FetchModule {
         else {
           info = moment(m.MatchDateTime).format("dd, DD.MM.YYYY, HH:mm")
         }
+        //console.log(m);
         this.setState({
           team1 : m.Team1.ShortName || m.Team1.TeamName,
           icon1 : m.Team1.TeamIconUrl,
