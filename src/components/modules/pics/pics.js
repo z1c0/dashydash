@@ -5,6 +5,9 @@ var fs = require('fs');
 var path = require('path');
 const config = require('../../../secrets.json').pics;
 
+// get all albums
+//https://picasaweb.google.com/data/feed/api/user/default
+
 /*
 const redirectURI  = 'http://localhost';
 const browserUrl = 
@@ -53,8 +56,9 @@ function refreshToken(config) {
       console.log(err);
     }
     else {
-      getPhotoList(config, body.access_token, 1);
-      getPhotoList(config, body.access_token, 1000);
+      config.token = body.access_token;
+      //console.log(config.token);
+      createDownloadList(config.albumIds);
     }
   });
 }
@@ -74,65 +78,17 @@ function createDownloadJob(photo) {
   });
 }
 
-const CHUNK_SIZE = 5;
-function createJobs(jobs) {
+const CHUNK_SIZE = 10;
+function createDownloadJobs(jobs) {
   //console.log(jobs);
   let job = jobs.splice(0, CHUNK_SIZE);
   if (job.length) {
     const p = Promise.all(job.map(createDownloadJob));
     p.then(() => {
-      createJobs(jobs);
+      createDownloadJobs(jobs);
     });
     
   }
-}
-
-function getPhotoList(config, token, startIndex) {
-  let photos = [];
-  //console.log('updatePhotos - token: ' + token + ' (' + startIndex + ')');
-  request({
-    url: 'https://picasaweb.google.com/data/feed/api/user/default/albumid/' + config.albumId,
-    headers: {
-      'GData-Version': '2'
-    },
-    qs: {
-      access_token : token,
-      kind : 'photo',
-      alt : 'json',
-      'start-index' : startIndex,
-      fields : 'gphoto:numphotos, entry(title, content)'
-    },
-    method: 'GET',
-    json : true
-  }, function(error, response, body) {
-    if (error) {
-      console.log(error);
-    }
-    else {
-      try {
-          //console.log(body);
-          if (body.feed && body.feed.entry) {
-            //console.log(body.feed.entry.length);
-            let photos = body.feed.entry.reduce((filtered, entry) => {
-              if (entry.content.type === 'image/jpeg') {
-                const fileName = path.join(IMAGE_DIR, entry.title["$t"]);
-                if (!fs.existsSync(fileName)) {
-                  filtered.push({
-                    fileName : fileName,
-                    url : entry.content.src
-                  });
-                }
-              }
-              return filtered;
-            }, []);
-            createJobs(photos);
-          }
-      }
-      catch (e) {
-        console.log(e)
-      }
-    }
-  });
 }
 
 function getRandomPhoto(callback) {
@@ -140,6 +96,73 @@ function getRandomPhoto(callback) {
   let files = fs.readdirSync(IMAGE_DIR) 
   let index = Math.floor(Math.random() * files.length);
   return files[index];
+}
+
+
+function createImageListJob(albumId, startIndex) {
+  return function(result) {
+    return new Promise((resolve, reject) => {
+      request({
+        url: 'https://picasaweb.google.com/data/feed/api/user/default/albumid/' + albumId,
+        headers: {
+          'GData-Version': '2'
+        },
+        qs: {
+          access_token : config.token,
+          kind : 'photo',
+          alt : 'json',
+          'start-index' : startIndex,
+          fields : 'gphoto:numphotos, entry(title, content)'
+        },
+        method: 'GET',
+        json : true
+      }, function(error, response, body) {
+        if (error) {
+          console.log(error);
+        }
+        else {
+          try {
+              //console.log(body);
+              if (body.feed && body.feed.entry) {
+                //console.log(body.feed.entry.length);
+                let photos = body.feed.entry.reduce((filtered, entry) => {
+                  if (entry.content.type === 'image/jpeg') {
+                    const fileName = path.join(IMAGE_DIR, entry.title["$t"]);
+                    if (!fs.existsSync(fileName)) {
+                      filtered.push({
+                        fileName : fileName,
+                        url : entry.content.src
+                      });
+                    }
+                  }
+                  return filtered;
+                }, []);
+                result.push(...photos);
+              }
+          }
+          catch (e) {
+            console.log(e)
+          }
+          resolve(result);
+        }
+      });
+    });
+  }
+}
+
+
+function createDownloadList(albumIds) {
+  const jobs = albumIds.reduce((r, a) => {
+    r.push(createImageListJob(a, 1));
+    r.push(createImageListJob(a, 1000));
+    return r;
+  }, []);
+
+  jobs.reduce((prev, curr) => prev.then(curr), Promise.resolve([]))
+  .then((photoList) => {
+    //console.log(photoList);
+    createDownloadJobs(photoList);
+  });
 }
 
 
