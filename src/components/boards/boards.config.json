@@ -69,6 +69,18 @@
         "weather" :          [ 6, 6, 2, 1 ]
       }
     },
+    "mathy" : {
+      "modules" : {     
+        "numbers" :      [ 1, 1, 4, 4 ],
+        "bus" :          [ 1, 5, 2, 2 ],
+        "pics" :         [ 3, 5, 2, 2 ],
+        "appointments" : [ 5, 1, 2, 3 ],
+        "birthdays" :    [ 5, 4, 2, 3 ],
+        "pics.1" :       [ 7, 1, 2, 3 ],
+        "weather":       [ 7, 4, 2, 1 ],
+        "pics.2" :       [ 7, 5, 2, 3 ]
+      }
+    },
     "picpics" : {
       "modules" : {     
         "timeofday" :    [ 1, 1, 5, 1 ],

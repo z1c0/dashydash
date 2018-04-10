@@ -1,0 +1,37 @@
+@keyframes fadein {
+  0% { opacity: 0; }
+ 60% { opacity: 0; }
+ 70% { opacity: 0.5; }
+ 80% { opacity: 1; }
+100% { opacity: 1; }
+}
+
+#numbers {
+  height: 100%;
+  display: flex;
+  align-items: center;
+
+  p {
+    width: 100%;
+    text-align: center;
+    span {
+      font-size: 1.5em;
+      line-height: 1em;
+      font-weight: bold;
+    }
+    span.symbol {
+      color: #FF79C6;
+      padding-left: 0.05em;
+      padding-right: 0.05em;
+    }
+    span.number {
+      color: #BD93F9;
+    }
+    span.result {
+      animation: fadein 20s;
+    }
+  }
+  i {
+      vertical-align: text-top;
+  }
+}

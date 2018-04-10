@@ -17,6 +17,7 @@ var Football = require('../modules/football/football.jsx');
 var Words = require('../modules/words/words.jsx');
 var Recipe = require('../modules/recipe/recipe.jsx');
 var ToDo = require('../modules/todo/todo.jsx');
+var Numbers = require('../modules/numbers/numbers.jsx');
 var misc  = require('../common/misc.jsx');
 var BoardManager = require('./boardManager.jsx');
 
