@@ -21,8 +21,11 @@ class Numbers extends React.Component {
 
     const self = this;
     this.intervalId = misc.setIntervalAndExecute(() => {
-      const n1 = misc.randomIntFromInterval(1, 5);
-      const n2 = misc.randomIntFromInterval(1, 3);
+      let n1 = misc.randomIntFromInterval(1, 6);
+      let n2 = misc.randomIntFromInterval(1, 3);
+      if (misc.randomBoolean()) {
+        n2 = [n1, n1 = n2][0];
+      }
       self.setState({
         turn : this.state.turn + 1,
         n1 : n1,

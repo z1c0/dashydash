@@ -47,7 +47,8 @@ function formatTime(a) {
   return from + ' - ' + to;
 }
 
-function getAppointments(text) {
+function getAppointments(text, calendarId) {
+  //console.log(text);
   const data = ical.parseICS(text);
   let appointments = [];
   const now = new Date();
@@ -64,7 +65,9 @@ function getAppointments(text) {
     };
     a.due = formatDuration(startDate);
     a.time = formatTime(a);
-    
+    if (calendarId >= 0) {
+      a.id = calendarId;
+    }
     appointments.push(a);
   }
 

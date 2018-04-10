@@ -10,8 +10,11 @@ function shuffle(o) {
   return o;
 }
 
-function randomIntFromInterval(min, max)
-{
+function randomBoolean() {
+  return Math.random() >= 0.5;
+}
+
+function randomIntFromInterval(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
@@ -19,6 +22,7 @@ module.exports = {
   setIntervalAndExecute : setIntervalAndExecute,
   shuffle : shuffle,
   randomIntFromInterval : randomIntFromInterval,
+  randomBoolean : randomBoolean,
 
   Cursor : function(array) {
     var idx = 0;

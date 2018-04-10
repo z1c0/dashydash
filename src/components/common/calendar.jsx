@@ -31,13 +31,28 @@ class Calendar extends FetchModule {
     );
   }
 
+  getCalendarColor(index) {
+    console.log(index);
+    const cols = [
+      '#027696',
+      '#A38FD0'
+    ];
+    return cols[index % cols.length];
+  }
+
   render() {
     var createModule = function (a, i) {
-      let time = this.showTime ? (<span>, {a.time}</span>) : null;
-      let isToday = !moment().isBefore(a.startDate, 'day');
-      let className = isToday ? 'isToday' : '';
+      const time = this.showTime ? (<span>, {a.time}</span>) : null;
+      const isToday = !moment().isBefore(a.startDate, 'day');
+      let calCol = '';
+      if (isToday) {
+        calCol = 'rgb(224, 224, 56)';
+      }
+      else if (typeof(a.id) !== 'undefined') {
+        //calCol = this.getCalendarColor(a.id);
+      }
       return (
-        <li key={i} className={className}>
+        <li key={i} style={{ borderColor: calCol}}>
           <strong>{a.title}</strong><br />
           <i className="small-text"><span>{a.due}</span>{time}</i>
         </li>);

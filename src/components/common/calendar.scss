@@ -54,9 +54,6 @@ $color-calendar-main: #EF4D3C;
         font-style: normal;
       }
     }
-    .isToday {
-      border-color: rgb(224, 224, 56);
-    }
     &:after {
       content : "";
       position : absolute;

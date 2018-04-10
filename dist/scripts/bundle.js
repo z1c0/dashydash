@@ -29319,13 +29319,28 @@ class Calendar extends FetchModule {
     );
   }
 
+  getCalendarColor(index) {
+    console.log(index);
+    const cols = [
+      '#027696',
+      '#A38FD0'
+    ];
+    return cols[index % cols.length];
+  }
+
   render() {
     var createModule = function (a, i) {
-      let time = this.showTime ? (React.createElement("span", null, ", ", a.time)) : null;
-      let isToday = !moment().isBefore(a.startDate, 'day');
-      let className = isToday ? 'isToday' : '';
+      const time = this.showTime ? (React.createElement("span", null, ", ", a.time)) : null;
+      const isToday = !moment().isBefore(a.startDate, 'day');
+      let calCol = '';
+      if (isToday) {
+        calCol = 'rgb(224, 224, 56)';
+      }
+      else if (typeof(a.id) !== 'undefined') {
+        //calCol = this.getCalendarColor(a.id);
+      }
       return (
-        React.createElement("li", {key: i, className: className}, 
+        React.createElement("li", {key: i, style: { borderColor: calCol}}, 
           React.createElement("strong", null, a.title), React.createElement("br", null), 
           React.createElement("i", {className: "small-text"}, React.createElement("span", null, a.due), time)
         ));
@@ -29429,8 +29444,11 @@ function shuffle(o) {
   return o;
 }
 
-function randomIntFromInterval(min, max)
-{
+function randomBoolean() {
+  return Math.random() >= 0.5;
+}
+
+function randomIntFromInterval(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
@@ -29438,6 +29456,7 @@ module.exports = {
   setIntervalAndExecute : setIntervalAndExecute,
   shuffle : shuffle,
   randomIntFromInterval : randomIntFromInterval,
+  randomBoolean : randomBoolean,
 
   Cursor : function(array) {
     var idx = 0;
@@ -31192,8 +31211,11 @@ class Numbers extends React.Component {
 
     const self = this;
     this.intervalId = misc.setIntervalAndExecute(() => {
-      const n1 = misc.randomIntFromInterval(1, 5);
-      const n2 = misc.randomIntFromInterval(1, 3);
+      let n1 = misc.randomIntFromInterval(1, 6);
+      let n2 = misc.randomIntFromInterval(1, 3);
+      if (misc.randomBoolean()) {
+        n2 = [n1, n1 = n2][0];
+      }
       self.setState({
         turn : this.state.turn + 1,
         n1 : n1,
