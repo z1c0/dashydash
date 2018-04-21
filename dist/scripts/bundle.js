@@ -30136,11 +30136,11 @@ class GameController {
     this.canvas = canvas;
     this.DIM = 32;
     this.games = new Cursor(misc.shuffle([
-      // new PacMan(),
-      // new TicTacToe(),
-      // new Pong(),
-      // new Snake(),
-      // new SpaceInvaders(),
+      new PacMan(),
+      new TicTacToe(),
+      new Pong(),
+      new Snake(),
+      new SpaceInvaders(),
       new Arkanoid()
     ]));
   }
