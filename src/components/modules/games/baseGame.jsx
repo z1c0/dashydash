@@ -16,16 +16,16 @@ class GameOverAnimation {
         for (let x = 0; x < DIM; x++) {
           if (this.useColors) {
             if (this.game.getRandomBool()) {
-              this.game.setPixel(x, y, this.game.getRandomColor());
+              this.game.setPixel(x, y, this.game.getRandomColor(true));
             }
           }
           else {
-            this.game.setPixel(x, y, this.game.getRandomGray());
+            this.game.setPixel(x, y, this.game.getRandomGray(true));
           }
         }
       }
     }
-    return this.steps++ == (DIM + 15);
+    return this.steps++ == (DIM + 25);
   }
 }
 
@@ -92,13 +92,19 @@ class BaseGame {
     return this.world[x][y];
   }
 
-  getRandomGray() {
+  getRandomGray(allowTransparent) {
+    if (allowTransparent && this.getRandomBool()) {
+      return 'transparent';
+    }
     const g = this.getRandom(0, 256);
     return this.makeColor([g, g, g]);
   }
 
-  getRandomColor() {
-    switch (this.getRandom(0, 14)) {
+  getRandomColor(allowTransparent) {
+    if (allowTransparent && this.getRandomBool()) {
+      return 'transparent';
+    }
+    switch (this.getRandom(0, 9)) {
       case 0: return 'red';
       case 1: return 'yellow';
       case 2: return 'chartreuse ';
@@ -108,8 +114,6 @@ class BaseGame {
       case 6: return 'deeppink';
       case 7: return 'orange';
       case 8: return 'purple';
-      
-      default: return 'black';
     }
   }
 

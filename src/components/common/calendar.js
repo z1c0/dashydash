@@ -3,7 +3,7 @@ var ical = require('ical')
 var moment = require('moment');
 moment.locale('de');
 
-const maximumEntries = 10;
+const maximumEntries = 20;
 const maximumNumberOfDays = 200;
 
 function isFullDayEvent(event) {
