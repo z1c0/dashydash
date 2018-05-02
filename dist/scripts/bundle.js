@@ -29826,7 +29826,6 @@ const misc = require('../../common/misc.jsx');
 
 const CLEAR_COLOR = '#222222';
 const BALL_COLOR = 'white';
-const SHIP_COLOR = '#0033CC';
 
 
 class Ball {
@@ -29870,24 +29869,24 @@ class Ship {
   }
 
   simulate() {
-    this.draw(CLEAR_COLOR);
-
+    this.draw(true);
     if (this.x > this.game.ball.x) {
       this.x = Math.max(2, this.x - 1);
     }
     else if (this.x < this.game.ball.x) {
       this.x = Math.min(this.game.dim() - 3, this.x + 1);
-    }
-    
-    this.draw(SHIP_COLOR);
+    }    
+    this.draw(false);
   }
 
-  draw(col) {
-    this.game.world[this.x - 2][this.y] = col;
-    this.game.world[this.x - 1][this.y] = col;
-    this.game.world[this.x    ][this.y] = col;
-    this.game.world[this.x + 1][this.y] = col;
-    this.game.world[this.x + 2][this.y] = col;
+  draw(clear) {
+    const shipColor1 = clear ? CLEAR_COLOR : 'LightGray';
+    const shipColor2 = clear ? CLEAR_COLOR : 'SlateGray';
+    this.game.world[this.x - 2][this.y] = shipColor1;
+    this.game.world[this.x - 1][this.y] = shipColor2;
+    this.game.world[this.x    ][this.y] = shipColor2;
+    this.game.world[this.x + 1][this.y] = shipColor2;
+    this.game.world[this.x + 2][this.y] = shipColor1;
   }
 }
 
@@ -29988,16 +29987,16 @@ class GameOverAnimation {
         for (let x = 0; x < DIM; x++) {
           if (this.useColors) {
             if (this.game.getRandomBool()) {
-              this.game.setPixel(x, y, this.game.getRandomColor());
+              this.game.setPixel(x, y, this.game.getRandomColor(true));
             }
           }
           else {
-            this.game.setPixel(x, y, this.game.getRandomGray());
+            this.game.setPixel(x, y, this.game.getRandomGray(true));
           }
         }
       }
     }
-    return this.steps++ == (DIM + 15);
+    return this.steps++ == (DIM + 25);
   }
 }
 
@@ -30064,13 +30063,19 @@ class BaseGame {
     return this.world[x][y];
   }
 
-  getRandomGray() {
+  getRandomGray(allowTransparent) {
+    if (allowTransparent && this.getRandomBool()) {
+      return 'transparent';
+    }
     const g = this.getRandom(0, 256);
     return this.makeColor([g, g, g]);
   }
 
-  getRandomColor() {
-    switch (this.getRandom(0, 14)) {
+  getRandomColor(allowTransparent) {
+    if (allowTransparent && this.getRandomBool()) {
+      return 'transparent';
+    }
+    switch (this.getRandom(0, 9)) {
       case 0: return 'red';
       case 1: return 'yellow';
       case 2: return 'chartreuse ';
@@ -30080,8 +30085,6 @@ class BaseGame {
       case 6: return 'deeppink';
       case 7: return 'orange';
       case 8: return 'purple';
-      
-      default: return 'black';
     }
   }
 

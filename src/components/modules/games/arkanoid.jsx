@@ -4,7 +4,6 @@ const misc = require('../../common/misc.jsx');
 
 const CLEAR_COLOR = '#222222';
 const BALL_COLOR = 'white';
-const SHIP_COLOR = '#0033CC';
 
 
 class Ball {
@@ -48,24 +47,24 @@ class Ship {
   }
 
   simulate() {
-    this.draw(CLEAR_COLOR);
-
+    this.draw(true);
     if (this.x > this.game.ball.x) {
       this.x = Math.max(2, this.x - 1);
     }
     else if (this.x < this.game.ball.x) {
       this.x = Math.min(this.game.dim() - 3, this.x + 1);
-    }
-    
-    this.draw(SHIP_COLOR);
+    }    
+    this.draw(false);
   }
 
-  draw(col) {
-    this.game.world[this.x - 2][this.y] = col;
-    this.game.world[this.x - 1][this.y] = col;
-    this.game.world[this.x    ][this.y] = col;
-    this.game.world[this.x + 1][this.y] = col;
-    this.game.world[this.x + 2][this.y] = col;
+  draw(clear) {
+    const shipColor1 = clear ? CLEAR_COLOR : 'LightGray';
+    const shipColor2 = clear ? CLEAR_COLOR : 'SlateGray';
+    this.game.world[this.x - 2][this.y] = shipColor1;
+    this.game.world[this.x - 1][this.y] = shipColor2;
+    this.game.world[this.x    ][this.y] = shipColor2;
+    this.game.world[this.x + 1][this.y] = shipColor2;
+    this.game.world[this.x + 2][this.y] = shipColor1;
   }
 }
 
