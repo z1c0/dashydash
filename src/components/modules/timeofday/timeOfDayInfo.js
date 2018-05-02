@@ -136,10 +136,10 @@ function easterWeekend() {
         month++;
         day -= 31;
     }
-    let dt2 = new Date(2018, month - 1, day);
+    let dt2 = new Date(year, month - 1, day);
     dt2.setDate(day + 1);
     return dt.getDate() === day && (dt.getMonth() + 1) === month ||  // sunday
-      dt.getDate() === dt2.getDate() && dt.getMonth() + dt2.getMonth(); // monday
+      dt.getDate() === dt2.getDate() && dt.getMonth() === dt2.getMonth(); // monday
   }}
 
 
