@@ -2,8 +2,9 @@
 
 // emoji:
 // https://www.emojione.com/emoji/v2
-// https://emoji.codes/
 // https://www.emojicopy.com/
+// /home/z1c0/Downloads/emojione-2.2.7/lib/js/emojione.js
+
 
 const Day = {
   Mon : 1,
@@ -230,6 +231,30 @@ var candidates = [
     ],
     tag : [ 'giraffe' ],
     emoji : [ 'dromedary_camel' ] // ;-)
+  },
+  {
+    id : 'EarthDay',
+    match : is(specialDay(22, 4, false)),
+    probability : Probability.possible,
+    text : [
+      "It's Earth Day!",
+      "Earth Day!",
+      'Tag der Erde!'
+    ],
+    tag : [ 'earth', 'globe', 'earthday' ],
+    emoji : [ 'earth_asia', 'earth_africa', 'earth_americas', 'globe_with_meridians' ]
+  },
+  {
+    id : 'PirateDay',
+    match : is(specialDay(19, 9, false)), 
+    probability : Probability.possible,
+    text : [
+      "Talk Like a Pirate Day!",
+      "Arrrr!!",
+      'Sprich-wie-ein-Pirat-Tag!'
+    ],
+    tag : [ 'pirate' ],
+    emoji : [ 'skull', 'skull_crossbones', 'anchor' ]
   },
   {
     id : 'StarWars',
