@@ -73,17 +73,19 @@ function checkMovies() {
     }
     else {
       var movieMap = [];
-      body.Filme.forEach(function (f) {
-        var title = canonicalizeTitle(f.Anzeigetitel);
-        if (title) {
-          movieMap[title] = {
-            title: title,
-            image: f.Bild,
-            start: moment(f.Filmstart).format('MMMM Do'),
-            url: 'http://www.megaplex.at/film/' + title.replaceAll(' ', '-')
-          };
-        }
-      });
+      if (body.Filme) {
+        body.Filme.forEach(function (f) {
+          var title = canonicalizeTitle(f.Anzeigetitel);
+          if (title) {
+            movieMap[title] = {
+              title: title,
+              image: f.Bild,
+              start: moment(f.Filmstart).format('MMMM Do'),
+              url: 'http://www.megaplex.at/film/' + title.replaceAll(' ', '-')
+            };
+          }
+        });
+      }
       // create array from map.
       for (var key in movieMap) {
         movies.push(movieMap[key]);
