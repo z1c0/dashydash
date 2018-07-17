@@ -146,6 +146,19 @@ function easterWeekend() {
 
 var candidates = [
   {
+    id : 'EmojiDay',
+    match : is(specialDay(17, 7, true)),
+    probability : Probability.certain,//.unlikely,
+    text : [
+      "World Emoji Day!",
+      'Welt Emoji Tag!',
+      'Today is World Emoji Day!',
+      'Heute ist Welt-Emoji-Tag!'
+    ],
+    tag : [ 'emoji' ],
+    emoji : [ 'poop', 'wink', 'heart_eyes', 'grin', 'smile' ]
+  },
+  {
     id : 'CatDay',
     match : is(specialDay(8, 8, false)),
     probability : Probability.unlikely,
