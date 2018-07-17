@@ -1,4 +1,6 @@
 'use strict';
+const moment = require('moment');
+
 
 function getBoards(collection) {
   let boards = [];
@@ -7,6 +9,9 @@ function getBoards(collection) {
     let board = collection[b];
     if (!board.icon) {
       board.icon = 'fa-user-circle-o';
+    }
+    if (!board.timeout) {
+      board.timeout = 20;  // minutes
     }
     for (var m in board.modules) {
       modules.push({
@@ -17,6 +22,7 @@ function getBoards(collection) {
     boards.push({ 
       name : b,
       icon : board.icon,
+      timeout : moment.duration(board.timeout, 'minutes'),
       modules : modules
     });
   }

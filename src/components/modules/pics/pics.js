@@ -5,9 +5,6 @@ var fs = require('fs');
 var path = require('path');
 const config = require('../../../secrets.json').pics;
 
-// get all albums
-//https://picasaweb.google.com/data/feed/api/user/default
-
 /*
 const redirectURI  = 'http://localhost';
 const browserUrl = 
@@ -172,6 +169,25 @@ function checkForNewPhotos(config) {
 
 //retrieveTokens();
 
+function albumList(response) {
+  // get all albums
+  request({
+    url: 'https://picasaweb.google.com/data/feed/api/user/default',
+    headers: {
+      'GData-Version': '2',
+    },
+    qs: {
+      access_token : config.token,
+      visible : 'visible',
+      //alt : 'json',
+      fields : 'entry(title, gphoto:id)',
+      //fields : 'entry',
+    },
+  }, function(error, r, body) {
+    response.set('Content-Type', 'text/xml');
+    response.send(body);
+  });
+}
 
 module.exports = {
   init : function() {
@@ -186,6 +202,9 @@ module.exports = {
   fetch : function(req, res) {
     var p = getRandomPhoto();
     res.json({ url : '/images/photos/' + p });
+
+    // Fetch album list
+    //albumList(res);
   }
 }
 

@@ -28959,7 +28959,6 @@ ReactDOM.render(
 'use strict';
 var Cursor = require('../common/misc.jsx').Cursor;
 var React = require('react');
-var moment = require('moment');
 var Weather = require('../modules/weather/weather.jsx');
 var Blog = require('../modules/blog/blog.jsx');
 var Bus = require('../modules/bus/bus.jsx');
@@ -28994,6 +28993,10 @@ class Board extends React.Component {
   switchToBoard(board) {
     //console.log(board);
     if (board) {
+      setTimeout(() => {
+        this.switchToBoard(this.boards.next());
+      }, board.timeout);
+
       this.setState({ 
         modules: []
       });
@@ -29009,10 +29012,6 @@ class Board extends React.Component {
     const boardSetId = this.props.match.params.boardSetId;
     this.boards = new Cursor(new BoardManager().getBoards(boardSetId));
     const boardId = this.props.match.params.boardId;
-    const duration = moment.duration(20, 'minutes');
-    setInterval(() => {
-        this.switchToBoard(this.boards.next());
-    }, duration);
     const index = this.boards.array().findIndex(b => b.name === boardId);
     this.switchToBoard(this.boards.current(index));
   }
@@ -29049,8 +29048,10 @@ class Board extends React.Component {
 
 module.exports = Board;
 
-},{"../common/misc.jsx":238,"../modules/abc/abc.jsx":239,"../modules/appointments/appointments.jsx":240,"../modules/birthdays/birthdays.jsx":241,"../modules/blog/blog.jsx":242,"../modules/bus/bus.jsx":243,"../modules/family/family.jsx":244,"../modules/football/football.jsx":245,"../modules/games/games.jsx":249,"../modules/news/news.jsx":255,"../modules/numbers/numbers.jsx":256,"../modules/pics/pics.jsx":257,"../modules/recipe/recipe.jsx":258,"../modules/timeofday/timeofday.jsx":259,"../modules/todo/todo.jsx":260,"../modules/weather/weather.jsx":261,"../modules/words/words.jsx":262,"./boardManager.jsx":232,"moment":36,"react":225}],232:[function(require,module,exports){
+},{"../common/misc.jsx":238,"../modules/abc/abc.jsx":239,"../modules/appointments/appointments.jsx":240,"../modules/birthdays/birthdays.jsx":241,"../modules/blog/blog.jsx":242,"../modules/bus/bus.jsx":243,"../modules/family/family.jsx":244,"../modules/football/football.jsx":245,"../modules/games/games.jsx":249,"../modules/news/news.jsx":255,"../modules/numbers/numbers.jsx":256,"../modules/pics/pics.jsx":257,"../modules/recipe/recipe.jsx":258,"../modules/timeofday/timeofday.jsx":259,"../modules/todo/todo.jsx":260,"../modules/weather/weather.jsx":261,"../modules/words/words.jsx":262,"./boardManager.jsx":232,"react":225}],232:[function(require,module,exports){
 'use strict';
+const moment = require('moment');
+
 
 function getBoards(collection) {
   let boards = [];
@@ -29059,6 +29060,9 @@ function getBoards(collection) {
     let board = collection[b];
     if (!board.icon) {
       board.icon = 'fa-user-circle-o';
+    }
+    if (!board.timeout) {
+      board.timeout = 20;  // minutes
     }
     for (var m in board.modules) {
       modules.push({
@@ -29069,6 +29073,7 @@ function getBoards(collection) {
     boards.push({ 
       name : b,
       icon : board.icon,
+      timeout : moment.duration(board.timeout, 'minutes'),
       modules : modules
     });
   }
@@ -29088,7 +29093,7 @@ class BoardManager {
 
 module.exports = BoardManager;
 
-},{"./boards.config.json":233}],233:[function(require,module,exports){
+},{"./boards.config.json":233,"moment":36}],233:[function(require,module,exports){
 module.exports={
   "small" : {
     "main" : {
@@ -29097,6 +29102,7 @@ module.exports={
       }
     },
     "dates" : {
+      "timeout" : 2,
       "modules" : {
         "appointments" :        [ 1, 1, 4, 6 ],
         "birthdays"   :         [ 5, 1, 4, 6 ]

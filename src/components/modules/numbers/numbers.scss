@@ -20,12 +20,15 @@
       font-weight: bold;
     }
     span.symbol {
-      color: #FF79C6;
+      //color: #FF79C6;
+      color: #4ED354;
+      //color: #BD93F9;
       padding-left: 0.05em;
       padding-right: 0.05em;
     }
     span.number {
       color: #BD93F9;
+      //color: #4ED354;
     }
     span.result {
       animation: fadein 20s;

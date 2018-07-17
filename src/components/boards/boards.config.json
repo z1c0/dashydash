@@ -6,6 +6,7 @@
       }
     },
     "dates" : {
+      "timeout" : 2,
       "modules" : {
         "appointments" :        [ 1, 1, 4, 6 ],
         "birthdays"   :         [ 5, 1, 4, 6 ]
