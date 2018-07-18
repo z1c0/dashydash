@@ -79,7 +79,7 @@ function timeOfDay(hourFrom, hourTo) {
 
 function specialDay(day, month, verySpecial) {
   return function(dt) {
-    const untilHour = verySpecial ? 24 : 20;
+    const untilHour = verySpecial ? 24 : 21;
     return day === dt.getDate() && (month - 1) === dt.getMonth() && timeOfDay(6, untilHour)(dt)
   }
 }
@@ -147,8 +147,8 @@ function easterWeekend() {
 var candidates = [
   {
     id : 'EmojiDay',
-    match : is(specialDay(17, 7, true)),
-    probability : Probability.certain,//.unlikely,
+    match : is(specialDay(17, 7, false)),
+    probability : Probability.possible,
     text : [
       "World Emoji Day!",
       'Welt Emoji Tag!',
