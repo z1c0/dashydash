@@ -16,12 +16,14 @@ function getIftttUrl(eventName, key) {
   return url;
 }
 
-function sendNotification(text) {
+function sendNotification(m) {
   request({
     url: getIftttUrl('new_movie', secrets.iftttkey),
     method: 'POST',
     json: {
-      value1: text
+      value1: m.title,
+      value2: m.image,
+      value3: m.url
     }
   });
 }
@@ -39,7 +41,7 @@ function updateDb(movies) {
         };
         table.insert(doc);
 
-        sendNotification(m.title);
+        sendNotification(m);
       }
     });
   }, this);
