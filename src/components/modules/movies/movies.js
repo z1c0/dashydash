@@ -49,8 +49,9 @@ function canonicalizeTitle(title) {
   let newTitle = '';
   if (title.startsWith('OV') && !title.includes('Sneak Preview')) {
     newTitle = title.replace('OV ', '');
-    newTitle = newTitle.replace('IMAX ', '');
-    newTitle = newTitle.replace('ATMOS ', '');
+    newTitle = newTitle.replace('IMAX', '');
+    newTitle = newTitle.replace('ATMOS', '');
+    newTitle = newTitle.replace('Dolby Atmos', '');
     newTitle = newTitle.replace('3D', '');
     newTitle = newTitle.trim();
   }
