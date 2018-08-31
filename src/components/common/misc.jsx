@@ -18,11 +18,20 @@ function randomIntFromInterval(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
+function getRandomTheme() {
+  return shuffle([
+    'theme-dark1',
+    'theme-dark2',
+    'theme-light'
+  ])[0];
+}
+
 module.exports = {
   setIntervalAndExecute : setIntervalAndExecute,
   shuffle : shuffle,
   randomIntFromInterval : randomIntFromInterval,
   randomBoolean : randomBoolean,
+  getRandomTheme : getRandomTheme,
 
   Cursor : function(array) {
     var idx = 0;

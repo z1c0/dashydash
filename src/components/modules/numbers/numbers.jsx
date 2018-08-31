@@ -11,7 +11,8 @@ class Numbers extends React.Component {
       turn : 0,
       n1 : 1,
       n2 : 1,
-      result : 2
+      result : 2,
+      theme : misc.getRandomTheme()
     }
   }
 
@@ -42,7 +43,7 @@ class Numbers extends React.Component {
 
   render() {
     return (
-      <div id='numbers' ref='numbers'>
+      <div id='numbers' ref='numbers' className='theme-dark1'>
         <p>
           <span className='number'>{this.state.n1}</span>
           <span className='symbol'>+</span>
