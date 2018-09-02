@@ -18,23 +18,26 @@ class FetchModule extends React.Component {
     super(props);
   }
 
+  goFetch() {
+    const opts = {
+      method: 'GET'
+    };
+    const url = '/api/' + this.constructor.name.lowercaseFirst();
+    let self = this;
+    fetch(url, opts).then(response => {
+      return response.json();
+    })
+    .then(body => {
+      self.callback(body);
+    })
+    .catch(error => {
+      console.log('Error: ', error);
+    });
+  }
+
   componentDidMount() {
     const self = this;
-    this.intervalId = setIntervalAndExecute(function() {
-      const opts = {
-        method: 'GET'
-      };
-      let url = '/api/' + self.constructor.name.lowercaseFirst();
-      fetch(url, opts).then(function(response) {
-        return response.json();
-      })
-      .then(function(body) {
-        self.callback(body);
-      })
-      .catch(function(error) {
-        console.log('Error: ', error);
-      });
-    }, self.interval);
+    this.intervalId = setIntervalAndExecute(() =>  self.goFetch(), self.interval);
   }
 
   componentWillUnmount() {

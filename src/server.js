@@ -1,7 +1,7 @@
 'use strict';
-var express = require('express');
-var ServerFetcher = require('./serverFetcher').ServerFetcher;
-
+const express = require('express');
+const bodyParser = require("body-parser");
+const ServerFetcher = require('./serverFetcher').ServerFetcher;
 
 var app = module.exports = express();
 
@@ -15,28 +15,30 @@ if (process.env.NODE_ENV !== 'production') {
 const wwwroot = __dirname + './../dist';
 app.use(express['static'](wwwroot));
 
+app.use(bodyParser.json());
 
 function createRoutes() {
   var router = express.Router();
 
   const fs = require('fs');
-  const path = require('path');
   const folderName = __dirname + '/components/modules';
   fs.readdirSync(folderName).forEach(f => {
-    var name = folderName + '/' + f + '/' + f + '.js';
+    const name = folderName + '/' + f + '/' + f + '.js';
     if (fs.existsSync(name)) {
       const m = require(name);
       if (m.init) {
         m.init();
       }
-      let route = '/api/' + f.toLowerCase();
+      const route = '/api/' + f.toLowerCase();
       router.get(route, new ServerFetcher(m).fetch);
+      if (m.post) {
+        router.post(route, m.post);
+      }
     }
   });
   return router;
 }
 app.use(createRoutes());
-
 
 const port = 3000;
 app.listen(port);

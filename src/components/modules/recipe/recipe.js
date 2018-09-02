@@ -1,5 +1,7 @@
 'use strict';
-var serverFetcher = require('../../../serverFetcher');
+const serverFetcher = require('../../../serverFetcher');
+const notifications = require('../../common/notifications');
+
 
 function getRecipe(req, res) {
   serverFetcher.fetchJson('http://api.chefkoch.de/api/1.1/api-recipe-search.php?Suchbegriff=vegetarisch&i=0&z=1&m=0&o=0&t=&limit=1000')
@@ -13,12 +15,21 @@ function getRecipe(req, res) {
       res.json({
         title : r.rezept_name,
         text : r.rezept_name2,
-        image : r.rezept_bilder[0].big.file
+        image : r.rezept_bilder[0].big.file,
+        url : r.rezept_frontend_url
       });
     });
   });
 }
 
+function sendRecipe(req, res) {
+  notifications.sendNotification(req.body, 'lets_cook');
+  res.json({
+    status : 'OK'
+  });
+}
+
 module.exports =  {
-  fetch : getRecipe
+  fetch : getRecipe,
+  post : sendRecipe
 }

@@ -30233,23 +30233,26 @@ class FetchModule extends React.Component {
     super(props);
   }
 
+  goFetch() {
+    const opts = {
+      method: 'GET'
+    };
+    const url = '/api/' + this.constructor.name.lowercaseFirst();
+    let self = this;
+    fetch(url, opts).then(response => {
+      return response.json();
+    })
+    .then(body => {
+      self.callback(body);
+    })
+    .catch(error => {
+      console.log('Error: ', error);
+    });
+  }
+
   componentDidMount() {
     const self = this;
-    this.intervalId = setIntervalAndExecute(function() {
-      const opts = {
-        method: 'GET'
-      };
-      let url = '/api/' + self.constructor.name.lowercaseFirst();
-      fetch(url, opts).then(function(response) {
-        return response.json();
-      })
-      .then(function(body) {
-        self.callback(body);
-      })
-      .catch(function(error) {
-        console.log('Error: ', error);
-      });
-    }, self.interval);
+    this.intervalId = setIntervalAndExecute(() =>  self.goFetch(), self.interval);
   }
 
   componentWillUnmount() {
@@ -32132,6 +32135,11 @@ class Pics extends FetchModule {
         image : body.url
       });
     }
+    this.next = this.next.bind(this);
+  }
+
+  next() {
+    this.goFetch();
   }
 
   render() {
@@ -32139,7 +32147,7 @@ class Pics extends FetchModule {
       backgroundImage: 'url(' + this.state.image + ')'
     }
     return (
-      React.createElement("div", {className: "pic", style: style})
+      React.createElement("div", {className: "pic", style: style, onClick: this.next})
     );
   }
 };
@@ -32166,9 +32174,39 @@ class Recipe extends FetchModule {
       this.setState({
         title : result.title,
         text : result.text,
-        image : result.image
+        image : result.image,
+        url : result.url
       });
     }
+    this.sendRecipe = this.sendRecipe.bind(this);
+  }
+
+  sendRecipe() {
+    // TODO: move into "base class"
+    const opts = {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body : JSON.stringify({ 
+        title : this.state.title,
+        image : this.state.image,
+        url : this.state.url,
+      })
+    };
+    const url = '/api/' + this.constructor.name.lowercaseFirst();
+    let self = this;
+    fetch(url, opts).then(response => {
+      return response.json();
+    })
+    .then(body => {
+      //console.log(body);
+    })
+    .catch(error => {
+      console.log('Post error: ', error);
+    });
+
   }
 
   render() {
@@ -32176,7 +32214,7 @@ class Recipe extends FetchModule {
       backgroundImage: 'url(' + this.state.image + ')'
     }
     return (
-      React.createElement("div", {className: "recipe", style: style}, 
+      React.createElement("div", {className: "recipe", style: style, onClick: this.sendRecipe}, 
         React.createElement("p", {className: "padded bold-text"}, this.state.title), 
         React.createElement("p", {className: "padded small-text"}, this.state.text)
       )

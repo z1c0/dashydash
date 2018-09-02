@@ -16,6 +16,11 @@ class Pics extends FetchModule {
         image : body.url
       });
     }
+    this.next = this.next.bind(this);
+  }
+
+  next() {
+    this.goFetch();
   }
 
   render() {
@@ -23,7 +28,7 @@ class Pics extends FetchModule {
       backgroundImage: 'url(' + this.state.image + ')'
     }
     return (
-      <div className='pic' style={style}></div>
+      <div className='pic' style={style} onClick={this.next}></div>
     );
   }
 };

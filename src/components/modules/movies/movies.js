@@ -1,32 +1,16 @@
 'use strict';
-var cron = require('cron');
-var moment = require('moment');
-var request = require('request');
-var db = require('../../common/db');
+const cron = require('cron');
+const moment = require('moment');
+const request = require('request');
+const db = require('../../common/db');
 const secrets = require('../../../secrets.json');
+const notifications = require('../../common/notifications');
+
 
 String.prototype.replaceAll = function(search, replacement) {
   var target = this;
   return target.replace(new RegExp(search, 'g'), replacement);
 };
-
-function getIftttUrl(eventName, key) {
-  let url = 'https://maker.ifttt.com/trigger/' + eventName + '/with/key/' + key;
-  //console.log(url);
-  return url;
-}
-
-function sendNotification(m) {
-  request({
-    url: getIftttUrl('new_movie', secrets.iftttkey),
-    method: 'POST',
-    json: {
-      value1: m.title,
-      value2: m.image,
-      value3: m.url
-    }
-  });
-}
 
 function updateDb(movies) {
   let table = db.get('movies');
@@ -41,7 +25,7 @@ function updateDb(movies) {
         };
         table.insert(doc);
 
-        sendNotification(m);
+        notifications.sendNotification(m);
       }
     });
   }, this);
@@ -69,10 +53,10 @@ function checkMovies() {
   },
   function(err, httpResponse, body) {
     if (err) {
-      sendNotification(err);
+      notifications.sendError(err);
     }
     else if (body.Error) {
-      sendNotification(body.Error);
+      notifications.sendError(body.Error);
     }
     else {
       var movieMap = [];
@@ -102,7 +86,7 @@ function checkMovies() {
 module.exports = {
   init: function () {
     if (secrets.iftttkey) {
-      var cronJob = cron.job("0 0 */1 * * *", function () {
+      const cronJob = cron.job("0 0 */1 * * *", () => {
         checkMovies();
       });
       cronJob.start();
