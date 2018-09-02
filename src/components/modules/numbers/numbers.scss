@@ -12,6 +12,9 @@
   height: 100%;
   display: flex;
   align-items: center;
+  @include themify($themes) {
+    background: themed('backgroundColor')
+  }
 
   p {
     width: 100%;

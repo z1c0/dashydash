@@ -1,14 +1,19 @@
+@import './common';
+
 $themes : (
   dark1 : (
+    backgroundColor : $part-background-color,
     symbolColor: #4ED354,
     textColor: #BD93F9,
   ),
   dark2 : (
+    backgroundColor : $part-background-color,
     symbolColor: #FF79C6,
-    textColor: #BD93F9,
+    textColor: #FBFBFB,
   ),
   light : (
-    symbolColor: black,
+    backgroundColor : white,
+    symbolColor: rgb(18, 62, 119),
     textColor: black,
   )
 );

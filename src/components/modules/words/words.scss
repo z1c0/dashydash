@@ -1,4 +1,4 @@
-@import '../../common/common';
+@import '../../common/themes';
 
 @keyframes fadein {
     0% { opacity: 0; }
@@ -8,7 +8,7 @@
   100% { opacity: 1; }
 }
 
-.words {
+#words {
   height: 100%;
   background: white;
   color:black;
@@ -16,10 +16,19 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  @include themify($themes) {
+    background: themed('backgroundColor')
+  }
+
   p {
     font-weight: bold;
     width: 100%;
     text-align: center;
+
+    @include themify($themes) {
+      color: themed('textColor')
+    }
   }
   i {
     margin: $default-padding;

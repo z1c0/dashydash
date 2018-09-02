@@ -1,6 +1,7 @@
-"use strict";
+'use strict';
 var React = require('react');
 var moment = require('moment');
+var misc = require('../../common/misc.jsx');
 
 const letters = [
   [ 'A', 'apple' ],
@@ -60,7 +61,7 @@ class Abc extends React.Component {
   render() {
     var l = letters[this.state.index];
     return (
-      <div id='abc' ref='abc'>
+      <div id='abc' ref='abc' className={misc.getRandomTheme()}>
         <p>
           <span>{l[0]}</span>
           <i className={'e1a-' + l[1]}></i>

@@ -1,3 +1,5 @@
+@import '../../common/themes';
+
 #abc {
   height: 100%;
   background: white;
@@ -5,9 +7,17 @@
   display: flex;
   align-items: center;
 
+  @include themify($themes) {
+    background: themed('backgroundColor')
+  }
+
   p {
     width: 100%;
     text-align: center;
+    @include themify($themes) {
+      color: themed('textColor')
+    }
+
     span {
       font-size: 2em;
       line-height: 1em;

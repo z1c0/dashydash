@@ -83,7 +83,7 @@ class Words extends React.Component {
   render() {
     var l = this.words[this.state.index];
     return (
-      <div className='words' ref='words'>
+      <div id='words' ref='words' className={misc.getRandomTheme()}>
         <p>{l[0].toUpperCase()}</p>
         <i key={l[1]} className={'e1a-' + l[1]}></i>
       </div>
