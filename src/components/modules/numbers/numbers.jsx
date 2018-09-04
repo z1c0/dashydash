@@ -14,6 +14,7 @@ class Numbers extends React.Component {
       result : 2,
       theme : misc.getRandomTheme()
     }
+    this.theme = misc.getRandomTheme();
   }
 
   componentDidMount() {
@@ -43,7 +44,7 @@ class Numbers extends React.Component {
 
   render() {
     return (
-      <div id='numbers' ref='numbers' className={misc.getRandomTheme()}>
+      <div id='numbers' ref='numbers' className={this.theme}>
         <p>
           <span className='number'>{this.state.n1}</span>
           <span className='symbol'>+</span>

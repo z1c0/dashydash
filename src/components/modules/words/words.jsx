@@ -61,6 +61,7 @@ class Words extends React.Component {
       index : 0
     }
     this.words = misc.shuffle(wordList);
+    this.theme = misc.getRandomTheme();
   }
 
   componentDidMount() {
@@ -83,7 +84,7 @@ class Words extends React.Component {
   render() {
     var l = this.words[this.state.index];
     return (
-      <div id='words' ref='words' className={misc.getRandomTheme()}>
+      <div id='words' ref='words' className={this.theme}>
         <p>{l[0].toUpperCase()}</p>
         <i key={l[1]} className={'e1a-' + l[1]}></i>
       </div>

@@ -23,9 +23,9 @@ class Overlays extends IntervalModule {
   render() {
     return (
       <div>
-        <div id="home">
-          <a href="/"><i className="fa fa-home big-text"></i></a>
-        </div>
+        <a href="/">
+          <div id="home"><i className="fa fa-home big-text"></i></div>
+        </a>
         <div id="datetime">
           <span className="time big-text">{this.state.time}</span>
           <span className="seconds normal-text">{this.state.seconds}</span>

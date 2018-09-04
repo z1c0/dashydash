@@ -39,6 +39,7 @@ class Abc extends React.Component {
     this.state = {
       index : 0
     }
+    this.theme = misc.getRandomTheme();
   }
 
   componentDidMount() {
@@ -61,7 +62,7 @@ class Abc extends React.Component {
   render() {
     var l = letters[this.state.index];
     return (
-      <div id='abc' ref='abc' className={misc.getRandomTheme()}>
+      <div id='abc' ref='abc' className={this.theme}>
         <p>
           <span>{l[0]}</span>
           <i className={'e1a-' + l[1]}></i>

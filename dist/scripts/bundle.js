@@ -30390,6 +30390,7 @@ class Abc extends React.Component {
     this.state = {
       index : 0
     }
+    this.theme = misc.getRandomTheme();
   }
 
   componentDidMount() {
@@ -30412,7 +30413,7 @@ class Abc extends React.Component {
   render() {
     var l = letters[this.state.index];
     return (
-      React.createElement("div", {id: "abc", ref: "abc", className: misc.getRandomTheme()}, 
+      React.createElement("div", {id: "abc", ref: "abc", className: this.theme}, 
         React.createElement("p", null, 
           React.createElement("span", null, l[0]), 
           React.createElement("i", {className: 'e1a-' + l[1]})
@@ -32072,6 +32073,7 @@ class Numbers extends React.Component {
       result : 2,
       theme : misc.getRandomTheme()
     }
+    this.theme = misc.getRandomTheme();
   }
 
   componentDidMount() {
@@ -32101,7 +32103,7 @@ class Numbers extends React.Component {
 
   render() {
     return (
-      React.createElement("div", {id: "numbers", ref: "numbers", className: misc.getRandomTheme()}, 
+      React.createElement("div", {id: "numbers", ref: "numbers", className: this.theme}, 
         React.createElement("p", null, 
           React.createElement("span", {className: "number"}, this.state.n1), 
           React.createElement("span", {className: "symbol"}, "+"), 
@@ -32431,6 +32433,7 @@ class Words extends React.Component {
       index : 0
     }
     this.words = misc.shuffle(wordList);
+    this.theme = misc.getRandomTheme();
   }
 
   componentDidMount() {
@@ -32453,7 +32456,7 @@ class Words extends React.Component {
   render() {
     var l = this.words[this.state.index];
     return (
-      React.createElement("div", {id: "words", ref: "words", className: misc.getRandomTheme()}, 
+      React.createElement("div", {id: "words", ref: "words", className: this.theme}, 
         React.createElement("p", null, l[0].toUpperCase()), 
         React.createElement("i", {key: l[1], className: 'e1a-' + l[1]})
       )
@@ -32489,8 +32492,8 @@ class Overlays extends IntervalModule {
   render() {
     return (
       React.createElement("div", null, 
-        React.createElement("div", {id: "home"}, 
-          React.createElement("a", {href: "/"}, React.createElement("i", {className: "fa fa-home big-text"}))
+        React.createElement("a", {href: "/"}, 
+          React.createElement("div", {id: "home"}, React.createElement("i", {className: "fa fa-home big-text"}))
         ), 
         React.createElement("div", {id: "datetime"}, 
           React.createElement("span", {className: "time big-text"}, this.state.time), 
