@@ -16,8 +16,9 @@ class Football extends FetchModule {
     }
     this.interval = moment.duration(1, 'hour');
     this.callback = function(matches) {
+      //console.log(matches);
       let m = matches.find(m => {
-        return m.Team1.ShortName === 'BVB' || m.Team2.ShortName === 'BVB';
+        return m.Team1.ShortName.startsWith('BVB') || m.Team2.ShortName.startsWith('BVB');
       });
       if (m) {
         let info = '';
