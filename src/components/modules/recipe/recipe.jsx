@@ -2,6 +2,7 @@
 var React = require('react');
 var moment = require('moment');
 var FetchModule = require('../../common/fetchModule.jsx');
+const Blinkable = require('../../common/blinkable.jsx');
 
 
 class Recipe extends FetchModule {
@@ -21,10 +22,10 @@ class Recipe extends FetchModule {
         url : result.url
       });
     }
-    this.sendRecipe = this.sendRecipe.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
-  sendRecipe() {
+  handleClick() {
     // TODO: move into "base class"
     const opts = {
       method: 'POST',
@@ -53,13 +54,15 @@ class Recipe extends FetchModule {
   }
 
   render() {
-    var style = {
+    const style = {
       backgroundImage: 'url(' + this.state.image + ')'
     }
     return (
-      <div className='recipe' style={style} onClick={this.sendRecipe}>
-        <p className="padded bold-text">{this.state.title}</p>
-        <p className="padded small-text">{this.state.text}</p>
+      <div className='recipe' style={style} onClick={this.handleClick}>
+        <Blinkable>
+          <p className="padded bold-text">{this.state.title}</p>
+          <p className="padded small-text">{this.state.text}</p>
+        </Blinkable>
       </div>
     );
   }

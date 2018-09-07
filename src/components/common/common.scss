@@ -35,6 +35,20 @@ $part-background-color: rgb(40, 40, 40);
   padding: $default-padding;
 }
 
+@keyframes blinkAnimation  {
+  0% {
+    background: none;
+  }
+  20% {
+    background: white;
+  }
+}
+.blink {
+  height: 100%;
+  width: 100%;
+  animation: blinkAnimation 0.4s;
+}
+
 @media (max-width: 800px) {
   .small-text {
     font-size: 2.2vw;
