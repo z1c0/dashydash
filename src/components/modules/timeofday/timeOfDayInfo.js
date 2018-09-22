@@ -607,7 +607,7 @@ var candidates = [
   },
   {
     id : 'Night',
-    match : is(timeOfDay(0, 6)),
+    match : is(timeOfDay(0, 5)),
     probability : Probability.certain,
     text : [
       'You really should be sleeping ...',

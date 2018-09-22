@@ -18,12 +18,21 @@ class Overlays extends IntervalModule {
         seconds : now.format('ss')
       });
     }
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(e) {
+    e.preventDefault();
+    const newLocation = window.location.href.substr(0, window.location.href.lastIndexOf('/'));
+    //console.log(newLocation);
+    window.location.href = newLocation;
   }
   
   render() {
     return (
       <div>
-        <a href="/">
+        <a href="#" onClick={this.handleClick}>
           <div id="home"><i className="fa fa-home big-text"></i></div>
         </a>
         <div id="datetime">

@@ -29953,6 +29953,12 @@ module.exports={
         "appointments" :        [ 1, 1, 4, 6 ],
         "birthdays"   :         [ 5, 1, 4, 6 ]
       }
+    },
+    "2pics" : {
+      "modules" : {
+        "pics"   :         [ 1, 1, 4, 6 ],
+        "pics.1" :         [ 5, 1, 4, 6 ]
+      }
     }
   },
   "default" : {
@@ -32533,12 +32539,21 @@ class Overlays extends IntervalModule {
         seconds : now.format('ss')
       });
     }
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(e) {
+    e.preventDefault();
+    const newLocation = window.location.href.substr(0, window.location.href.lastIndexOf('/'));
+    console.log(newLocation);
+    window.location.href = newLocation;
   }
   
   render() {
     return (
       React.createElement("div", null, 
-        React.createElement("a", {href: "/"}, 
+        React.createElement("a", {href: "#", onClick: this.handleClick}, 
           React.createElement("div", {id: "home"}, React.createElement("i", {className: "fa fa-home big-text"}))
         ), 
         React.createElement("div", {id: "datetime"}, 
@@ -32563,16 +32578,18 @@ var Switch = RouterDOM.Switch;
 var Home = require('./components/boards/home.jsx');
 var Board = require('./components/boards/board.jsx');
 var NotFound = require('./404.jsx');
+const Overlays = require('./overlays.jsx');
 
 
 var routes = (
   React.createElement(Switch, null, 
     React.createElement(Route, {exact: true, path: "/:boardSetId?", component: Home}), 
     React.createElement(Route, {path: "/:boardSetId/:boardId", component: Board}), 
-    React.createElement(Route, {component: NotFound})
+    React.createElement(Route, {component: NotFound}), 
+    React.createElement(Overlays, null)
   )
 )
 
 module.exports = routes;
 
-},{"./404.jsx":242,"./components/boards/board.jsx":244,"./components/boards/home.jsx":247,"react":238,"react-router-dom":186}]},{},[243]);
+},{"./404.jsx":242,"./components/boards/board.jsx":244,"./components/boards/home.jsx":247,"./overlays.jsx":277,"react":238,"react-router-dom":186}]},{},[243]);

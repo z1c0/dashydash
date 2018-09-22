@@ -11,6 +11,12 @@
         "appointments" :        [ 1, 1, 4, 6 ],
         "birthdays"   :         [ 5, 1, 4, 6 ]
       }
+    },
+    "2pics" : {
+      "modules" : {
+        "pics"   :         [ 1, 1, 4, 6 ],
+        "pics.1" :         [ 5, 1, 4, 6 ]
+      }
     }
   },
   "default" : {
