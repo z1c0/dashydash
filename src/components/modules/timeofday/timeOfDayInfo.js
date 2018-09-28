@@ -309,6 +309,18 @@ var candidates = [
     emoji : [ 'snowman', 'snowman2', 'snowflake', 'chipmunk', 'rainbow', 'partly_sunny' ]
   },
   {
+    id : 'PastaDay',
+    match : is(specialDay(25, 10, false)),
+    probability : Probability.possible,
+    text: [
+      "Happy Pasta Day!",
+      "It's World Pasta Day!",
+      "Heute ist Welt-Nudeltag!"      
+    ],
+    tag : [ 'pasta day', 'pasta', 'spaghetti' ],
+    emoji : [ 'spaghetti' ]
+  },
+  {
     id : 'Halloween',
     match : is(specialDay(31, 10, true)),
     probability : Probability.possible,

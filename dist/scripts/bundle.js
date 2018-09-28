@@ -32546,7 +32546,7 @@ class Overlays extends IntervalModule {
   handleClick(e) {
     e.preventDefault();
     const newLocation = window.location.href.substr(0, window.location.href.lastIndexOf('/'));
-    console.log(newLocation);
+    //console.log(newLocation);
     window.location.href = newLocation;
   }
   
@@ -32578,18 +32578,16 @@ var Switch = RouterDOM.Switch;
 var Home = require('./components/boards/home.jsx');
 var Board = require('./components/boards/board.jsx');
 var NotFound = require('./404.jsx');
-const Overlays = require('./overlays.jsx');
 
 
 var routes = (
   React.createElement(Switch, null, 
     React.createElement(Route, {exact: true, path: "/:boardSetId?", component: Home}), 
     React.createElement(Route, {path: "/:boardSetId/:boardId", component: Board}), 
-    React.createElement(Route, {component: NotFound}), 
-    React.createElement(Overlays, null)
+    React.createElement(Route, {component: NotFound})
   )
 )
 
 module.exports = routes;
 
-},{"./404.jsx":242,"./components/boards/board.jsx":244,"./components/boards/home.jsx":247,"./overlays.jsx":277,"react":238,"react-router-dom":186}]},{},[243]);
+},{"./404.jsx":242,"./components/boards/board.jsx":244,"./components/boards/home.jsx":247,"react":238,"react-router-dom":186}]},{},[243]);
