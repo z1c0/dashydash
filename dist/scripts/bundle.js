@@ -30091,8 +30091,8 @@ module.exports={
     ,
     "TEST" : {
       "modules" : {
-        "recipe" :   [ 1, 1, 2, 1 ]
-        //"football" :   [ 1, 1, 1, 1 ]
+        //"recipe" :   [ 1, 1, 2, 1 ]
+        "football" :   [ 1, 1, 1, 1 ]
         //"games" :   [ 1, 1, 4, 4 ]
         //"todo" :   [ 1, 1, 1, 2 ]
         //"pics" :   [ 2, 2, 3, 3 ],
@@ -30696,7 +30696,8 @@ class Football extends FetchModule {
       if (m) {
         let info = '';
         if (m.MatchIsFinished) {
-          info = m.MatchResults[1].PointsTeam1 + ' : ' + m.MatchResults[1].PointsTeam2;
+          const results = m.MatchResults[0];
+          info = results.PointsTeam1 + ' : ' + results.PointsTeam2;
         }
         else {
           info = moment(m.MatchDateTime).format("dd, DD.MM.YYYY, HH:mm")
