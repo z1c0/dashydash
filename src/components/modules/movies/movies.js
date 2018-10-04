@@ -17,7 +17,7 @@ function updateDb(movies) {
   movies.forEach(function (m) {
     table.find({ title: m.title }, function (err, docs) {
       if (docs.length == 0) {
-        //console.log(m);
+        console.log(m);
         // not found -> insert into db
         var doc = {
           title: m.title,
@@ -33,7 +33,7 @@ function updateDb(movies) {
 
 function canonicalizeTitle(title) {
   let newTitle = '';
-  if (title.startsWith('OV') && !title.includes('Sneak Preview')) {
+  if (!title.includes('Sneak Preview')) {
     newTitle = title.replace('OV ', '');
     newTitle = newTitle.replace('IMAX', '');
     newTitle = newTitle.replace('ATMOS', '');
@@ -59,17 +59,20 @@ function checkMovies() {
       notifications.sendError(body.Error);
     }
     else {
-      var movieMap = [];
+      let movieMap = [];
       if (body.Filme) {
         body.Filme.forEach(function (f) {
-          var title = canonicalizeTitle(f.Anzeigetitel);
-          if (title) {
-            movieMap[title] = {
-              title: title,
-              image: f.Bild,
-              start: moment(f.Filmstart).format('MMMM Do'),
-              url: 'http://www.megaplex.at/film/' + title.replaceAll(' ', '-')
-            };
+          if (f.OV) {
+            const title = canonicalizeTitle(f.Anzeigetitel);
+            console.log(title);
+            if (title) {
+              movieMap[title] = {
+                title: title,
+                image: f.Bild,
+                start: moment(f.Filmstart).format('MMMM Do'),
+                url: 'http://www.megaplex.at/film/' + title.replaceAll(' ', '-')
+              };
+            }
           }
         });
       }
