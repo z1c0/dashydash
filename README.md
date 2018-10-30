@@ -2,6 +2,23 @@
 
 A dashboard application intended for home use. It keeps your appointments, family pictures, bus connections, ... at glance.
 
+## Installation
+
+* Install [Node.js](https://nodejs.org/en/download/)
+```bash
+# On a RaspberryPi (run as root)
+curl -sL https://deb.nodesource.com/setup_11.x | bash -
+apt-get install -y nodejs
+```
+* Clone this repository  
+`git clone https://github.com/z1c0/dashydash`
+* Install [gulp](https://gulpjs.com/) globally
+```
+sudo npm install -g gulp
+```
+* `npm install`
+* Run with `gulp`
+
 ## Technologies
 
 The application is implemented using **Node.js** and **React**.
@@ -95,4 +112,9 @@ So, displaying a component (e.g. pictures) full screen can be done like this:
 Switching between these layouts ("boards") happens automatically after a certain amount of time or - of course - manually.
 
 ## More?
-This [blog post](https://wolfgang-ziegler.com/blog/family-dashboard) gives so more detail on how the dashboard (both hardware and software) were made.
+This [blog post](https://wolfgang-ziegler.com/blog/family-dashboard) gives some more detail on how the dashboard (both hardware and software) were made.
+
+## Get Engaged!
+A lot of these modules or their functionality are tailored to personal needs and use cases. However, if you have ideas, suggestions or feedback do not hesitate to contact me.  
+Of course, **pull requests** are welcome anytime!
+

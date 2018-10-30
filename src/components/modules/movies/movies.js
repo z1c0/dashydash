@@ -17,7 +17,7 @@ function updateDb(movies) {
   movies.forEach(function (m) {
     table.find({ title: m.title }, function (err, docs) {
       if (docs.length == 0) {
-        console.log(m);
+        //console.log(m);
         // not found -> insert into db
         var doc = {
           title: m.title,
@@ -64,7 +64,6 @@ function checkMovies() {
         body.Filme.forEach(function (f) {
           if (f.OV) {
             const title = canonicalizeTitle(f.Anzeigetitel);
-            console.log(title);
             if (title) {
               movieMap[title] = {
                 title: title,

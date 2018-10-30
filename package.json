@@ -29,7 +29,7 @@
     "gulp-concat": "^2.6.1",
     "gulp-eslint": "^3.0.1",
     "gulp-flatten": "^0.3.1",
-    "gulp-live-server": "0.0.30",
+    "gulp-live-server": "0.0.31",
     "gulp-nodemon": "^2.2.1",
     "gulp-sass": "^3.2.1",
     "ical": "^0.5.0",
