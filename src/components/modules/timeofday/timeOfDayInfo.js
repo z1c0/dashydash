@@ -417,9 +417,9 @@ var candidates = [
   
   {
     id : 'Workout',
-    match : is(timeOfWeekDay(Day.Mon, 6, 7)).
-      or(timeOfWeekDay(Day.Wed, 6, 7)).
-      or(timeOfWeekDay(Day.Fr, 6, 7)),
+    match : is(timeOfWeekDay(Day.Mon, 5, 7)).
+      or(timeOfWeekDay(Day.Wed, 5, 7)).
+      or(timeOfWeekDay(Day.Fr, 5, 7)),
     probability : Probability.veryLikely,
     text : [ 
       "Go get 'em!",
@@ -535,7 +535,7 @@ var candidates = [
 
   {
     id : 'GoodMorning',
-    match : is(timeOfDay(6, 11)),
+    match : is(timeOfDay(5, 11)),
     probability : Probability.certain,
     text : [ 
       'Have a great day!',
@@ -619,7 +619,7 @@ var candidates = [
   },
   {
     id : 'Night',
-    match : is(timeOfDay(0, 6)),
+    match : is(timeOfDay(0, 5)),
     probability : Probability.certain,
     text : [
       'You really should be sleeping ...',

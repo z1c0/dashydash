@@ -60,8 +60,8 @@ describe('timeOfDayInfo', function() {
       { arg: helper_TimeOfWeekDay(6, 10), expected: 'Breakfast' },
 
       { arg: helper_TimeOfDay(0), expected: 'Night' },
-      { arg: helper_TimeOfDay(5), expected: 'Night' },
-      { arg: helper_TimeOfDay(6), expected: 'GoodMorning' },
+      { arg: helper_TimeOfDay(4), expected: 'Night' },
+      { arg: helper_TimeOfDay(5), expected: 'GoodMorning' },
       { arg: helper_TimeOfDay(10), expected: 'GoodMorning' },
       { arg: helper_TimeOfDay(11), expected: 'Lunch' },
       { arg: helper_TimeOfDay(13), expected: 'Lunch' },

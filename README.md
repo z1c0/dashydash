@@ -19,6 +19,9 @@ sudo npm install -g gulp
 * `npm install`
 * Run with `gulp`
 
+### Troubleshooting
+On a **RaspberryPi**, if you encounter this error: `sass/context.h: No such file or directory`, try running `LIBSASS_EXT="no" npm install`.
+
 ## Technologies
 
 The application is implemented using **Node.js** and **React**.

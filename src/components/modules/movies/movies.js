@@ -36,9 +36,11 @@ function canonicalizeTitle(title) {
   if (!title.includes('Sneak Preview')) {
     newTitle = title.replace('OV ', '');
     newTitle = newTitle.replace('IMAX', '');
+    newTitle = newTitle.replace('Imax', '');
     newTitle = newTitle.replace('ATMOS', '');
     newTitle = newTitle.replace('Dolby Atmos', '');
     newTitle = newTitle.replace('3D', '');
+    newTitle = newTitle.replace('4DX', '');
     newTitle = newTitle.trim();
   }
   return newTitle;
