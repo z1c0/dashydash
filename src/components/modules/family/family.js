@@ -1,5 +1,5 @@
 'use strict';
 
 module.exports = {
-  url : 'https://ziegler-family.com/activities/api'
+  url : 'https://steffiskalender.azurewebsites.net/activities/api'
 }
