@@ -30087,19 +30087,19 @@ module.exports={
         "weather" :      [ 5, 6, 5, 1 ]
       }
     }
-    /*
+    
     ,
     "TEST" : {
       "modules" : {
         //"recipe" :   [ 1, 1, 2, 1 ]
-        "football" :   [ 1, 1, 1, 1 ]
+        "todo" :   [ 1, 1, 1, 4 ]
         //"games" :   [ 1, 1, 4, 4 ]
         //"todo" :   [ 1, 1, 1, 2 ]
         //"pics" :   [ 2, 2, 3, 3 ],
         //"timeofday" : [2, 1, 5, 1],
         //"blog" :      [4, 2, 2, 2]
       }
-    }*/
+    }
   }
 }
 },{}],247:[function(require,module,exports){

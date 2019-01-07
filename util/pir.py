@@ -29,10 +29,11 @@ def toggleScreen(on):
   if on:
     logger.info("SCREEN ON")
     #os.system("service hdmi start")
-    os.system(vcgencmd display_power 1)
+    os.system("vcgencmd display_power 1")
+    os.system("/home/pi/takepic.sh");
   else:
     logger.info("SCREEN OFF")
-    os.system(vcgencmd display_power 0)
+    os.system("vcgencmd display_power 0")
     #os.system("service hdmi stop")
 
   #with open("/sys/class/backlight/rpi_backlight/bl_power", "w") as text_file:
