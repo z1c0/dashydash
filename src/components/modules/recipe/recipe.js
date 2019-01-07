@@ -4,7 +4,8 @@ const notifications = require('../../common/notifications');
 
 
 function getRecipe(req, res) {
-  serverFetcher.fetchJson('https://api.chefkoch.de/v2/recipes?descendCategories=1&order=0&minimumRating=0&maximumTime=0&query=vegetarisch&limit=1000')
+  // query can be empty
+  serverFetcher.fetchJson('https://api.chefkoch.de/v2/recipes?descendCategories=1&order=0&minimumRating=3&maximumTime=0&query=vegetarisch&limit=1&orderBy=7&hasImage=1')
   .then(function(all) {
     const id = all.results[Math.floor(Math.random() * all.results.length)].recipe.id;
     //console.log(id);
