@@ -7,6 +7,7 @@ const Pong = require('./pong.jsx');
 const SpaceInvaders = require('./spaceInvaders.jsx');
 const PacMan = require('./pacman.jsx');
 const Arkanoid = require('./arkanoid.jsx');
+const Fire = require('./fire.jsx');
 
 
 class GameController {
@@ -19,7 +20,8 @@ class GameController {
       new Pong(),
       new Snake(),
       new SpaceInvaders(),
-      new Arkanoid()
+      new Arkanoid(),
+      new Fire()
     ]));
   }
 
