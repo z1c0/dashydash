@@ -30087,7 +30087,7 @@ module.exports={
         "weather" :      [ 5, 6, 5, 1 ]
       }
     }
-    
+    /*
     ,
     "TEST" : {
       "modules" : {
@@ -30099,7 +30099,7 @@ module.exports={
         //"timeofday" : [2, 1, 5, 1],
         //"blog" :      [4, 2, 2, 2]
       }
-    }
+    }*/
   }
 }
 },{}],247:[function(require,module,exports){
@@ -31163,12 +31163,12 @@ class GameController {
     this.canvas = canvas;
     this.DIM = 32;
     this.games = new Cursor(misc.shuffle([
-      /*new PacMan(),
+      new PacMan(),
       new TicTacToe(),
       new Pong(),
       new Snake(),
       new SpaceInvaders(),
-      new Arkanoid(),*/
+      new Arkanoid(),
       new Fire()
     ]));
   }
