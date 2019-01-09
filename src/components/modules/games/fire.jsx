@@ -1,6 +1,6 @@
 'use strict';
-var BaseGame = require('./baseGame.jsx');
 
+const MAX_ROUNDS = 500;
 const FIRE_WIDTH = 32;
 const FIRE_HEIGHT = 32;
 const rgbs = [
@@ -48,11 +48,11 @@ const rgbs = [
   //"#FFFFFF",
 ];
 
-class Fire extends BaseGame {
+class FireAnimation {
   constructor() {
-    super();
     //console.log(rgbs.length);
     this.firePixels = [];
+    this.reset();
   }
 
   doFire() {
@@ -69,40 +69,50 @@ class Fire extends BaseGame {
     this.firePixels[dst - FIRE_WIDTH ] = Math.max(0, this.firePixels[src] - (rand & 1));
   }
 
-  getInterval() {
-    return 100;
-  }
-   
-  init() {
-    super.init();
-    this.reset();
-  }
-  
   isOver() {
-    return this.rounds === 500;
+    return this.rounds === MAX_ROUNDS;
   }
   
+  isGoingOut() {
+    return this.rounds >= MAX_ROUNDS - 45;
+  }
+
   reset() {
     for (let i = 0; i < FIRE_WIDTH * FIRE_HEIGHT; i++) {
       this.firePixels[i] = 0;
     }
   
-    for (let i = 0; i < FIRE_WIDTH; i++) {
-      this.firePixels[(FIRE_HEIGHT - 1) * FIRE_WIDTH + i] = rgbs.length - 1;
-    }
+    this.setBottomRow(rgbs.length - 1);
 
     this.rounds = 0
   }
 
-  mapColor(x, y) {
-    let index = this.firePixels[FIRE_WIDTH * y + x];
-    return rgbs[index];
-  }  
+  setBottomRow(col) {
+    for (let i = 0; i < FIRE_WIDTH; i++) {
+      this.firePixels[(FIRE_HEIGHT - 1) * FIRE_WIDTH + i] = col;
+    }
+  }
   
-  simulate() {
+  render(game) {
     this.doFire();
+
+    for (let y = 0; y < game.dim(); y++){ 
+      for (let x = 0; x < game.dim(); x++) {
+        let index = this.firePixels[FIRE_WIDTH * y + x];
+        if (index !== 0 || this.isGoingOut()) {
+          game.setPixel(x, y, rgbs[index]);
+        }
+      }
+    }
+
     this.rounds++;
+
+    if (this.isGoingOut()) {
+      this.setBottomRow(0);
+    }
+
+    return this.isOver();
   }
 }
 
-module.exports = Fire;
+module.exports = FireAnimation;

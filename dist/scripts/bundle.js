@@ -29801,7 +29801,7 @@ ReactDOM.render(
   ),
   document.getElementById('app'));
 
-},{"./overlays.jsx":278,"./routes.jsx":279,"react":238,"react-dom":47,"react-router-dom":186}],244:[function(require,module,exports){
+},{"./overlays.jsx":279,"./routes.jsx":280,"react":238,"react-dom":47,"react-router-dom":186}],244:[function(require,module,exports){
 'use strict';
 var Cursor = require('../common/misc.jsx').Cursor;
 var React = require('react');
@@ -29894,7 +29894,7 @@ class Board extends React.Component {
 
 module.exports = Board;
 
-},{"../common/misc.jsx":252,"../modules/abc/abc.jsx":253,"../modules/appointments/appointments.jsx":254,"../modules/birthdays/birthdays.jsx":255,"../modules/blog/blog.jsx":256,"../modules/bus/bus.jsx":257,"../modules/family/family.jsx":258,"../modules/football/football.jsx":259,"../modules/games/games.jsx":264,"../modules/news/news.jsx":270,"../modules/numbers/numbers.jsx":271,"../modules/pics/pics.jsx":272,"../modules/recipe/recipe.jsx":273,"../modules/timeofday/timeofday.jsx":274,"../modules/todo/todo.jsx":275,"../modules/weather/weather.jsx":276,"../modules/words/words.jsx":277,"./boardManager.jsx":245,"react":238}],245:[function(require,module,exports){
+},{"../common/misc.jsx":252,"../modules/abc/abc.jsx":253,"../modules/appointments/appointments.jsx":254,"../modules/birthdays/birthdays.jsx":255,"../modules/blog/blog.jsx":256,"../modules/bus/bus.jsx":257,"../modules/family/family.jsx":258,"../modules/football/football.jsx":259,"../modules/games/games.jsx":265,"../modules/news/news.jsx":271,"../modules/numbers/numbers.jsx":272,"../modules/pics/pics.jsx":273,"../modules/recipe/recipe.jsx":274,"../modules/timeofday/timeofday.jsx":275,"../modules/todo/todo.jsx":276,"../modules/weather/weather.jsx":277,"../modules/words/words.jsx":278,"./boardManager.jsx":245,"react":238}],245:[function(require,module,exports){
 'use strict';
 const moment = require('moment');
 
@@ -30886,36 +30886,9 @@ module.exports = Arkanoid;
 
 },{"../../common/misc.jsx":252,"./baseGame.jsx":261}],261:[function(require,module,exports){
 'use strict';
+const GameOver = require('./gameOver.jsx');
 
 const DIM = 32;
-
-
-class GameOverAnimation {
-  constructor(game) {
-    this.game = game;
-    this.steps = -5;
-    this.useColors = this.game.getRandomBool();
-  }
-  
-  render() {
-    if (this.steps >= 0) {
-      for (let y = 0; y < Math.min(DIM, this.steps); y++){ 
-        for (let x = 0; x < DIM; x++) {
-          if (this.useColors) {
-            if (this.game.getRandomBool()) {
-              this.game.setPixel(x, y, this.game.getRandomColor(true));
-            }
-          }
-          else {
-            this.game.setPixel(x, y, this.game.getRandomGray(true));
-          }
-        }
-      }
-    }
-    return this.steps++ == (DIM + 25);
-  }
-}
-
 
  
 class BaseGame {
@@ -30930,7 +30903,7 @@ class BaseGame {
   }
 
   init() {
-    this.gameOverAnimation = new GameOverAnimation(this);
+    this.gameOverAnimation = new GameOver().getRandomAnimation();
     this.world = this.createMatrix(DIM);
   }
 
@@ -30945,13 +30918,30 @@ class BaseGame {
     return arr;
   }
 
+  rgbToHex(r, g, b) {
+    function componentToHex(c) {
+      const hex = c.toString(16);
+      return hex.length == 1 ? "0" + hex : hex;
+    }  
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+  }
+
+  hexToRgb(hex) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+  }
+
   setPixel(x, y, color) {
     this.ctx.fillStyle = color;
     this.ctx.fillRect(x * this.step + 1 + this.offsetX, y * this.step + 1 + this.offsetY, this.step - 2, this.step - 2);
   }
 
   renderGameOver() {
-    return this.gameOverAnimation.render();
+    return this.gameOverAnimation.render(this);
   }
 
   render() {
@@ -30959,7 +30949,7 @@ class BaseGame {
     for (var y = 0; y < DIM; y++){ 
       for (var x = 0; x < DIM; x++) {
         this.setPixel(x, y, this.mapColor(x, y));
-      }    
+      }
     }
   }
 
@@ -30971,7 +30961,7 @@ class BaseGame {
     for (var i = 0; i < this.dim(); i++) {
       for (var j = 0; j < this.dim(); j++) {
         this.world[i][j] = color;
-      }  
+      }
     }
   }
 
@@ -31035,10 +31025,10 @@ class BaseGame {
 
 module.exports = BaseGame;
 
-},{}],262:[function(require,module,exports){
+},{"./gameOver.jsx":264}],262:[function(require,module,exports){
 'use strict';
-var BaseGame = require('./baseGame.jsx');
 
+const MAX_ROUNDS = 500;
 const FIRE_WIDTH = 32;
 const FIRE_HEIGHT = 32;
 const rgbs = [
@@ -31086,11 +31076,11 @@ const rgbs = [
   //"#FFFFFF",
 ];
 
-class Fire extends BaseGame {
+class FireAnimation {
   constructor() {
-    super();
     //console.log(rgbs.length);
     this.firePixels = [];
+    this.reset();
   }
 
   doFire() {
@@ -31107,45 +31097,55 @@ class Fire extends BaseGame {
     this.firePixels[dst - FIRE_WIDTH ] = Math.max(0, this.firePixels[src] - (rand & 1));
   }
 
-  getInterval() {
-    return 100;
-  }
-   
-  init() {
-    super.init();
-    this.reset();
-  }
-  
   isOver() {
-    return this.rounds === 500;
+    return this.rounds === MAX_ROUNDS;
   }
   
+  isGoingOut() {
+    return this.rounds >= MAX_ROUNDS - 45;
+  }
+
   reset() {
     for (let i = 0; i < FIRE_WIDTH * FIRE_HEIGHT; i++) {
       this.firePixels[i] = 0;
     }
   
-    for (let i = 0; i < FIRE_WIDTH; i++) {
-      this.firePixels[(FIRE_HEIGHT - 1) * FIRE_WIDTH + i] = rgbs.length - 1;
-    }
+    this.setBottomRow(rgbs.length - 1);
 
     this.rounds = 0
   }
 
-  mapColor(x, y) {
-    let index = this.firePixels[FIRE_WIDTH * y + x];
-    return rgbs[index];
-  }  
+  setBottomRow(col) {
+    for (let i = 0; i < FIRE_WIDTH; i++) {
+      this.firePixels[(FIRE_HEIGHT - 1) * FIRE_WIDTH + i] = col;
+    }
+  }
   
-  simulate() {
+  render(game) {
     this.doFire();
+
+    for (let y = 0; y < game.dim(); y++){ 
+      for (let x = 0; x < game.dim(); x++) {
+        let index = this.firePixels[FIRE_WIDTH * y + x];
+        if (index !== 0 || this.isGoingOut()) {
+          game.setPixel(x, y, rgbs[index]);
+        }
+      }
+    }
+
     this.rounds++;
+
+    if (this.isGoingOut()) {
+      this.setBottomRow(0);
+    }
+
+    return this.isOver();
   }
 }
 
-module.exports = Fire;
+module.exports = FireAnimation;
 
-},{"./baseGame.jsx":261}],263:[function(require,module,exports){
+},{}],263:[function(require,module,exports){
 'use strict';
 const misc = require('../../common/misc.jsx');
 const Cursor = misc.Cursor;
@@ -31155,8 +31155,6 @@ const Pong = require('./pong.jsx');
 const SpaceInvaders = require('./spaceInvaders.jsx');
 const PacMan = require('./pacman.jsx');
 const Arkanoid = require('./arkanoid.jsx');
-const Fire = require('./fire.jsx');
-
 
 class GameController {
   constructor(canvas) {
@@ -31169,7 +31167,6 @@ class GameController {
       new Snake(),
       new SpaceInvaders(),
       new Arkanoid(),
-      new Fire()
     ]));
   }
 
@@ -31214,7 +31211,50 @@ class GameController {
 
 module.exports = GameController;
 
-},{"../../common/misc.jsx":252,"./arkanoid.jsx":260,"./fire.jsx":262,"./pacman.jsx":265,"./pong.jsx":266,"./snake.jsx":267,"./spaceInvaders.jsx":268,"./tictactoe.jsx":269}],264:[function(require,module,exports){
+},{"../../common/misc.jsx":252,"./arkanoid.jsx":260,"./pacman.jsx":266,"./pong.jsx":267,"./snake.jsx":268,"./spaceInvaders.jsx":269,"./tictactoe.jsx":270}],264:[function(require,module,exports){
+'use strict'
+const misc = require('../../common/misc.jsx');
+const FireAnimation = require('./fire.jsx');
+
+
+class GameOverAnimationDefault {
+  constructor(useColors) {
+    this.steps = -5;
+    this.useColors = useColors;
+  }
+  
+  render(game) {
+    if (this.steps >= 0) {
+      for (let y = 0; y < Math.min(game.dim(), this.steps); y++){ 
+        for (let x = 0; x < game.dim(); x++) {
+          if (this.useColors) {
+            if (game.getRandomBool()) {
+              game.setPixel(x, y, game.getRandomColor(true));
+            }
+          }
+          else {
+            game.setPixel(x, y, game.getRandomGray(true));
+          }
+        }
+      }
+    }
+    return this.steps++ == (game.dim() + 25);
+  }
+}
+
+class GameOver {
+  getRandomAnimation() {
+    return misc.shuffle([
+      new GameOverAnimationDefault(true),
+      new GameOverAnimationDefault(false),
+      new FireAnimation(),
+    ])[0];
+  }
+}
+
+module.exports = GameOver;
+
+},{"../../common/misc.jsx":252,"./fire.jsx":262}],265:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var GameController = require('./gameController.jsx');
@@ -31255,7 +31295,7 @@ class Games extends React.Component {
 
 module.exports = Games;
 
-},{"./gameController.jsx":263,"react":238}],265:[function(require,module,exports){
+},{"./gameController.jsx":263,"react":238}],266:[function(require,module,exports){
 'use strict';
 var BaseGame = require('./baseGame.jsx');
 
@@ -31354,7 +31394,7 @@ class PacMan extends BaseGame {
 
 module.exports = PacMan;
 
-},{"./baseGame.jsx":261}],266:[function(require,module,exports){
+},{"./baseGame.jsx":261}],267:[function(require,module,exports){
 'use strict';
 var BaseGame = require('./baseGame.jsx');
 
@@ -31458,7 +31498,7 @@ class Pong extends BaseGame {
 
 module.exports = Pong;
 
-},{"./baseGame.jsx":261}],267:[function(require,module,exports){
+},{"./baseGame.jsx":261}],268:[function(require,module,exports){
 'use strict';
 var misc = require('../../common/misc.jsx');
 var BaseGame = require('./baseGame.jsx');
@@ -31646,7 +31686,7 @@ class Snake extends BaseGame {
 
 module.exports = Snake;
 
-},{"../../common/misc.jsx":252,"./baseGame.jsx":261}],268:[function(require,module,exports){
+},{"../../common/misc.jsx":252,"./baseGame.jsx":261}],269:[function(require,module,exports){
 'use strict';
 var BaseGame = require('./baseGame.jsx');
 
@@ -31944,7 +31984,7 @@ class SpaceInvaders extends BaseGame {
 
 module.exports = SpaceInvaders;
 
-},{"./baseGame.jsx":261}],269:[function(require,module,exports){
+},{"./baseGame.jsx":261}],270:[function(require,module,exports){
 'use strict';
 var misc = require('../../common/misc.jsx');
 var BaseGame = require('./baseGame.jsx');
@@ -32179,7 +32219,7 @@ class TicTacToe extends BaseGame {
 
 module.exports = TicTacToe;
 
-},{"../../common/misc.jsx":252,"./baseGame.jsx":261}],270:[function(require,module,exports){
+},{"../../common/misc.jsx":252,"./baseGame.jsx":261}],271:[function(require,module,exports){
 "use strict";
 var React = require('react');
 var moment = require('moment');
@@ -32218,7 +32258,7 @@ class News extends FetchModule {
 
 module.exports = News;
 
-},{"../../common/fetchModule.jsx":250,"moment":37,"react":238}],271:[function(require,module,exports){
+},{"../../common/fetchModule.jsx":250,"moment":37,"react":238}],272:[function(require,module,exports){
 "use strict";
 var React = require('react');
 var moment = require('moment');
@@ -32280,7 +32320,7 @@ class Numbers extends React.Component {
 
 module.exports = Numbers;
 
-},{"../../common/misc.jsx":252,"moment":37,"react":238}],272:[function(require,module,exports){
+},{"../../common/misc.jsx":252,"moment":37,"react":238}],273:[function(require,module,exports){
 "use strict";
 var React = require('react');
 var moment = require('moment');
@@ -32318,7 +32358,7 @@ class Pics extends FetchModule {
 
 module.exports = Pics;
 
-},{"../../common/fetchModule.jsx":250,"../../common/misc.jsx":252,"moment":37,"react":238}],273:[function(require,module,exports){
+},{"../../common/fetchModule.jsx":250,"../../common/misc.jsx":252,"moment":37,"react":238}],274:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var moment = require('moment');
@@ -32391,7 +32431,7 @@ class Recipe extends FetchModule {
 
 module.exports = Recipe;
 
-},{"../../common/blinkable.jsx":248,"../../common/fetchModule.jsx":250,"moment":37,"react":238}],274:[function(require,module,exports){
+},{"../../common/blinkable.jsx":248,"../../common/fetchModule.jsx":250,"moment":37,"react":238}],275:[function(require,module,exports){
 "use strict";
 var React = require('react');
 var moment = require('moment');
@@ -32433,7 +32473,7 @@ class TimeOfDay extends FetchModule {
 
 module.exports = TimeOfDay;
 
-},{"../../common/fetchModule.jsx":250,"moment":37,"react":238}],275:[function(require,module,exports){
+},{"../../common/fetchModule.jsx":250,"moment":37,"react":238}],276:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var moment = require('moment');
@@ -32487,7 +32527,7 @@ class ToDo extends FetchModule {
 
 module.exports = ToDo;
 
-},{"../../common/fetchModule.jsx":250,"moment":37,"react":238}],276:[function(require,module,exports){
+},{"../../common/fetchModule.jsx":250,"moment":37,"react":238}],277:[function(require,module,exports){
 "use strict";
 var React = require('react');
 var moment = require('moment');
@@ -32534,7 +32574,7 @@ class Weather extends FetchModule {
 
 module.exports = Weather;
 
-},{"../../common/fetchModule.jsx":250,"moment":37,"react":238}],277:[function(require,module,exports){
+},{"../../common/fetchModule.jsx":250,"moment":37,"react":238}],278:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var moment = require('moment');
@@ -32631,7 +32671,7 @@ class Words extends React.Component {
 
 module.exports = Words;
 
-},{"../../common/misc.jsx":252,"moment":37,"react":238}],278:[function(require,module,exports){
+},{"../../common/misc.jsx":252,"moment":37,"react":238}],279:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var moment = require('moment');
@@ -32680,7 +32720,7 @@ class Overlays extends IntervalModule {
 
 module.exports = Overlays;
 
-},{"./components/common/intervalModule.jsx":251,"moment":37,"react":238}],279:[function(require,module,exports){
+},{"./components/common/intervalModule.jsx":251,"moment":37,"react":238}],280:[function(require,module,exports){
 "use strict";
 
 var React = require('react');

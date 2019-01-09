@@ -1,34 +1,7 @@
 'use strict';
+const GameOver = require('./gameOver.jsx');
 
 const DIM = 32;
-
-
-class GameOverAnimation {
-  constructor(game) {
-    this.game = game;
-    this.steps = -5;
-    this.useColors = this.game.getRandomBool();
-  }
-  
-  render() {
-    if (this.steps >= 0) {
-      for (let y = 0; y < Math.min(DIM, this.steps); y++){ 
-        for (let x = 0; x < DIM; x++) {
-          if (this.useColors) {
-            if (this.game.getRandomBool()) {
-              this.game.setPixel(x, y, this.game.getRandomColor(true));
-            }
-          }
-          else {
-            this.game.setPixel(x, y, this.game.getRandomGray(true));
-          }
-        }
-      }
-    }
-    return this.steps++ == (DIM + 25);
-  }
-}
-
 
  
 class BaseGame {
@@ -43,7 +16,7 @@ class BaseGame {
   }
 
   init() {
-    this.gameOverAnimation = new GameOverAnimation(this);
+    this.gameOverAnimation = new GameOver().getRandomAnimation();
     this.world = this.createMatrix(DIM);
   }
 
@@ -58,13 +31,30 @@ class BaseGame {
     return arr;
   }
 
+  rgbToHex(r, g, b) {
+    function componentToHex(c) {
+      const hex = c.toString(16);
+      return hex.length == 1 ? "0" + hex : hex;
+    }  
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+  }
+
+  hexToRgb(hex) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+  }
+
   setPixel(x, y, color) {
     this.ctx.fillStyle = color;
     this.ctx.fillRect(x * this.step + 1 + this.offsetX, y * this.step + 1 + this.offsetY, this.step - 2, this.step - 2);
   }
 
   renderGameOver() {
-    return this.gameOverAnimation.render();
+    return this.gameOverAnimation.render(this);
   }
 
   render() {
@@ -72,7 +62,7 @@ class BaseGame {
     for (var y = 0; y < DIM; y++){ 
       for (var x = 0; x < DIM; x++) {
         this.setPixel(x, y, this.mapColor(x, y));
-      }    
+      }
     }
   }
 
@@ -84,7 +74,7 @@ class BaseGame {
     for (var i = 0; i < this.dim(); i++) {
       for (var j = 0; j < this.dim(); j++) {
         this.world[i][j] = color;
-      }  
+      }
     }
   }
 
