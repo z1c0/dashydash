@@ -30770,9 +30770,9 @@ class GameOverAnimationDefault {
 class AnimationController {
   getRandom() {
     return misc.shuffle([
-      //new GameOverAnimationDefault(true),
-      //new GameOverAnimationDefault(false),
-      //new Fire(),
+      new GameOverAnimationDefault(true),
+      new GameOverAnimationDefault(false),
+      new Fire(),
       new Matrix(),
     ])[0];
   }
