@@ -1,7 +1,7 @@
 'use strict'
-const misc = require('../../common/misc.jsx');
-const FireAnimation = require('./fire.jsx');
-
+const misc = require('../../../common/misc.jsx');
+const Fire = require('./fire.jsx');
+const Matrix = require('./matrix.jsx');
 
 class GameOverAnimationDefault {
   constructor(useColors) {
@@ -28,14 +28,15 @@ class GameOverAnimationDefault {
   }
 }
 
-class GameOver {
-  getRandomAnimation() {
+class AnimationController {
+  getRandom() {
     return misc.shuffle([
       new GameOverAnimationDefault(true),
       new GameOverAnimationDefault(false),
-      new FireAnimation(),
+      new Fire(),
+      new Matrix(),
     ])[0];
   }
 }
 
-module.exports = GameOver;
+module.exports = AnimationController;

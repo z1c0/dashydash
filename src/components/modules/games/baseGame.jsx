@@ -1,8 +1,7 @@
 'use strict';
-const GameOver = require('./gameOver.jsx');
+const AnimationController = require('./animations/animationController.jsx');
 
 const DIM = 32;
-
  
 class BaseGame {
   create(canvas) {
@@ -16,7 +15,7 @@ class BaseGame {
   }
 
   init() {
-    this.gameOverAnimation = new GameOver().getRandomAnimation();
+    this.gameOverAnimation = new AnimationController().getRandom();
     this.world = this.createMatrix(DIM);
   }
 
@@ -107,8 +106,13 @@ class BaseGame {
     }
   }
 
-  makeColor(rgb) {
-    return "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] +")";
+  makeColor(rgb, opacity) {
+    if (opacity) {
+      return "rgba(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + "," + opacity + ")";
+    }
+    else {
+      return "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")";
+    }
   }
 
   setColor(x, y, rgb) {
@@ -122,7 +126,11 @@ class BaseGame {
   
   getRandomBool() {
     return Math.random() > 0.5;
-  }  
+  }
+
+  getRandomElement(arr) {
+    return arr[this.getRandom(0, arr.length)];
+  }
   
   getRandomPos() {
     var x = this.getRandom(0, this.world.length);

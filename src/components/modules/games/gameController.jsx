@@ -19,6 +19,7 @@ class GameController {
       new Snake(),
       new SpaceInvaders(),
       new Arkanoid(),
+      //new require('./dummy.jsx')
     ]));
   }
 

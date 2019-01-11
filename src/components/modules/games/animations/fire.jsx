@@ -48,7 +48,7 @@ const rgbs = [
   //"#FFFFFF",
 ];
 
-class FireAnimation {
+class Fire {
   constructor() {
     //console.log(rgbs.length);
     this.firePixels = [];
@@ -115,4 +115,4 @@ class FireAnimation {
   }
 }
 
-module.exports = FireAnimation;
+module.exports = Fire;
