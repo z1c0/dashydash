@@ -30109,8 +30109,8 @@ module.exports={
         //"recipe" :   [ 1, 1, 2, 1 ]
         //"football" :   [ 1, 1, 1, 1 ]
         "games" :   [ 1, 1, 4, 4 ],
-        "words" :   [ 5, 2, 2, 1 ],
-        "flags" :   [ 5, 4, 2, 1 ]
+        "words" :   [ 5, 1, 2, 2 ],
+        "flags" :   [ 5, 4, 2, 2 ]
         //"todo" :   [ 1, 1, 1, 2 ]
         //"pics" :   [ 2, 2, 3, 3 ],
         //"timeofday" : [2, 1, 5, 1],
@@ -30316,8 +30316,8 @@ class EmojiAndText extends React.Component {
     const l = this.list[this.state.index];
     return (
       React.createElement("div", {ref: "emojiAndText", className: 'emojiAndText ' + this.theme}, 
-        React.createElement("p", {className: this.appearText === true ? 'animate-appear' : ''}, l[0].toUpperCase()), 
-        React.createElement("i", {key: l[1], className: (this.appearText === false ? 'animate-appear' : '') + ' e1a-' + l[1]})
+        React.createElement("p", {key: l[1] + '-text', className: this.appearText === true ? 'animate-appear' : ''}, l[0].toUpperCase()), 
+        React.createElement("i", {key: l[1] + '-emoji', className: (this.appearText === false ? 'animate-appear' : '') + ' e1a-' + l[1]})
       )
     );
   }

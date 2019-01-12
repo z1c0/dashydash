@@ -36,8 +36,8 @@ class EmojiAndText extends React.Component {
     const l = this.list[this.state.index];
     return (
       <div ref='emojiAndText' className={'emojiAndText ' + this.theme}>
-        <p className={this.appearText === true ? 'animate-appear' : ''}>{l[0].toUpperCase()}</p>
-        <i key={l[1]} className={(this.appearText === false ? 'animate-appear' : '') + ' e1a-' + l[1]}></i>
+        <p key={l[1] + '-text'} className={this.appearText === true ? 'animate-appear' : ''}>{l[0].toUpperCase()}</p>
+        <i key={l[1] + '-emoji'} className={(this.appearText === false ? 'animate-appear' : '') + ' e1a-' + l[1]}></i>
       </div>
     );
   }
