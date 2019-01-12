@@ -1,4 +1,4 @@
-@import '../../common/themes';
+@import './themes';
 
 @keyframes fadein {
     0% { opacity: 0; }
@@ -8,7 +8,7 @@
   100% { opacity: 1; }
 }
 
-#words {
+.emojiAndText {
   height: 100%;
   background: white;
   color:black;
@@ -32,6 +32,9 @@
   }
   i {
     margin: $default-padding;
+  }
+  .animate-appear {
+    font-size: 60px;
     animation: fadein 30s;
   }
 }

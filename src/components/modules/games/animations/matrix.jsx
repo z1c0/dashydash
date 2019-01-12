@@ -22,10 +22,6 @@ const greens = [
 class Matrix {
   constructor() {
     this.rounds = 0
-    this.columns = [];
-    for (let i = 0; i < NR_OF_COLS; i++) {
-      this.columns.push({ active : false, y : 0, length : 0 });
-    }
   }
 
   isOver() {
@@ -33,7 +29,14 @@ class Matrix {
   }
  
   render(game) {
-    // wake up strains
+    if (!this.columns) {
+      this.columns = [];
+      for (let i = 0; i < NR_OF_COLS; i++) {
+        this.columns.push({ active : true, y : -1 * game.getRandom(0, game.dim() / 4), length : game.getRandom(8, game.dim()) });
+      }
+    }
+
+    // wake up strands
     for (let i = 0; i < 3; i++) {
       let col = game.getRandomElement(this.columns);
       if (!col.active) {

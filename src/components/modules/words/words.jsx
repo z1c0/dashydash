@@ -1,7 +1,5 @@
 'use strict';
-var React = require('react');
-var moment = require('moment');
-var misc = require('../../common/misc.jsx');
+var EmojiAndText = require('../../common/emojiAndText.jsx');
 
 //https://emoji.codes/
 
@@ -54,41 +52,11 @@ const wordList = [
 ];
 
 
-class Words extends React.Component {
+class Words extends EmojiAndText {
   constructor(props) {
     super(props);
-    this.state = {
-      index : 0
-    }
-    this.words = misc.shuffle(wordList);
-    this.theme = misc.getRandomTheme();
-  }
-
-  componentDidMount() {
-    const div = this.refs.words;
-    div.style.fontSize = 0.175 * div.clientWidth + 'px';
-
-    const self = this;
-    this.intervalId = setInterval(function() {
-      self.setState({
-        index : (self.state.index + 1) % self.words.length
-      });
-    }, moment.duration(30, 'seconds'));
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.intervalId);
-  }
-  
-
-  render() {
-    var l = this.words[this.state.index];
-    return (
-      <div id='words' ref='words' className={this.theme}>
-        <p>{l[0].toUpperCase()}</p>
-        <i key={l[1]} className={'e1a-' + l[1]}></i>
-      </div>
-    );
+    this.list = wordList;
+    this.appearText = false;
   }
 };
 
