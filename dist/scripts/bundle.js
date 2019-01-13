@@ -30292,11 +30292,12 @@ class EmojiAndText extends React.Component {
     }
     this.appearText = true;
     this.theme = misc.getRandomTheme();
+    this.scaleFactor = 0.175
   }
 
   componentDidMount() {
     const div = this.refs.emojiAndText;
-    div.style.fontSize = 0.175 * div.clientWidth + 'px';
+    div.style.fontSize = this.scaleFactor * div.clientWidth + 'px';
 
     const self = this;
     this.intervalId = setInterval(function() {
@@ -30314,10 +30315,20 @@ class EmojiAndText extends React.Component {
   render() {
     this.list = misc.shuffle(this.list);
     const l = this.list[this.state.index];
+    let top;
+    let bottom;
+    if (this.appearText) {
+      top = React.createElement("i", {key: l[1] + '-emoji', className: 'e1a-' + l[1]})
+      bottom = React.createElement("p", {key: l[1] + '-text', className: "animate-appear"}, l[0].toUpperCase())
+    }
+    else {
+      top = React.createElement("p", {key: l[1] + '-text'}, l[0].toUpperCase())
+      bottom = React.createElement("i", {key: l[1] + '-emoji', className: 'animate-appear e1a-' + l[1]})
+    }
     return (
       React.createElement("div", {ref: "emojiAndText", className: 'emojiAndText ' + this.theme}, 
-        React.createElement("p", {key: l[1] + '-text', className: this.appearText === true ? 'animate-appear' : ''}, l[0].toUpperCase()), 
-        React.createElement("i", {key: l[1] + '-emoji', className: (this.appearText === false ? 'animate-appear' : '') + ' e1a-' + l[1]})
+        top, 
+        bottom
       )
     );
   }
@@ -30764,6 +30775,7 @@ class Flags extends EmojiAndText {
   constructor(props) {
     super(props);
     this.list = flagList;
+    this.scaleFactor = 0.1;
   }
 };
 

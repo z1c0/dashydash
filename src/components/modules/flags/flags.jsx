@@ -25,6 +25,7 @@ class Flags extends EmojiAndText {
   constructor(props) {
     super(props);
     this.list = flagList;
+    this.scaleFactor = 0.1;
   }
 };
 
