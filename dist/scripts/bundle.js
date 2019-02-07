@@ -31728,7 +31728,7 @@ class Snake extends BaseGame {
    
   init() {
     super.init();
-    this.lives = 1;
+    this.lives = 3;
     this.reset();
   }
   
