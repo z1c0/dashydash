@@ -2,6 +2,7 @@
 const misc = require('../../../common/misc.jsx');
 const Fire = require('./fire.jsx');
 const Matrix = require('./matrix.jsx');
+const Snow = require('./snow.jsx');
 
 class GameOverAnimationDefault {
   constructor(useColors) {
@@ -31,10 +32,11 @@ class GameOverAnimationDefault {
 class AnimationController {
   getRandom() {
     return misc.shuffle([
-      new GameOverAnimationDefault(true),
-      new GameOverAnimationDefault(false),
-      new Fire(),
-      new Matrix(),
+      //new GameOverAnimationDefault(true),
+      //new GameOverAnimationDefault(false),
+      //new Fire(),
+      //new Matrix(),
+      new Snow(),
     ])[0];
   }
 }

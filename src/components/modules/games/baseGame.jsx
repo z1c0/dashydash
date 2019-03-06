@@ -15,8 +15,8 @@ class BaseGame {
   }
 
   init() {
-    this.gameOverAnimation = new AnimationController().getRandom();
     this.world = this.createMatrix(DIM);
+    this.gameOverAnimation = null;
   }
 
   createMatrix(dim) {
@@ -53,6 +53,9 @@ class BaseGame {
   }
 
   renderGameOver() {
+    if (!this.gameOverAnimation) {
+      this.gameOverAnimation = new AnimationController().getRandom();
+    }
     return this.gameOverAnimation.render(this);
   }
 
