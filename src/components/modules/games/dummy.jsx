@@ -1,17 +1,19 @@
 'use strict';
 var BaseGame = require('./baseGame.jsx');
 
+const MAX_ROUNDS = 5;
+
 class Dummy extends BaseGame {  
   constructor() {
     super();
   }
 
   getInterval() {
-    return 500;
+    return 1;
   }   
  
   isOver() {
-    return this.x === 3;
+    return this.i === MAX_ROUNDS;
   } 
 
   init() {
@@ -20,15 +22,15 @@ class Dummy extends BaseGame {
   }
 
   reset() {
-    this.x = 0;
+    this.i = 0;
     this.clear('gray');
   }
 
   simulate() {
-    this.world[this.x][0] = this.getRandomColor(false);
-    if (this.x++ === 10) {
-      this.reset();
-    }
+    const x = this.i % 32;
+    const y = Math.floor(this.i / 32); 
+    this.world[x][y] = this.getRandomColor(false);
+    this.i++;
   }
 }
 

@@ -16,6 +16,7 @@ class BaseGame {
 
   init() {
     this.world = this.createMatrix(DIM);
+    this.buffer = this.createMatrix(DIM);
     this.gameOverAnimation = null;
   }
 
@@ -48,6 +49,7 @@ class BaseGame {
   }
 
   setPixel(x, y, color) {
+    this.buffer[x][y] = color;
     this.ctx.fillStyle = color;
     this.ctx.fillRect(x * this.step + 1 + this.offsetX, y * this.step + 1 + this.offsetY, this.step - 2, this.step - 2);
   }
@@ -55,6 +57,9 @@ class BaseGame {
   renderGameOver() {
     if (!this.gameOverAnimation) {
       this.gameOverAnimation = new AnimationController().getRandom();
+      this.gameOverAnimation.lastGameFrameBuffer = this.buffer.map(function(arr) {
+        return arr.slice();
+      });
     }
     return this.gameOverAnimation.render(this);
   }
