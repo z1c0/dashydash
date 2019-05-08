@@ -1,5 +1,19 @@
-@import '../../common/common';
+@import '../../common/themes';
 
 .countdown {
+  height: 100%;
 
+  div {
+    padding: $default-padding;
+  }
+  
+  @include themify($themes) {
+    background: themed('backgroundColor')
+  }
+  
+  p {
+    @include themify($themes) {
+      color: themed('textColor')
+    }
+  }
 }

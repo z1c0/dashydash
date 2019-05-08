@@ -1,37 +1,26 @@
+const React = require('react');
+const moment = require('moment');
+const misc = require('../../common/misc.jsx');
+const theEvent = {
+  title : "Legoland",
+  date : moment('2019-06-02', 'YYYY-MM-DD')
+}
+
 class Countdown extends React.Component {
     constructor(props) {
       super(props);
-      this.state = {
-        index : 0
-      }
       this.theme = misc.getRandomTheme();
     }
   
-    componentDidMount() {
-      const div = this.refs.abc;
-      div.style.fontSize = 0.25 * div.clientWidth + 'px';
-  
-      const self = this;
-      this.intervalId = setInterval(function() {
-        self.setState({
-          index : (self.state.index + 1) % letters.length
-        });
-      }, moment.duration(15, 'seconds'));
-    }
-  
-    componentWillUnmount() {
-      clearInterval(this.intervalId);
-    }
-    
-  
     render() {
-      var l = letters[this.state.index];
+      const today = moment().startOf("day").toDate();
+      const days = moment.duration(theEvent.date.diff(moment(today))).asDays();
       return (
-        <div className='countdown' ref='countdown' className={this.theme}>
-          <p>
-            <span>{l[0]}</span>
-            <i className={'e1a-' + l[1]}></i>
-          </p>
+        <div className={'countdown ' + this.theme}>
+            <div>
+            <p><span className='normal-text half-transparent-text'>noch&nbsp;</span><span className='bold-text icon-text'>{days}</span><span className='normal-text half-transparent-text'>&nbsp;Tage</span></p>
+            <p><span className='normal-text half-transparent-text'>bis&nbsp;</span><span className="bold-text big-text">{theEvent.title}</span></p>
+            </div>
         </div>
       );
     }
