@@ -36,11 +36,19 @@ class FetchModule extends React.Component {
   }
 
   componentDidMount() {
-    const self = this;
-    this.intervalId = setIntervalAndExecute(() =>  self.goFetch(), self.interval);
+    this.start();
   }
 
   componentWillUnmount() {
+    this.stop();
+  }
+
+  start() {
+    const self = this;
+    this.intervalId = setIntervalAndExecute(() => self.goFetch(), self.interval);
+  }
+
+  stop() {
     clearInterval(this.intervalId);
   }
 }

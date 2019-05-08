@@ -20,7 +20,8 @@ class Pics extends FetchModule {
   }
 
   next() {
-    this.goFetch();
+    this.stop();
+    this.start();
   }
 
   render() {

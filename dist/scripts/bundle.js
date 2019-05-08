@@ -30102,13 +30102,15 @@ module.exports={
         "weather" :      [ 5, 6, 5, 1 ]
       }
     }
+    
     /*
     ,
     "TEST" : {
       "modules" : {
         //"recipe" :   [ 1, 1, 2, 1 ]
         //"football" :   [ 1, 1, 1, 1 ]
-        "games" :   [ 1, 1, 4, 4 ],
+        "pics" :     [ 1, 1, 2, 2 ],
+        "pics.1" :   [ 1, 4, 2, 2 ]
         //"words" :   [ 5, 1, 2, 2 ],
         //"flags" :   [ 5, 4, 2, 2 ]
         //"todo" :   [ 1, 1, 1, 2 ]
@@ -30375,11 +30377,19 @@ class FetchModule extends React.Component {
   }
 
   componentDidMount() {
-    const self = this;
-    this.intervalId = setIntervalAndExecute(() =>  self.goFetch(), self.interval);
+    this.start();
   }
 
   componentWillUnmount() {
+    this.stop();
+  }
+
+  start() {
+    const self = this;
+    this.intervalId = setIntervalAndExecute(() => self.goFetch(), self.interval);
+  }
+
+  stop() {
     clearInterval(this.intervalId);
   }
 }
@@ -32653,7 +32663,8 @@ class Pics extends FetchModule {
   }
 
   next() {
-    this.goFetch();
+    this.stop();
+    this.start();
   }
 
   render() {
