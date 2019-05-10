@@ -8,7 +8,7 @@ class EmojiAndText extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      index : 0
+      index: 0
     }
     this.appearText = true;
     this.theme = misc.getRandomTheme();
@@ -20,9 +20,9 @@ class EmojiAndText extends React.Component {
     div.style.fontSize = this.scaleFactor * div.clientWidth + 'px';
 
     const self = this;
-    this.intervalId = setInterval(function() {
+    this.intervalId = setInterval(function () {
       self.setState({
-        index : (self.state.index + 1) % self.list.length
+        index: (self.state.index + 1) % self.list.length
       });
     }, moment.duration(30, 'seconds'));
   }
@@ -30,7 +30,7 @@ class EmojiAndText extends React.Component {
   componentWillUnmount() {
     clearInterval(this.intervalId);
   }
-  
+
 
   render() {
     this.list = misc.shuffle(this.list);

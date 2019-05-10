@@ -1,8 +1,10 @@
 'use strict';
 const AnimationController = require('./animations/animationController.jsx');
+const misc = require('../../common/misc.jsx');
+
 
 const DIM = 32;
- 
+
 class BaseGame {
   create(canvas) {
     this.canvas = canvas;
@@ -22,11 +24,11 @@ class BaseGame {
 
   createMatrix(dim) {
     var arr = [];
-    for(var x = 0; x < dim; x++) {
-      arr[x] = [];    
-      for(var y = 0; y < dim; y++){ 
+    for (var x = 0; x < dim; x++) {
+      arr[x] = [];
+      for (var y = 0; y < dim; y++) {
         arr[x][y] = 0;
-      }    
+      }
     }
     return arr;
   }
@@ -35,16 +37,16 @@ class BaseGame {
     function componentToHex(c) {
       const hex = c.toString(16);
       return hex.length == 1 ? "0" + hex : hex;
-    }  
+    }
     return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
   }
 
   hexToRgb(hex) {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
     } : null;
   }
 
@@ -57,7 +59,7 @@ class BaseGame {
   renderGameOver() {
     if (!this.gameOverAnimation) {
       this.gameOverAnimation = new AnimationController().getRandom();
-      this.gameOverAnimation.lastGameFrameBuffer = this.buffer.map(function(arr) {
+      this.gameOverAnimation.lastGameFrameBuffer = this.buffer.map(function (arr) {
         return arr.slice();
       });
     }
@@ -66,7 +68,7 @@ class BaseGame {
 
   render() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    for (var y = 0; y < DIM; y++){ 
+    for (var y = 0; y < DIM; y++) {
       for (var x = 0; x < DIM; x++) {
         this.setPixel(x, y, this.mapColor(x, y));
       }
@@ -128,18 +130,17 @@ class BaseGame {
   }
 
   getRandom(min, max) {
-    // max is exclusive.
-    return Math.floor(Math.random() * (max - min)) + min;
+    return misc.getRandom(min, max);
   }
-  
+
   getRandomBool() {
     return Math.random() > 0.5;
   }
 
   getRandomElement(arr) {
-    return arr[this.getRandom(0, arr.length)];
+    return misc.getRandomElement(arr);
   }
-  
+
   getRandomPos() {
     var x = this.getRandom(0, this.world.length);
     var y = this.getRandom(0, this.world.length);

@@ -19,7 +19,8 @@ var ToDo = require('../modules/todo/todo.jsx');
 var Numbers = require('../modules/numbers/numbers.jsx');
 var Flags = require('../modules/flags/flags.jsx');
 var Countdown = require('../modules/countdown/countdown.jsx');
-var misc  = require('../common/misc.jsx');
+var Vocab = require('../modules/vocab/vocab.jsx');
+var misc = require('../common/misc.jsx');
 var BoardManager = require('./boardManager.jsx');
 
 
@@ -28,26 +29,26 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name : '',
+      name: '',
       modules: [],
-      pos : [0, 0, 0, 0]
+      pos: [0, 0, 0, 0]
     };
   }
 
   switchToBoard(board) {
     //console.log(board);
     if (board) {
-      setTimeout(() => {
+      this.intervalId = setTimeout(() => {
         this.switchToBoard(this.boards.next());
       }, board.timeout);
 
-      this.setState({ 
+      this.setState({
         modules: []
       });
-      this.setState({ 
-        name : board.name,
-        modules : board.modules,
-        pos : board.pos
+      this.setState({
+        name: board.name,
+        modules: board.modules,
+        pos: board.pos
       });
     }
   }
@@ -59,25 +60,29 @@ class Board extends React.Component {
     const index = this.boards.array().findIndex(b => b.name === boardId);
     this.switchToBoard(this.boards.current(index));
   }
-  
+
+  componentWillUnmount() {
+    clearInterval(this.intervalId);
+  }
+
   render() {
-    const createPart = function(moduleInfo) {
+    const createPart = function (moduleInfo) {
       //console.log(moduleInfo);
       let name = moduleInfo.name;
       if (name.indexOf('.')) {
         name = name.split('.')[0];
       }
       const gridPos = {
-        gridColumn : moduleInfo.pos[0],
-        gridRow : moduleInfo.pos[1],
+        gridColumn: moduleInfo.pos[0],
+        gridRow: moduleInfo.pos[1],
         gridColumnEnd: moduleInfo.pos[0] + moduleInfo.pos[2],
         gridRowEnd: moduleInfo.pos[1] + moduleInfo.pos[3],
       }
-      
+
       var Module = require('../modules/' + name + '/' + name + '.jsx');
       return (
         <div key={moduleInfo.name} className="part" style={gridPos}>
-          <Module/>
+          <Module />
         </div>
       );
     };

@@ -6,7 +6,7 @@ function setIntervalAndExecute(f, t) {
 }
 
 function shuffle(o) {
-  for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+  for (var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
   return o;
 }
 
@@ -19,6 +19,15 @@ function randomIntFromInterval(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
+function getRandom(min, max) {
+  // max is exclusive.
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
+function getRandomElement(arr) {
+  return arr[getRandom(0, arr.length)];
+}
+
 function getRandomTheme() {
   return shuffle([
     'theme-dark1',
@@ -28,32 +37,34 @@ function getRandomTheme() {
 }
 
 module.exports = {
-  setIntervalAndExecute : setIntervalAndExecute,
-  shuffle : shuffle,
-  randomIntFromInterval : randomIntFromInterval,
-  randomBoolean : randomBoolean,
-  getRandomTheme : getRandomTheme,
+  setIntervalAndExecute: setIntervalAndExecute,
+  shuffle: shuffle,
+  randomIntFromInterval: randomIntFromInterval,
+  randomBoolean: randomBoolean,
+  getRandomTheme: getRandomTheme,
+  getRandomElement: getRandomElement,
+  getRandom: getRandom,
 
-  Cursor : function(array) {
+  Cursor: function (array) {
     var idx = 0;
-    this.array = function() {
+    this.array = function () {
       return array;
     }
-    this.previous = function() {
+    this.previous = function () {
       idx = (!!idx ? idx : array.length) - 1;
       return array[idx];
     };
-    this.current = function(i) {
+    this.current = function (i) {
       if (i) {
         idx = i;
       }
       return array[idx];
     };
-    this.next = function() {
+    this.next = function () {
       idx = (idx + 1) % array.length;
       return array[idx];
     };
-    this.isEmpty = function() {
+    this.isEmpty = function () {
       return array.length === 0;
     }
     return this;
