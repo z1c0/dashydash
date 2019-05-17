@@ -20,6 +20,7 @@ var Numbers = require('../modules/numbers/numbers.jsx');
 var Flags = require('../modules/flags/flags.jsx');
 var Countdown = require('../modules/countdown/countdown.jsx');
 var Vocab = require('../modules/vocab/vocab.jsx');
+var StarWars = require('../modules/starwars/starwars.jsx');
 var misc = require('../common/misc.jsx');
 var BoardManager = require('./boardManager.jsx');
 
