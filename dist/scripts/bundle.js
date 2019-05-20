@@ -30983,7 +30983,10 @@ module.exports = AnimationController;
 const MAX_ROUNDS = 500;
 const FIRE_WIDTH = 32;
 const FIRE_HEIGHT = 32;
-const rgbs = [
+
+// colors: https://jsfiddle.net/u5dk4xrc/
+
+const rgbs_r = [
   "#000000",
   "#000000",
   "#010101",
@@ -30992,44 +30995,72 @@ const rgbs = [
   "#1F0707",
   "#1F0707",
   "#2F0F07",
-  //"#470F07",
-  //"#571707",
-  //"#671F07",
-  //"#771F07",
   "#8F2707",
   "#9F2F07",
-  //"#AF3F07",
-  //"#BF4707",
   "#C74707",
   "#DF4F07",
   "#DF5707",
-  //"#DF5707",
-  //"#D75F07",
   "#D75F07",
-  //"#D7670F",
-  "#CF6F0F",
-  //"#CF770F",
+  "#CF6F0F", 
   "#CF7F0F",
-  //"#CF8717",
   "#C78717",
-  //"#C78F17",
-  //"#C7971F",
-  //"#BF9F1F",
-  //"#BF9F1F",
-  //"#BFA727",
-  //"#BFA727",
-  //"#BFAF2F",
-  //"#B7AF2F",
-  //"#B7B72F",
   "#B7B737",
-  //"#CFCF6F",
-  //"#DFDF9F",
-  //"#EFEFC7",
-  //"#FFFFFF",
 ];
+const rgbs_g = [
+  "#000000",
+  "#000000",
+  "#010101",
+  "#030303",
+  "#070707",
+  "#1F0707",
+  "#000700",
+  "#004F00",
+  "#004700",
+  "#005F00",
+  "#005700",
+  "#005F00",
+  "#006700",
+  "#006F00",
+  "#007F00", 
+  "#009F00",
+  "#00A700",
+  "#00C700",
+];
+const rgbs_b = [
+  "#000000",
+  "#000000",
+  "#010101",
+  "#030303",
+  "#070707",
+  "#1F0707",
+  "#000700",
+  "#0e0663",
+  "#140999",
+  "#271baa",
+  "#4641f4",
+  "#4158f4",
+  "#4173f4",
+  "#418bf4",
+  "#419df4", 
+  "#41aff4",
+  "#41bef4",
+  "#42cef4",
+];
+let rgbs = rgbs_r;
 
 class Fire {
   constructor() {
+    const r = Math.random();
+
+    if (r < 0.6) {
+      rgbs = rgbs_r;
+    } 
+    else if (r < 0.8) {
+      rgbs = rgbs_g;
+    }
+    else {
+      rgbs = rgbs_b;
+    }
     //console.log(rgbs.length);
     this.firePixels = [];
     this.reset();
