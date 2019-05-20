@@ -12,7 +12,7 @@ class StarWars extends FetchModule {
       author : '',
       image: '',
     }
-    this.interval = moment.duration(1, 'minute');
+    this.interval = moment.duration(30, 'seconds');
     this.callback = function(body) {
       this.setState({
         text : body.text,
