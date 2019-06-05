@@ -10,7 +10,7 @@ class Vocab extends React.Component {
 
     componentDidMount() {
         const self = this;
-        this.intervalId = setInterval(() => self.forceUpdate(), moment.duration(15, 'seconds'));
+        this.intervalId = setInterval(() => self.forceUpdate(), moment.duration(10, 'seconds'));
     }
 
     componentWillUnmount() {

@@ -30142,14 +30142,15 @@ module.exports={
         //"football" :   [ 1, 1, 1, 1 ]
         "countdown" :     [ 1, 1, 2, 2 ],
         //"pics.1" :   [ 1, 4, 2, 2 ],
-        "vocab" :    [ 1, 3, 2, 2 ],
-        //"words" :   [ 5, 1, 2, 2 ],
+        //"vocab" :    [ 1, 3, 2, 2 ],
+        //"words" :   [ 5, 3, 2, 2 ],
         //"flags" :   [ 5, 4, 2, 2 ]
         //"todo" :   [ 1, 1, 1, 2 ]
         //"pics" :   [ 2, 2, 3, 3 ],
         //"timeofday" : [2, 1, 5, 1],
         //"blog" :      [4, 2, 2, 2]
-        "starwars" : [4, 1, 4, 2]
+        //"starwars" : [4, 1, 4, 2]
+        "games"      : [4, 1, 4, 4]
       }
     }*/
   }
@@ -35515,7 +35516,7 @@ class Vocab extends React.Component {
 
     componentDidMount() {
         const self = this;
-        this.intervalId = setInterval(() => self.forceUpdate(), moment.duration(15, 'seconds'));
+        this.intervalId = setInterval(() => self.forceUpdate(), moment.duration(10, 'seconds'));
     }
 
     componentWillUnmount() {
