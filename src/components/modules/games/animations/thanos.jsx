@@ -3,20 +3,20 @@
 
 const Flake = require('./flake.jsx');
 
-const snowColors = [
+const ashColors = [
   '#FAFAFA',
   '#C0F6FB',
   '#FFFAFA',
   '#E0FFFF',
 ];
 
-class Snow {
+class Thanos {
   constructor() {
     const NR_OF_FLAKES = 200;
     this.lastGameFrameBuffer = null;
     this.flakes = [];
     for (let i = 0; i < NR_OF_FLAKES; i++) {
-      this.flakes.push(new Flake(snowColors));
+      this.flakes.push(new Flake(ashColors));
     }
     this.startTime = performance.now();
   }
@@ -41,4 +41,4 @@ class Snow {
   }
 };
 
-module.exports = Snow;
+module.exports = Thanos;
