@@ -18,7 +18,7 @@ class Football extends FetchModule {
     this.callback = function(matches) {
       //console.log(matches);
       let m = matches.find(m => {
-        return m.Team1.ShortName.startsWith('BVB') || m.Team2.ShortName.startsWith('BVB');
+        return m.Team1.TeamName.includes('Dortmund') || m.Team2.TeamName.includes('Dortmund');
       });
       if (m) {
         let info = '';

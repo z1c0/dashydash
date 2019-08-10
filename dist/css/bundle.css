@@ -47,9 +47,9 @@
 
 .normal-text{font-size:1.1vw}.small-text{font-size:0.8vw}.big-text{font-size:1.7vw}.biggest-text{font-size:3.0vw}.bold-text{font-weight:bold}.half-transparent-text{opacity:0.5}.icon-text{font-size:4vw}.padded{padding:.5em}@keyframes blinkAnimation{0%{background:none}20%{background:white}}.blink{height:100%;width:100%;animation:blinkAnimation 0.4s}@media (max-width: 800px){.small-text{font-size:2.2vw}.normal-text{font-size:2.5vw}.big-text{font-size:3.2vw}.biggest-text{font-size:6.0vw}.icon-text{font-size:8vw}}@keyframes move-image{0%{background-size:100%}15%{background-size:100%}50%{background-size:150%}85%{background-size:150%}100%{background-size:100%}}.family{height:100%;width:100%;animation:move-image 30s linear infinite;position:relative}.family .status{line-height:100%;position:absolute;bottom:5px;right:5px}.family .status span{color:indianred;font-weight:bold;margin-right:0.4em;vertical-align:bottom}.family .status i{margin:0px}.family-overlay{height:100%;background-color:rgba(0,0,0,0.5)}
 
-#games{height:100%;width:100%}
-
 .normal-text{font-size:1.1vw}.small-text{font-size:0.8vw}.big-text{font-size:1.7vw}.biggest-text{font-size:3.0vw}.bold-text{font-weight:bold}.half-transparent-text{opacity:0.5}.icon-text{font-size:4vw}.padded{padding:.5em}@keyframes blinkAnimation{0%{background:none}20%{background:white}}.blink{height:100%;width:100%;animation:blinkAnimation 0.4s}@media (max-width: 800px){.small-text{font-size:2.2vw}.normal-text{font-size:2.5vw}.big-text{font-size:3.2vw}.biggest-text{font-size:6.0vw}.icon-text{font-size:8vw}}.football{margin-top:.5em;height:100%;width:100%}.football p{text-align:center}.football .teamLogo{vertical-align:middle;display:inline-block;background-repeat:no-repeat;background-size:cover;background-position-x:center;width:20px;height:20px}
+
+#games{height:100%;width:100%}
 
 #news{height:100%;background-size:cover;transition:background 1s ease-in}.articleText{padding:1em;background-color:rgba(0,0,0,0.5)}
 
