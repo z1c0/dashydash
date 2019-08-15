@@ -2,8 +2,8 @@ const React = require('react');
 const moment = require('moment');
 const misc = require('../../common/misc.jsx');
 const theEvent = {
-  title: "Schulbeginn",
-  date: moment('2019-09-09', 'YYYY-MM-DD')
+  title: "Italien II",
+  date: moment('2019-08-31', 'YYYY-MM-DD')
 }
 
 class Countdown extends React.Component {
