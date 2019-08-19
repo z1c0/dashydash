@@ -30726,7 +30726,7 @@ const React = require('react');
 const moment = require('moment');
 const misc = require('../../common/misc.jsx');
 const theEvent = {
-  title: "Italien II",
+  title: "Urlaub!",
   date: moment('2019-08-31', 'YYYY-MM-DD')
 }
 
