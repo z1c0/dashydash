@@ -1,0 +1,28 @@
+@import '../../common/common';
+@import  '../../common/fadein';
+
+@font-face {
+  font-family: 'ChalkFont';
+  src: url('/font/KGTenThousandReasons.ttf') format('truetype');
+}
+
+.vocab {
+  font-family: "ChalkFont";
+  display: flex;
+  height: 100%;
+
+  p {
+    flex: 45%;
+    flex-grow: 1;
+    text-align: center;
+    margin : auto;
+  }
+
+  .flagicon {
+    flex: 10%;
+  }
+
+  .animate-appear {
+    animation: fadein 10s;
+  }
+}

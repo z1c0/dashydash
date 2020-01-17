@@ -1,0 +1,47 @@
+@import '../../common/themes';
+
+@keyframes fadein {
+  0% { opacity: 0; }
+ 60% { opacity: 0; }
+ 70% { opacity: 0.5; }
+ 80% { opacity: 1; }
+100% { opacity: 1; }
+}
+
+#numbers {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  @include themify($themes) {
+    background: themed('backgroundColor')
+  }
+
+  p {
+    width: 100%;
+    text-align: center;
+    span {
+      font-size: 1.5em;
+      line-height: 1em;
+      font-weight: bold;
+    }
+    span.symbol {
+      padding-left: 0.05em;
+      padding-right: 0.05em;
+
+      @include themify($themes) {
+        color: themed('symbolColor')
+      }
+    }
+    span.number {
+      @include themify($themes) {
+        color: themed('textColor')
+      }
+    }
+    span.result {
+      animation: fadein 20s;
+    }
+  }
+  i {
+      vertical-align: text-top;
+  }
+}

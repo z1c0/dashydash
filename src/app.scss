@@ -1,0 +1,73 @@
+@import './components/common/common';
+
+$a-tags: 'a, a:active, a:hover, a:visited, a:active';
+
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  //background-color: magenta;
+  color: $text-color;
+  font-family: 'Quicksand', sans-serif;
+}
+
+#{$a-tags} {
+  color: $text-color;
+  text-decoration: none;
+}
+a.plain-link:hover {
+  background-color: lighten($tile-background, 10%)
+}
+
+#app {
+  height: 100%;
+}
+
+#main {
+  background-color: $main-background;
+  padding : $default-padding;
+  height: calc(100% - 2 * #{$default-padding});
+}
+
+$bottom-tile-dim :2.7em;
+
+.bottomTile {
+  background-color: $tile-background;
+  position: fixed;
+  height: $bottom-tile-dim;
+  line-height: $bottom-tile-dim;
+  border-radius: 3px;
+  padding: $default-padding;
+  bottom: $default-padding;
+  opacity: 0.6;
+  z-index: 5000;
+  text-align: center;
+}
+
+#home {
+  @extend .bottomTile;
+  width: $bottom-tile-dim;
+  left: $default-padding;
+}
+#datetime {
+  @extend .bottomTile;
+  right: $default-padding;
+  .seconds {
+    display: inline-block;
+    width: 20px;
+    opacity: 0.5;
+  }
+}
+
+#fourofour {
+  font-size: 5rem;
+  text-align: center;
+}

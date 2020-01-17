@@ -1,0 +1,33 @@
+@import './themes';
+@import  './fadein';
+
+.emojiAndText {
+  height: 100%;
+  background: white;
+  color:black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  @include themify($themes) {
+    background: themed('backgroundColor')
+  }
+
+  p {
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+
+    @include themify($themes) {
+      color: themed('textColor')
+    }
+  }
+  i {
+    font-size: 1.4em;
+    margin: 0.2em;
+  }
+  .animate-appear {
+    animation: fadein 30s;
+  }
+}

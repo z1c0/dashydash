@@ -1,0 +1,28 @@
+@import '../../common/common';
+
+.weather {
+  padding: $default-padding;
+  img {
+    vertical-align: middle;
+    margin-right: $default-padding;
+  }  
+}
+
+.temperature {
+  vertical-align: middle;
+  font-weight: bold;
+  margin-right: $default-padding; 
+}
+
+#minTemp {
+  color: #52D9E2;
+}
+#maxTemp {
+  color: #D82665
+}
+
+
+.wi {
+  vertical-align: middle;
+  margin-right: $default-padding;
+}

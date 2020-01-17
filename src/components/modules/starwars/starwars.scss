@@ -1,0 +1,29 @@
+@import '../../common/common';
+
+.starwars {
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+
+  blockquote p::before {
+    content: '\201C';
+  } 
+
+  blockquote p::after {
+    content: '\201D';
+  }
+
+  .author {
+    font-style: italic
+  }
+  cite::before {
+    padding-left: 1em;
+    padding-top: 2em;
+    content: '- '
+  }
+}
+
+.starwars-overlay {
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}

@@ -1,0 +1,22 @@
+@import '../../common/common';
+
+.timeofday {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  p {
+    width: 70%;
+    i {
+      padding-top: $default-padding;
+    }
+  }
+  .giphy {
+    margin-right: 5px;
+    width: 30%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position-x: center;
+    background-position-y: center;
+    transition: background 0.5s ease-in;
+  }
+}
