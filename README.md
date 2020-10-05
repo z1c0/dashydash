@@ -37,7 +37,7 @@ Here's an example of how this dashboard looks like.
 
 ### abc
 
-This lets my 4 year old learn the alphabet in a playful way. It displays capital letters and images of things starting with this letter.
+This lets kids learn the alphabet in a playful way. It displays capital letters and images of things starting with this letter.
 
 ###  appointments / birthdays
 
