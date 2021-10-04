@@ -12,8 +12,9 @@ apt-get install -y nodejs
 ```
 * Clone this repository  
 `git clone https://github.com/z1c0/dashydash`
+
 * Install [gulp](https://gulpjs.com/) globally
-```
+```bash
 sudo npm install -g gulp
 ```
 * `npm install`
