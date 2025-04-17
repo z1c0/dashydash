@@ -1,7 +1,0 @@
-Controller Views
-----
-top level components (=> module)
-
-sets properties (immutable) on children
-
-interacts with stores

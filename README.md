@@ -20,9 +20,6 @@ sudo npm install -g gulp
 * `npm install`
 * Run with `gulp`
 
-### Troubleshooting
-On a **RaspberryPi**, if you encounter this error: `sass/context.h: No such file or directory`, try running `LIBSASS_EXT="no" npm install`.
-
 ## Technologies
 
 The application is implemented using **Node.js** and **React**.
@@ -66,12 +63,11 @@ This one cycles through a list of news head lines and pictures taken from [newsa
 
 ### pics
 
-This is my favorite module by far. It looks for a special album in my Google photos collectionb and displays its pictures. That way, I only have to add my favorite new photos to this album and I automatically seen them on the dashboard. Awesome!
+This is my favorite module by far. It looks for a special album in my Google photos collection and displays its pictures. That way, I only have to add my favorite new photos to this album and I automatically seen them on the dashboard. Awesome!
 
 ### weather
 
 Using data from [openweathermap.org](http://openweathermap.org/), this module displays weather information for a given location.
-
 
 ## Boards
 

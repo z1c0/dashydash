@@ -1,100 +1,127 @@
-"use strict";
+const gulp = require('gulp');
+const esbuild = require('esbuild');
+const sass = require('gulp-sass')(require('sass'));
+const flatten = require('gulp-flatten');
+const concat = require('gulp-concat');
+const lint = require('gulp-eslint');
+const gls = require('gulp-live-server');
+const ts = require('gulp-typescript');
 
-var gulp = require('gulp');
-var nodemon = require('gulp-nodemon');
-var browserify = require('browserify');  // bundle JS
-var reactify = require('reactify');  // transform JSX to JS
-var source = require('vinyl-source-stream');  // use conventional text streams with gulp
-var concat = require('gulp-concat');  // concat files
-var lint = require('gulp-eslint');
-var sass = require('gulp-sass');
-var flatten = require('gulp-flatten');
- var gls = require('gulp-live-server');
+const config = {
+	paths: {
+		styles: ['./src/frontend/**/*.css', './src/frontend/**/*.scss'],
+		types: './src/types/**/*.ts',
+		backend: './src/backend/**/*.ts',
+		frontend_tsx: './src/frontend/**/*.tsx',
+		frontend_json: './src/frontend/**/*.json'
+	},
+	dist: {
+		scripts: './dist/scripts',
+		backend: './dist',
+		css: './dist/css'
+	}
+};
 
-
-var config = {
-  paths : {
-    html: './src/*.html',
-    js : './src/**/*.js*',
-    styles : [
-      './node_modules/weather-icons/css/weather-icons.min.css',
-      './node_modules/emojione/lib/emojione-awesome/emojione-awesome.scss',
-      './src/**/*.scss',
-    ],
-    images : './src/images/*',
-    fonts : [
-      './node_modules/weather-icons/font/weathericons-regular-webfont.woff',
-      './src/fonts/*'
-    ],
-    dist: './dist',
-    mainJs : './src/app.jsx'
-  }
-}
-
-gulp.task('serve', function() {
-  var server = gls('./src/server.js');
-  server.start();
-  gulp.watch(['./dist/**/bundle.*'], function(file) {
-    server.notify.apply(server, [file]);
-  });
-  gulp.watch(['./src/**/*.js'], function() {
-    console.log('... restarting');
-    server.start.bind(server)();
-  });
+// TypeScript check for frontend
+const tsFrontendProject = ts.createProject('./src/frontend/tsconfig.json', {
+	noEmit: true
+});
+gulp.task('ts-frontend', () => {
+	return gulp.src([config.paths.frontend_tsx, config.paths.types])
+		.pipe(tsFrontendProject())
+		.pipe(gulp.dest('DUMMY')); // w/o dest the task fails and exits gulp
 });
 
-
-gulp.task('html', function() {
-  gulp
-  .src(config.paths.html)
-  .pipe(gulp.dest(config.paths.dist))
+// TypeScript check for backend
+const tsBackendProject = ts.createProject('./src/backend/tsconfig.json', {
+	noEmit: true
+});
+gulp.task('ts-backend', () => {
+	return gulp.src([config.paths.backend, config.paths.types])
+		.pipe(tsBackendProject())
+		.pipe(gulp.dest('DUMMY')); // w/o dest the task fails and exits gulp
 });
 
-gulp.task('js', function() {
-  browserify(config.paths.mainJs)
-    .transform(reactify)
-    .bundle()
-    .on('error', console.error.bind(console))
-    .pipe(source('bundle.js'))
-    .pipe(gulp.dest(config.paths.dist + '/scripts'))
+// Build frontend with esbuild
+gulp.task('frontend', gulp.series('ts-frontend', done => {
+	esbuild.build({
+		entryPoints: ['./src/frontend/app.tsx'],
+		bundle: true,
+		outfile: `${config.dist.scripts}/bundle-frontend.js`,
+		sourcemap: true,
+		minify: true,
+		loader: { '.tsx': 'tsx' }
+	}).then(() => {
+		console.log('Frontend build complete');
+		done();
+	}).catch(error => {
+		console.error('Frontend build error:', error);
+		done();
+	});
+}));
+
+// Build backend with esbuild
+gulp.task('backend', gulp.series('ts-backend', done => {
+	esbuild.build({
+		entryPoints: ['./src/backend/server.ts'],
+		bundle: true,
+		outfile: `${config.dist.backend}/bundle-backend.js`,
+		platform: 'node',
+		sourcemap: true,
+		minify: false
+	}).then(() => {
+		console.log('Backend build complete');
+		done();
+	}).catch(error => {
+		console.error('Backend build error:', error);
+		done();
+	});
+}));
+
+
+// Compile styles
+gulp.task('styles', () => {
+	return gulp.src(config.paths.styles)
+		.pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
+		.pipe(flatten())
+		.pipe(concat('bundle.css'))
+		.pipe(gulp.dest(config.dist.css));
 });
 
-gulp.task('css', function() {
-  gulp
-  .src(config.paths.styles)
-  .pipe(sass({outputStyle: 'compressed'}))
-  .pipe(flatten())
-  .pipe(concat('bundle.css'))
-  .pipe(gulp.dest(config.paths.dist + '/css'))
+// Lint tasks
+gulp.task('lint-backend', () => {
+	return gulp.src(config.paths.backend)
+	.pipe(lint({ configFile: './src/backend/eslint.config.json' }))
+	.pipe(lint.format());
 });
 
-/*
-gulp.task('images', function() {
-  gulp.src(config.paths.images)
-    .pipe(gulp.dest(config.paths.dist + '/images'))
-    .pipe(connect.reload());
-
-  gulp.src('./src/favicon.ico')
-    .pipe(gulp.dest(config.paths.dist))
-});
-*/
-
-gulp.task('fonts', function() {
-  gulp
-  .src(config.paths.fonts)
-  .pipe(gulp.dest(config.paths.dist + '/font'))
+gulp.task('lint-frontend', () => {
+	return gulp.src([ config.paths.frontend_tsx, config.paths.frontend_json ])
+		.pipe(lint({ configFile: './src/frontend/eslint.config.json' }))
+		.pipe(lint.format());
 });
 
-gulp.task('lint', function() {
-  return gulp.src(config.paths.js)
-    .pipe(lint({ configFile : 'eslint.config.json'}))
-    .pipe(lint.format());
+gulp.task('lint', gulp.parallel('lint-backend', 'lint-frontend'));
+
+// Watch files for changes
+gulp.task('watch', () => {
+	gulp.watch([ config.paths.frontend_tsx, config.paths.frontend_json ], gulp.series('frontend', 'lint-frontend'));
+	gulp.watch(config.paths.backend, gulp.series('backend', 'lint-backend'));
+	gulp.watch(config.paths.styles, gulp.series('styles'));
 });
 
-gulp.task('watch', function() {
-  gulp.watch(config.paths.html, ['html']);
-  gulp.watch(config.paths.js, ['js', 'lint']);
-  gulp.watch(config.paths.styles, ['css']);
+// Serve backend
+gulp.task('serve', done => {
+	const server = gls(`${config.dist.backend}/bundle-backend.js`);
+	server.start();
+
+	gulp.watch(`${config.dist.backend}/**/*`, gulp.series(done => {
+		console.log('... restarting server');
+		server.start();
+		done();
+	}));
+	done();
 });
 
-gulp.task('default', ['html', 'js', 'css', 'fonts', 'lint', 'serve', 'watch']);
+// Default task
+gulp.task('default', gulp.parallel('backend', 'frontend', 'styles', 'lint', 'serve', 'watch'));

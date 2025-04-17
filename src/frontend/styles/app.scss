@@ -1,0 +1,73 @@
+@use 'common';
+
+$a-tags: 'a, a:active, a:hover, a:visited, a:active';
+
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	height: 100%;
+}
+
+body {
+	height: 100%;
+	//background-color: magenta;
+	color: common.$text-color;
+	font-family: 'Quicksand', sans-serif;
+}
+
+#{$a-tags} {
+	color: common.$text-color;
+	text-decoration: none;
+}
+a.plain-link:hover {
+	background-color: lighten(common.$tile-background, 10%)
+}
+
+#app {
+	height: 100%;
+}
+
+#main {
+	background-color: common.$main-background;
+	padding : common.$default-padding;
+	height: calc(100% - 2 * #{common.$default-padding});
+}
+
+$bottom-tile-dim :2.7em;
+
+.bottomTile {
+	background-color: common.$tile-background;
+	position: fixed;
+	height: $bottom-tile-dim;
+	line-height: $bottom-tile-dim;
+	border-radius: 3px;
+	padding: common.$default-padding;
+	bottom: common.$default-padding;
+	opacity: 0.6;
+	z-index: 5000;
+	text-align: center;
+}
+
+#home {
+	@extend .bottomTile;
+	width: $bottom-tile-dim;
+	left: common.$default-padding;
+}
+#datetime {
+	@extend .bottomTile;
+	right: common.$default-padding;
+	.seconds {
+		display: inline-block;
+		width: 20px;
+		opacity: 0.5;
+	}
+}
+
+#fourofour {
+	font-size: 5rem;
+	text-align: center;
+}

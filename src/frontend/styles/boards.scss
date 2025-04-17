@@ -1,0 +1,32 @@
+@use 'common';
+
+.tile {
+	// stitch
+	//outline: 1px dashed $text-color;
+	//outline-offset: -2px;
+	width: 8vw;
+	height: 8vw;
+	text-align: center;
+	display: inline-block;
+	background-color: common.$tile-background;
+	margin: 1em;
+	padding: 1em;
+	border-radius: 5px;
+}
+
+.board {
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	display : grid;
+	grid-gap: 5px;
+	grid-template-columns: repeat(8, 1fr);
+	grid-template-rows: repeat(6, 1fr);
+}
+
+.part {
+	background: common.$part-background-color;
+	border-radius: 5px;
+	overflow: hidden;
+	//outline: 1px solid whitesmoke;
+}

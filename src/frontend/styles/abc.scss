@@ -1,0 +1,30 @@
+@use 'themes';
+
+#abc {
+	height: 100%;
+	background: white;
+	color:black;
+	display: flex;
+	align-items: center;
+
+	@include themes.themify(themes.$themes) {
+		background: themed('backgroundColor')
+	}
+
+	p {
+		width: 100%;
+		text-align: center;
+		@include themes.themify(themes.$themes) {
+			color: themed('textColor')
+		}
+
+		span {
+			font-size: 2em;
+			line-height: 1em;
+			font-weight: bold;
+		}
+		i {
+			vertical-align: text-top;
+		}
+	}
+}

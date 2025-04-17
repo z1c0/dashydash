@@ -1,0 +1,23 @@
+@use 'common';
+
+@font-face {
+	font-family: 'LcdFont';
+	src: url('/font/LEDBDREV.TTF') format('truetype');
+}
+$color-lcd-font: limegreen;
+
+.bus {
+	padding: common.$default-padding;
+	i {
+		float: left;
+		margin-bottom: 10px;
+		margin-right: 10px;
+	}
+	.busTime {
+		clear: both;   
+		font-family: "LcdFont";
+		color: $color-lcd-font;
+		white-space: pre;
+		padding-bottom: 3px;
+	}
+}

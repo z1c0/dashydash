@@ -1,0 +1,20 @@
+@use 'common';
+@use 'themes';
+
+.countdown {
+	height: 100%;
+
+	div {
+		padding: common.$default-padding;
+	}
+	
+	@include themes.themify(themes.$themes) {
+		background: themes.themed('backgroundColor')
+	}
+	
+	p {
+		@include themes.themify(themes.$themes) {
+			color: themes.themed('textColor')
+		}
+	}
+}

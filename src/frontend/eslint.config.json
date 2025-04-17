@@ -1,0 +1,27 @@
+{
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+	"root": true,
+	"plugins": ["react", "@typescript-eslint"],
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"ecmaVersion": 6,
+		"sourceType": "module",
+		"ecmaFeatures": {
+			"jsx": true,
+			"modules": true
+		}
+	},
+	"env": {
+		"browser": true,
+		"node": true
+	},
+	"rules": {
+		"@typescript-eslint/no-explicit-any": "error",
+		"react/display-name": "warn",
+		"no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }]
+	}
+}
