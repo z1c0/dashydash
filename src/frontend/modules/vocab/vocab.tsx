@@ -1,41 +1,39 @@
-const React = require('react');
-const moment = require('moment');
-const misc = require('../../common/misc.jsx');
+import React, { memo, useState } from 'react';
+import { getRandomElement } from '../../common/misc';
+import useInterval from '../../../frontend/hooks/useInterval';
+import moment from 'moment';
 
-class Vocab extends React.Component {
-    constructor(props) {
-        super(props);
-        //console.log(props)
-        if (props.config === 'spanish') {
-            this.words = require('./spanish.json');
-            this.flagIcon = 'e1a-flag_es';
-        }
-        else if (props.config === 'italian') {
-            this.words = require('./italian.json');
-            this.flagIcon = 'e1a-flag_it';
-        }
-    }
+interface VocabProps {
+	words: string[][];
+	country: 'es' | 'it' | 'gb';
+}
 
-    componentDidMount() {
-        const self = this;
-        this.intervalId = setInterval(() => self.forceUpdate(), moment.duration(10, 'seconds'));
-    }
+const Vocab: React.FC<VocabProps> = memo(({ words, country}) => {
+	const [word, setWord] = useState(getRandomElement(words));
+	useInterval(
+		() => setWord(getRandomElement(words)),
+		moment.duration(10, 'seconds')
+	);
 
-    componentWillUnmount() {
-        clearInterval(this.intervalId);
-    }
+	const flagIcon = 'e1a-flag_' + country;
+	return (
+		<div className='vocab big-text'>
+			<p>{word[0]}</p>
+			<p className='flagicon icon-text'><i className={flagIcon}></i></p>
+			<p key={word[1]} className='animate-appear'>{word[1]}</p>
+		</div>
+	)
+});
+Vocab.displayName = 'Vocab';
 
-    render() {
-        let word = misc.getRandomElement(this.words);
-        word = misc.shuffle(word);
-        return (
-            <div className='vocab big-text'>
-                <p>{word[0]}</p>
-                <p className='flagicon icon-text'><i className={this.flagIcon}></i></p>
-                <p key={word[1]} className='animate-appear'>{word[1]}</p>
-            </div>
-        );
-    }
-};
+export const Spanish = memo(() => {
+	const words: string[][] = require('./spanish.json');
+	return <Vocab words={words} country='es' />;
+});
+Spanish.displayName = 'Spanish';
 
-module.exports = Vocab
+export const Italian = memo(() => {
+	const words: string[][] = require('./italian.json');
+	return <Vocab words={words} country='it' />;
+});
+Italian.displayName = 'Italian';

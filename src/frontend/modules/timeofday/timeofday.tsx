@@ -1,40 +1,33 @@
-"use strict";
-var React = require('react');
-var moment = require('moment');
-var FetchModule = require('../../common/fetchModule.jsx');
+import { memo } from 'react';
+import { duration } from 'moment';
+import { useFetchInterval } from '../../../frontend/hooks/useFetchInterval';
+import { FetchErrorAware } from '../../common/fetchErrorAware';
 
-class TimeOfDay extends FetchModule {
-  constructor(props){
-    super(props);
-    this.state = {
-      text : '',
-      emoji : '',
-      image : ''
-    }
-    this.interval = moment.duration(1, 'minute');
-    this.callback = function(body) {
-      this.setState({
-        image : body.imageUrl,
-        text : body.text,
-        emoji : body.emoji,
-      });
-    }    
-  }
-
-  render() {
-    var divStyle = {
-      backgroundImage: 'url(' + this.state.image + ')'
-    }
-    return (
-      <div className='timeofday'>
-        <div className="giphy" style={divStyle}></div>
-        <p className='biggest-text'>
-          <span>{this.state.text}</span>
-          <i className={"icon-text " + this.state.emoji}></i>
-        </p>
-      </div>
-    );
-  }
+type State = {
+	text : string,
+	emoji : string,
+	imageUrl : string
 }
 
-module.exports = TimeOfDay;
+export const TimeOfDay = memo(() => {
+	const fetchState = useFetchInterval<State>({
+		route: "timeofday",
+		interval: duration(45, 'seconds')
+	})
+
+	const divStyle = {
+		backgroundImage: 'url(' + fetchState.data?.imageUrl + ')'
+	}
+	return (
+		<FetchErrorAware {...fetchState}>
+			<div className='timeofday'>
+				<div className="giphy" style={divStyle}></div>
+				<p className='biggest-text'>
+					<span>{fetchState.data?.text}</span>
+					<i className={"icon-text " + fetchState.data?.emoji}></i>
+				</p>
+			</div>
+		</FetchErrorAware>
+	)
+});
+TimeOfDay.displayName = 'TimeOfDay';

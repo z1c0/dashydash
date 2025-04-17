@@ -1,45 +1,35 @@
-"use strict";
-var React = require('react');
-var moment = require('moment');
-var FetchModule = require('../../common/fetchModule.jsx');
+import { memo } from 'react';
+import { FetchErrorAware } from '../../common/fetchErrorAware';
+import moment from 'moment';
+import { useFetchInterval } from '../../../frontend/hooks/useFetchInterval';
+
+type State = {
+	name: string
+	description: string
+	temperature: string
+	min: string
+	max: string
+	icon: string
+}
+
+export const Weather  = memo(() => {
+	const fetchState = useFetchInterval<State>({
+		route: "weather",
+		interval: moment.duration(30, 'minutes')
+	});
+
+	return (
+		<FetchErrorAware {...fetchState}>
+			<div className='weather big-text'>
+				<p>{fetchState.data?.description}</p>
+				<i className={"biggest-text " + `wi ${ fetchState.data?.icon }`}></i>
+				<span className="temperature biggest-text">{fetchState.data?.temperature} °C</span>
+				<span id="minTemp"> &darr; </span><span>{fetchState.data?.min}°</span>
+				<span id="maxTemp"> &uarr; </span><span>{fetchState.data?.max}°</span>
+			</div>
+		</FetchErrorAware>
+	);
+});
+Weather.displayName = 'Weather';
 
 
-class Weather extends FetchModule {
-  constructor(props){
-    super(props);
-    this.state = {
-      name : '',
-      description : '',
-      temperature : '',
-      min : '',
-      max : '',
-      icon : ''
-
-    }
-    this.interval = moment.duration(25, 'minutes');
-    this.callback = function(body) {
-      this.setState({
-        name : body.name,
-        temperature : body.temperature,
-        min : body.min,
-        max : body.max,
-        description : body.description,
-        icon : body.icon
-      });
-    }
-  }
-
-  render() {
-    return (
-      <div className='weather big-text'>
-        <p>{this.state.description}</p>
-         <i className={"biggest-text " + `wi ${ this.state.icon }`}></i>
-        <span className="temperature biggest-text">{this.state.temperature} °C</span>
-        <span id="minTemp"> &darr; </span><span>{this.state.min}°</span>
-        <span id="maxTemp"> &uarr; </span><span>{this.state.max}°</span>
-      </div>
-    );
-  }
-};
-
-module.exports = Weather;

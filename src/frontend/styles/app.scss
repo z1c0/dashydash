@@ -1,3 +1,4 @@
+@use "sass:color";
 @use 'common';
 
 $a-tags: 'a, a:active, a:hover, a:visited, a:active';
@@ -24,7 +25,7 @@ body {
 	text-decoration: none;
 }
 a.plain-link:hover {
-	background-color: lighten(common.$tile-background, 10%)
+	background-color: color.adjust(common.$tile-background, $lightness: 10%);
 }
 
 #app {

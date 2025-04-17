@@ -1,7 +1,7 @@
-'use strict';
+import secrets from '../secrets.json';
+const API_KEY: string = secrets.todoistApiKey;
 
-const API_KEY = require('../../../secrets.json').todoistApiKey;
-
-module.exports = {
-  url : 'https://api.todoist.com/rest/v1/tasks?token=' + API_KEY
+export const ToDo = {
+  url : 'https://api.todoist.com/rest/v2/tasks',
+  authorization : 'Bearer ' + API_KEY
 }

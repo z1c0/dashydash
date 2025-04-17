@@ -1,37 +1,24 @@
-"use strict";
-var React = require('react');
-var moment = require('moment');
-var FetchModule = require('../../common/fetchModule.jsx');
+import { duration } from "moment";
+import { memo } from "react";
+import { useFetchInterval } from "../../hooks/useFetchInterval";
+import { Article } from "../../../types/types";
+import { FetchErrorAware } from "../../common/fetchErrorAware";
 
+export const News = memo(() => {
+	const fetchState = useFetchInterval<Article>({
+		route: "news",
+		interval: duration(30, 'seconds')
+	});
 
-class News extends FetchModule {
-  constructor(props) {
-    super(props);
-    this.state = {
-      title : '',
-      description : '',
-      image : ''
-    }
-    this.interval = moment.duration(30, 'seconds');
-    this.callback = function(body) {
-      this.setState({ 
-        title : body.title,
-        description : body.description,
-        image : body.urlToImage
-      });
-    }
-  }
-
-  render() {
-    return (
-      <div id='news' style={{ backgroundImage: 'url(' + this.state.image + ')' }}>
-        <div className="articleText">
-          <h1>{this.state.title}</h1>
-          <p>{this.state.description}</p>
-        </div>
-      </div>
-    );
-  }
-};
-
-module.exports = News;
+	return (
+		<FetchErrorAware {...fetchState}>
+			<div className='news' style={{ backgroundImage: 'url(' + fetchState.data?.image + ')' }}>
+				<div className="articleText">
+					<h1>{fetchState.data?.title}</h1>
+					<p>{fetchState.data?.description}</p>
+				</div>
+			</div>
+		</FetchErrorAware>
+	)
+});
+News.displayName = 'News';

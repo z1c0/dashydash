@@ -1,42 +1,25 @@
-'use strict';
-var React = require('react');
-var RouterDOM = require('react-router-dom');
-var Link = RouterDOM.Link;
-var BoardManager = require('./boardManager.jsx');
+import { memo } from 'react';
+import { Link, useParams } from "react-router-dom";
+import { BoardInfo, getBoards } from './boardManager';
 
-class Home extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      boards : []
-    };
-  }
+export const Home = memo(() =>  {
+	const params = useParams();
+	const boardSet = params.boardSetId || 'default';
+	const boards = getBoards(boardSet)
 
-  componentDidMount() {
-    this.boardSet = this.props.match.params.boardSetId || 'default';
-    this.setState({ 
-      boards : new BoardManager().getBoards(this.boardSet)
-    });  
-  }
+	const createTile = function(board: BoardInfo) {
+		return (
+			<Link key={board.name} className="tile" to={{ pathname : '/' + boardSet + '/' + board.name }}>
+				<i className={"fa fa-user-circle-o fa-3x"}></i>
+				<p className="padded big-text">{board.name}</p>
+			</Link>
+		);
+	};
 
-  render() {
-    var createTile = function(board) {
-      return (
-        <Link key={board.name} className="tile" to={{ pathname : '/' + this.boardSet + '/' + board.name }}>
-          <i className={"fa " + board.icon + " fa-3x"}></i>
-          <p className="padded big-text">{board.name}</p>
-        </Link>
-      );
-    };
-
-    return (
-      <div>
-        <div>
-          {this.state.boards.map(createTile, this)}
-        </div>
-       </div>
-    );
-  }
-};
-
-module.exports = Home;
+	return (
+		<div>
+			<div>{boards.map(createTile, this)}</div>
+		</div>
+	);
+});
+Home.displayName = 'Home';

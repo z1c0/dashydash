@@ -1,16 +1,10 @@
-'use strict';
-var React = require('react');
-var Calendar = require('../../common/calendar.jsx');
+import { useMemo } from "react";
+import { memo } from "react";
+import { Calendar } from "../../common/calendar";
 
-class Birthdays extends Calendar {
-  constructor(props) {
-    super(props);
-    this.showTime = false;
-  }
+export const Birthdays = memo(() => {
+	const icon = useMemo(() => <i className="e1a-birthday icon-text"></i>, []);
+	return <Calendar route='birthdays' showTime={false} icon={icon} />;
+});
+Birthdays.displayName = 'Birthdays';
 
-  renderIcon() {
-    return <i className="e1a-birthday icon-text"></i>
-  }
-};
-
-module.exports = Birthdays;

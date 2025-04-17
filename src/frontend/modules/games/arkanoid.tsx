@@ -1,147 +1,144 @@
-'use strict';
-const BaseGame = require('./baseGame.jsx');
-const misc = require('../../common/misc.jsx');
+import { BaseGame } from './core/baseGame';
+import { getRandom, shuffle } from '../../common/misc';
+import { Color, Colors } from './core/color';
 
-const CLEAR_COLOR = '#222222';
-const BALL_COLOR = 'white';
-
+const CLEAR_COLOR = Colors.Charcoal;
+const BALL_COLOR = Colors.White;
 
 class Ball {
-  constructor(game, x) {
-    this.game = game;
-    this.max = this.game.dim() - 1;
-    this.dx = 1;
-    this.dy = 1;
-    this.x = x;
-    this.y = this.max;
-  }
+	game: Arkanoid;
+	max: number;
+	dx: number;
+	dy: number;
+	x: number;
+	y: number;
+	
+	constructor(game: Arkanoid, x: number) {
+		this.game = game;
+		this.max = this.game.dim() - 1;
+		this.dx = 1;
+		this.dy = 1;
+		this.x = x;
+		this.y = this.max;
+	}
 
-  simulate() {
-    if (this.x === 0 || this.x === this.max) {
-      this.dx *= -1;
-    }
-    if (this.y === 0 || (this.dy === 1 && this.y === this.max - 1)) {
-      this.dy *= -1;
-    }
-    this.game.world[this.x][this.y] = CLEAR_COLOR;
+	simulate() {
+		if (this.x === 0 || this.x === this.max) {
+			this.dx *= -1;
+		}
+		if (this.y === 0 || (this.dy === 1 && this.y === this.max - 1)) {
+			this.dy *= -1;
+		}
+		this.game.display.setPixel(this.x, this.y, CLEAR_COLOR);
 
-    this.x += this.dx;
-    this.y += this.dy;
+		this.x += this.dx;
+		this.y += this.dy;
 
-    if (this.game.world[this.x][this.y] != CLEAR_COLOR) {
-      this.game.world[this.x][this.y] = CLEAR_COLOR;
-      this.game.world[Math.max(0, this.x - 1)][this.y] = CLEAR_COLOR;
-      this.game.world[Math.min(this.game.dim() - 1, this.x + 1)][this.y] = CLEAR_COLOR;
-      this.dy *= -1;
-      this.y += this.dy;
-    }
-    this.game.world[this.x][this.y] = BALL_COLOR;
-  }
+		if (this.game.display.getPixel(this.x, this.y) != CLEAR_COLOR) {
+			this.game.display.setPixel(this.x, this.y, CLEAR_COLOR);
+			this.game.display.setPixel(Math.max(0, this.x - 1), this.y, CLEAR_COLOR);
+			this.game.display.setPixel(Math.min(this.game.dim() - 1, this.x + 1), this.y, CLEAR_COLOR);
+			this.dy *= -1;
+			this.y += this.dy;
+		}
+		this.game.display.setPixel(this.x, this.y, BALL_COLOR);
+	}
 }
 
 class Ship {
-  constructor(game, x) {
-    this.game = game;
-    this.x = x;
-    this.y = this.game.dim() - 1;
-  }
+	game: Arkanoid;
+	x: number;
+	y: number;
 
-  simulate() {
-    this.draw(true);
-    if (this.x > this.game.ball.x) {
-      this.x = Math.max(2, this.x - 1);
-    }
-    else if (this.x < this.game.ball.x) {
-      this.x = Math.min(this.game.dim() - 3, this.x + 1);
-    }    
-    this.draw(false);
-  }
+	constructor(game: Arkanoid, x: number) {
+		this.game = game;
+		this.x = x;
+		this.y = this.game.dim() - 1;
+	}
 
-  draw(clear) {
-    const shipColor1 = clear ? CLEAR_COLOR : 'LightGray';
-    const shipColor2 = clear ? CLEAR_COLOR : 'SlateGray';
-    this.game.world[this.x - 2][this.y] = shipColor1;
-    this.game.world[this.x - 1][this.y] = shipColor2;
-    this.game.world[this.x    ][this.y] = shipColor2;
-    this.game.world[this.x + 1][this.y] = shipColor2;
-    this.game.world[this.x + 2][this.y] = shipColor1;
-  }
+	simulate() {
+		this.draw(true);
+		if (this.x > this.game.ball.x) {
+			this.x = Math.max(2, this.x - 1);
+		}
+		else if (this.x < this.game.ball.x) {
+			this.x = Math.min(this.game.dim() - 3, this.x + 1);
+		}    
+		this.draw(false);
+	}
+
+	draw(clear: boolean) {
+		const shipColor1 = clear ? CLEAR_COLOR : Colors.LightGray;
+		const shipColor2 = clear ? CLEAR_COLOR : Colors.SlateGray;
+		this.game.display.setPixel(this.x - 2, this.y, shipColor1);
+		this.game.display.setPixel(this.x - 1, this.y, shipColor2);
+		this.game.display.setPixel(this.x    , this.y, shipColor2);
+		this.game.display.setPixel(this.x + 1, this.y, shipColor2);
+		this.game.display.setPixel(this.x + 2, this.y, shipColor1);
+	}
 }
 
-class Arkanoid extends BaseGame {
-  constructor() {
-    super();
-  }
+export class Arkanoid extends BaseGame {
+	ball: Ball;
+	ship: Ship;
 
-  getInterval() {
-    return 100;
-  }
-   
-  init() {
-    super.init();
-    const x = Math.floor(this.dim() / 2) - this.getRandom(-4, 4);
-    this.ball = new Ball(this, x);
-    this.ship = new Ship(this, x);
-    this.reset();
-  }
-  
-  isOver() {
-    return this.rounds === 750;
-  }
+	constructor(canvas: HTMLCanvasElement) {
+		super(canvas);
+		const x = Math.floor(this.dim() / 2) - getRandom(-4, 4);
+		this.ball = new Ball(this, x);
+		this.ship = new Ship(this, x);
+		this.display.clear(CLEAR_COLOR);
 
-  combine(rgb1, rgb2) {
-    return [
-      Math.floor((rgb1[0] + rgb2[0]) / 2),
-      Math.floor((rgb1[1] + rgb2[1]) / 2),
-      Math.floor((rgb1[2] + rgb2[2]) / 2)
-    ];
-  }
+		const startColors = [
+			Color(getRandom(150, 255), 0, 0),
+			Color(0, getRandom(150, 255), 0),
+			Color(0, 0, getRandom(150, 255)),
+			Color(getRandom(150, 255), 0, getRandom(150, 255)),
+			Color(getRandom(150, 255), getRandom(150, 255), 0),
+			Color(0, getRandom(150, 255), getRandom(150, 255)),
+		];
+		shuffle(startColors);
 
-  drawRect(x1, y1, x2, y2, rgb1, rgb2, rgb3, rgb4) {
-    this.world[x1][y1] = "rgb(" + rgb1[0] + "," + rgb1[1] + "," + rgb1[2] +")";
-    this.world[x2][y1] = "rgb(" + rgb2[0] + "," + rgb2[1] + "," + rgb2[2] +")";
-    this.world[x1][y2] = "rgb(" + rgb3[0] + "," + rgb3[1] + "," + rgb3[2] +")";
-    this.world[x2][y2] = "rgb(" + rgb4[0] + "," + rgb4[1] + "," + rgb4[2] +")";
-    
-    const w = Math.floor((x2 - x1) / 2);
-    const h = Math.floor((y2 - y1) / 2);
-    if (w === 0 && h === 0) {
-    }
-    else {
-      const rgb_12 = this.combine(rgb1, rgb2);
-      const rgb_13 = this.combine(rgb1, rgb3);
-      const rgb_24 = this.combine(rgb2, rgb4);
-      const rgb_34 = this.combine(rgb3, rgb4);
-      const rgb_12_34 = this.combine(rgb_12, rgb_34);
-      this.drawRect(x1    , y1    , x1 + w, y1 + h, rgb1, rgb_12, rgb_13, rgb_12_34);
-      this.drawRect(x1 + w, y1    , x2    , y1 + h, rgb_12, rgb2, rgb_12_34, rgb_24);
-      this.drawRect(x1    , y1 + h, x1 + w, y2    , rgb_13, rgb_12_34, rgb3, rgb_34);
-      this.drawRect(x1 + w, y1 + h, x2    , y2    , rgb_12_34, rgb_24, rgb_34, rgb4);
-    }
-  }
-  
-  reset() {
-    this.rounds = 0;
-    this.clear(CLEAR_COLOR);
+		this.drawRect(0, 0, this.dim() - 1, 12, startColors[0], startColors[1], startColors[2], startColors[3]);
+	}
 
-    const startColors = [
-      [this.getRandom(150, 255), 0, 0],
-      [0, this.getRandom(150, 255), 0],
-      [0, 0, this.getRandom(150, 255)],
-      [this.getRandom(150, 255), 0, this.getRandom(150, 255)],
-      [this.getRandom(150, 255), this.getRandom(150, 255), 0],
-      [0, this.getRandom(150, 255), this.getRandom(150, 255)],
-    ];
-    misc.shuffle(startColors);
+	override getInterval() {
+		return 100;
+	}
 
-    this.drawRect(0, 0, this.dim() - 1, 12, startColors[0], startColors[1], startColors[2], startColors[3]);
-  }
-  
-  simulate() {
-    this.ball.simulate();
-    this.ship.simulate();
-    this.rounds++;
-  }
+	combine(rgb1: Color, rgb2: Color) {
+		return Color(
+			Math.floor((rgb1.r + rgb2.r) / 2),
+			Math.floor((rgb1.g + rgb2.g) / 2),
+			Math.floor((rgb1.b + rgb2.b) / 2)
+		);
+	}
+
+	drawRect(x1: number, y1: number, x2: number, y2: number, rgb1: Color, rgb2: Color, rgb3: Color, rgb4: Color) {
+		this.display.setPixel(x1, y1, rgb1);
+		this.display.setPixel(x2, y1, rgb2);
+		this.display.setPixel(x1, y2, rgb3);
+		this.display.setPixel(x2, y2, rgb4);
+		
+		const w = Math.floor((x2 - x1) / 2);
+		const h = Math.floor((y2 - y1) / 2);
+		if (w === 0 && h === 0) {
+		}
+		else {
+			const rgb_12 = this.combine(rgb1, rgb2);
+			const rgb_13 = this.combine(rgb1, rgb3);
+			const rgb_24 = this.combine(rgb2, rgb4);
+			const rgb_34 = this.combine(rgb3, rgb4);
+			const rgb_12_34 = this.combine(rgb_12, rgb_34);
+			this.drawRect(x1    , y1    , x1 + w, y1 + h, rgb1, rgb_12, rgb_13, rgb_12_34);
+			this.drawRect(x1 + w, y1    , x2    , y1 + h, rgb_12, rgb2, rgb_12_34, rgb_24);
+			this.drawRect(x1    , y1 + h, x1 + w, y2    , rgb_13, rgb_12_34, rgb3, rgb_34);
+			this.drawRect(x1 + w, y1 + h, x2    , y2    , rgb_12_34, rgb_24, rgb_34, rgb4);
+		}
+	}
+	
+	override simulate() {
+		this.ball.simulate();
+		this.ship.simulate();
+	}
 }
-
-module.exports = Arkanoid;

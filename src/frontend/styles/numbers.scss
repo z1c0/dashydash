@@ -8,7 +8,7 @@
 100% { opacity: 1; }
 }
 
-#numbers {
+.numbers {
 	height: 100%;
 	display: flex;
 	align-items: center;
@@ -38,7 +38,7 @@
 			}
 		}
 		span.result {
-			animation: fadein 20s;
+			animation: fadein 15;
 		}
 	}
 	i {

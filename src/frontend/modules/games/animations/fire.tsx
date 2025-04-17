@@ -1,148 +1,140 @@
-'use strict';
+import { Color } from '../core/color';
+import { Display } from '../core/display';
+import { BaseAnimation } from './baseanimation';
 
 const MAX_ROUNDS = 500;
-const FIRE_WIDTH = 32;
-const FIRE_HEIGHT = 32;
 
-// colors: https://jsfiddle.net/u5dk4xrc/
-
-const rgbs_r = [
-  "#000000",
-  "#000000",
-  "#010101",
-  "#030303",
-  "#070707",
-  "#1F0707",
-  "#1F0707",
-  "#2F0F07",
-  "#8F2707",
-  "#9F2F07",
-  "#C74707",
-  "#DF4F07",
-  "#DF5707",
-  "#D75F07",
-  "#CF6F0F", 
-  "#CF7F0F",
-  "#C78717",
-  "#B7B737",
+export const rgbs_r: Color[] = [
+	{ r: 0x00, g: 0x00, b: 0x00 }, // #000000
+	{ r: 0x00, g: 0x00, b: 0x00 }, // #000000
+	{ r: 0x01, g: 0x01, b: 0x01 }, // #010101
+	{ r: 0x03, g: 0x03, b: 0x03 }, // #030303
+	{ r: 0x07, g: 0x07, b: 0x07 }, // #070707
+	{ r: 0x1F, g: 0x07, b: 0x07 }, // #1F0707
+	{ r: 0x1F, g: 0x07, b: 0x07 }, // #1F0707
+	{ r: 0x2F, g: 0x0F, b: 0x07 }, // #2F0F07
+	{ r: 0x8F, g: 0x27, b: 0x07 }, // #8F2707
+	{ r: 0x9F, g: 0x2F, b: 0x07 }, // #9F2F07
+	{ r: 0xC7, g: 0x47, b: 0x07 }, // #C74707
+	{ r: 0xDF, g: 0x4F, b: 0x07 }, // #DF4F07
+	{ r: 0xDF, g: 0x57, b: 0x07 }, // #DF5707
+	{ r: 0xD7, g: 0x5F, b: 0x07 }, // #D75F07
+	{ r: 0xCF, g: 0x6F, b: 0x0F }, // #CF6F0F
+	{ r: 0xCF, g: 0x7F, b: 0x0F }, // #CF7F0F
+	{ r: 0xC7, g: 0x87, b: 0x17 }, // #C78717
+	{ r: 0xB7, g: 0xB7, b: 0x37 }, // #B7B737
 ];
-const rgbs_g = [
-  "#000000",
-  "#000000",
-  "#010101",
-  "#030303",
-  "#070707",
-  "#1F0707",
-  "#000700",
-  "#004F00",
-  "#004700",
-  "#005F00",
-  "#005700",
-  "#005F00",
-  "#006700",
-  "#006F00",
-  "#007F00", 
-  "#009F00",
-  "#00A700",
-  "#00C700",
+export const rgbs_g: Color[] = [
+	{ r: 0x00, g: 0x00, b: 0x00 }, // #000000
+	{ r: 0x00, g: 0x00, b: 0x00 }, // #000000
+	{ r: 0x01, g: 0x01, b: 0x01 }, // #010101
+	{ r: 0x03, g: 0x03, b: 0x03 }, // #030303
+	{ r: 0x07, g: 0x07, b: 0x07 }, // #070707
+	{ r: 0x1F, g: 0x07, b: 0x07 }, // #1F0707
+	{ r: 0x00, g: 0x07, b: 0x00 }, // #000700
+	{ r: 0x00, g: 0x4F, b: 0x00 }, // #004F00
+	{ r: 0x00, g: 0x47, b: 0x00 }, // #004700
+	{ r: 0x00, g: 0x5F, b: 0x00 }, // #005F00
+	{ r: 0x00, g: 0x57, b: 0x00 }, // #005700
+	{ r: 0x00, g: 0x5F, b: 0x00 }, // #005F00
+	{ r: 0x00, g: 0x67, b: 0x00 }, // #006700
+	{ r: 0x00, g: 0x6F, b: 0x00 }, // #006F00
+	{ r: 0x00, g: 0x7F, b: 0x00 }, // #007F00
+	{ r: 0x00, g: 0x9F, b: 0x00 }, // #009F00
+	{ r: 0x00, g: 0xA7, b: 0x00 }, // #00A700
+	{ r: 0x00, g: 0xC7, b: 0x00 }, // #00C700
 ];
-const rgbs_b = [
-  "#000000",
-  "#000000",
-  "#010101",
-  "#030303",
-  "#070707",
-  "#1F0707",
-  "#000700",
-  "#0e0663",
-  "#140999",
-  "#271baa",
-  "#4641f4",
-  "#4158f4",
-  "#4173f4",
-  "#418bf4",
-  "#419df4",
-  "#41aff4",
-  "#41bef4",
-  "#42cef4",
+export const rgbs_b: Color[] = [
+	{ r: 0x00, g: 0x00, b: 0x00 }, // #000000
+	{ r: 0x00, g: 0x00, b: 0x00 }, // #000000
+	{ r: 0x01, g: 0x01, b: 0x01 }, // #010101
+	{ r: 0x03, g: 0x03, b: 0x03 }, // #030303
+	{ r: 0x07, g: 0x07, b: 0x07 }, // #070707
+	{ r: 0x1F, g: 0x07, b: 0x07 }, // #1F0707
+	{ r: 0x00, g: 0x07, b: 0x00 }, // #000700
+	{ r: 0x0E, g: 0x06, b: 0x63 }, // #0e0663
+	{ r: 0x14, g: 0x09, b: 0x99 }, // #140999
+	{ r: 0x27, g: 0x1B, b: 0xAA }, // #271baa
+	{ r: 0x46, g: 0x41, b: 0xF4 }, // #4641f4
+	{ r: 0x41, g: 0x58, b: 0xF4 }, // #4158f4
+	{ r: 0x41, g: 0x73, b: 0xF4 }, // #4173f4
+	{ r: 0x41, g: 0x8B, b: 0xF4 }, // #418bf4
+	{ r: 0x41, g: 0x9D, b: 0xF4 }, // #419df4
+	{ r: 0x41, g: 0xAF, b: 0xF4 }, // #41aff4
+	{ r: 0x41, g: 0xBF, b: 0xF4 }, // #41bef4
+	{ r: 0x42, g: 0xCE, b: 0xF4 }, // #42cef4
 ];
 
-class Fire {
-  constructor() {
-    const r = Math.random();
+export class Fire extends BaseAnimation {
+	rgbs: Color[];
+	firePixels: number[];
+	rounds: number = 0;
 
-    if (r < 0.6) {
-      this.rgbs = rgbs_r;
-    }
-    else if (r < 0.8) {
-      this.rgbs = rgbs_g;
-    }
-    else {
-      this.rgbs = rgbs_b;
-    }
-    //console.log(this.rgbs.length);
-    this.firePixels = [];
-    this.reset();
-  }
+	constructor(dimension: number) {
+		super();
+		const r = Math.random();
 
-  doFire() {
-    for(let x = 0 ; x < FIRE_WIDTH; x++) {
-        for (let y = 1; y < FIRE_HEIGHT; y++) {
-            this.spreadFire(y * FIRE_WIDTH + x);
-        }
-    }
- }
+		if (r < 0.6) {
+			this.rgbs = rgbs_r;
+		}
+		else if (r < 0.8) {
+			this.rgbs = rgbs_g;
+		}
+		else {
+			this.rgbs = rgbs_b;
+		}
+		this.firePixels = [];
+		for (let i = 0; i < dimension * dimension; i++) {
+			this.firePixels[i] = 0;
+		}	
+		this.setBottomRow(this.rgbs.length - 1, dimension);
+		this.rounds = 0
+	}
 
-  spreadFire(src) {
-    const rand = Math.round(Math.random() * 3) & 3;
-    var dst = src - rand + 1;
-    this.firePixels[dst - FIRE_WIDTH ] = Math.max(0, this.firePixels[src] - (rand & 1));
-  }
+	doFire(dimension: number) {
+		for(let x = 0 ; x < dimension; x++) {
+			for (let y = 1; y < dimension; y++) {
+				this.spreadFire(y * dimension + x, dimension);
+			}
+		}
+	}
 
-  isOver() {
-    return this.rounds === MAX_ROUNDS;
-  }
-  
-  isGoingOut() {
-    return this.rounds >= MAX_ROUNDS - 45;
-  }
+	spreadFire(src: number, dimension: number) {
+		const rand = Math.round(Math.random() * 3) & 3;
+		var dst = src - rand + 1;
+		this.firePixels[dst - dimension] = Math.max(0, this.firePixels[src] - (rand & 1));
+	}
 
-  reset() {
-    for (let i = 0; i < FIRE_WIDTH * FIRE_HEIGHT; i++) {
-      this.firePixels[i] = 0;
-    }
-  
-    this.setBottomRow(this.rgbs.length - 1);
+	override isOver() {
+		return this.rounds === MAX_ROUNDS;
+	}
+	
+	isGoingOut() {
+		return this.rounds >= MAX_ROUNDS - 45;
+	}
 
-    this.rounds = 0
-  }
+	setBottomRow(col: number, dimension: number) {
+		for (let i = 0; i < dimension; i++) {
+			this.firePixels[(dimension - 1) * dimension + i] = col;
+		}
+	}
+	
+	override render(display: Display) {
+		this.doFire(display.dimension());
 
-  setBottomRow(col) {
-    for (let i = 0; i < FIRE_WIDTH; i++) {
-      this.firePixels[(FIRE_HEIGHT - 1) * FIRE_WIDTH + i] = col;
-    }
-  }
-  
-  render(game) {
-    this.doFire();
+		for (let y = 0; y < display.dimension(); y++){ 
+			for (let x = 0; x < display.dimension(); x++) {
+				let index = this.firePixels[display.dimension() * y + x];
+				if (index !== 0 || this.isGoingOut()) {
+					display.setPixel(x, y, this.rgbs[index]);
+				}
+			}
+		}
 
-    for (let y = 0; y < game.dim(); y++){ 
-      for (let x = 0; x < game.dim(); x++) {
-        let index = this.firePixels[FIRE_WIDTH * y + x];
-        if (index !== 0 || this.isGoingOut()) {
-          game.setPixel(x, y, this.rgbs[index]);
-        }
-      }
-    }
+		this.rounds++;
 
-    this.rounds++;
-
-    if (this.isGoingOut()) {
-      this.setBottomRow(0);
-    }
-
-    return this.isOver();
-  }
+		if (this.isGoingOut()) {
+			this.setBottomRow(0, display.dimension());
+		}
+	}
 }
-
-module.exports = Fire;

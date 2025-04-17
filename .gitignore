@@ -1,3 +1,5 @@
+secrets.json
+
 # Logs
 logs
 *.log
@@ -57,9 +59,3 @@ typings/
 # dotenv environment variables file
 .env
 
-secrets.json
-dist/images/*
-store/*.json
-secrets.py
-*.pyc
-util/*.log.*

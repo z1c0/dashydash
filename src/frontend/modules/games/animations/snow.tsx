@@ -1,44 +1,44 @@
-// @ts-check
-'use strict'
-
-const Flake = require('./flake.jsx');
+import { BaseAnimation } from './baseanimation';
+import { Flake } from './flake';
+import { Display } from '../core/display';
+import { Color } from '../core/color';
 
 const snowColors = [
-  '#FAFAFA',
-  '#C0F6FB',
-  '#FFFAFA',
-  '#E0FFFF',
-];
+	{ r: 0xE6, g: 0xE6, b: 0xE6 }, // #E6E6E6
+	{ r: 0xD9, g: 0xD9, b: 0xD9 }, // #D9D9D9
+	{ r: 0xB3, g: 0xB3, b: 0xB3 }, // #B3B3B3
+	{ r: 0x99, g: 0x99, b: 0x99 }, // #999999
+	{ r: 0x80, g: 0x80, b: 0x80 }, // #808080
+]
 
-class Snow {
-  constructor() {
-    const NR_OF_FLAKES = 200;
-    this.lastGameFrameBuffer = null;
-    this.flakes = [];
-    for (let i = 0; i < NR_OF_FLAKES; i++) {
-      this.flakes.push(new Flake(snowColors));
-    }
-    this.startTime = performance.now();
-  }
+export class Snow extends BaseAnimation {
+	lastGameFrameBuffer: Color[][] | null;
+	flakes: Flake[];
+	startTime: number;
 
-  isOver() {
-    return (performance.now() - this.startTime) > 1000 * 60;
-  }
+	constructor() {
+		super();
+		const NR_OF_FLAKES = 200;
+		this.lastGameFrameBuffer = null;
+		this.flakes = [];
+		for (let i = 0; i < NR_OF_FLAKES; i++) {
+			this.flakes.push(new Flake(snowColors));
+		}
+		this.startTime = performance.now();
+	}
+	
+	override isOver() {
+		return (performance.now() - this.startTime) > 1000 * 60;
+	}
 
-  render(game) {
-    for (let i = 0; i < game.dim(); i++) {
-      for (let j = 0; j < game.dim(); j++) {
-        game.setPixel(i, j, this.lastGameFrameBuffer[i][j]);
-      }
-    }
-
-    this.flakes.forEach(f => {
-      f.simulate(game);
-      f.render(game);
-    });
-
-    return this.isOver();
-  }
+	override render(display: Display) {
+		if (!this.lastGameFrameBuffer) {
+			this.lastGameFrameBuffer = display.captureFrameBuffer();
+		}
+		display.setFrameBuffer(this.lastGameFrameBuffer);
+		this.flakes.forEach(f => {
+			f.simulate(display.dimension());
+			f.render(display);
+		});
+	}
 };
-
-module.exports = Snow;

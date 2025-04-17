@@ -1,98 +1,66 @@
-'use strict';
-var Cursor = require('../common/misc.jsx').Cursor;
-var React = require('react');
-var Weather = require('../modules/weather/weather.jsx');
-var Blog = require('../modules/blog/blog.jsx');
-var Bus = require('../modules/bus/bus.jsx');
-var Birthday = require('../modules/birthdays/birthdays.jsx');
-var TimeOfDay = require('../modules/timeofday/timeofday.jsx');
-var Abc = require('../modules/abc/abc.jsx');
-var Appointments = require('../modules/appointments/appointments.jsx');
-var Pics = require('../modules/pics/pics.jsx');
-var Games = require('../modules/games/games.jsx');
-var News = require('../modules/news/news.jsx');
-var Football = require('../modules/football/football.jsx');
-var Words = require('../modules/words/words.jsx');
-var Recipe = require('../modules/recipe/recipe.jsx');
-var ToDo = require('../modules/todo/todo.jsx');
-var Numbers = require('../modules/numbers/numbers.jsx');
-var Flags = require('../modules/flags/flags.jsx');
-var Countdown = require('../modules/countdown/countdown.jsx');
-var Vocab = require('../modules/vocab/vocab.jsx');
-var StarWars = require('../modules/starwars/starwars.jsx');
-var misc = require('../common/misc.jsx');
-var BoardManager = require('./boardManager.jsx');
+import { createContext, memo, useMemo } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import moment from 'moment';
+import { getBoards, getModule, ModuleInfo } from './boardManager';
+import { Cursor } from '../common/misc'
+import useInterval from '../../frontend/hooks/useInterval';
+import { useArrowKeyHandler } from '../../frontend/hooks/useArrowKeyHandler';
 
+export const ModuleContext = createContext<{ name: string, width: number; height: number }>({name: "", width: 0, height: 0});
 
+export const Board = memo(() => {
+	const navigate = useNavigate();
+	const params = useParams();
+	const boardSetId = params.boardSetId || "";
+	const boards = useMemo(() => new Cursor(getBoards(boardSetId)), [boardSetId]);
+	const boardId = params.boardId;
+	const index = Math.max(0, boards.array().findIndex(b => b.name === boardId)); // 0 if not found	
+	const board = boards.array()[index];
+	//console.log(`boardSetId: ${boardSetId}, boardId: ${boardId}, index: ${index},`);
 
-class Board extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: '',
-      modules: [],
-      pos: [0, 0, 0, 0]
-    };
-  }
+	useInterval(
+		() => goToNewPage(boards.next().name),
+		moment.duration(10, 'minutes')
+	);
+	useArrowKeyHandler(
+		() => goToNewPage(boards.previous().name),
+		() => goToNewPage(boards.next().name)
+	);
+  const goToNewPage = (route: string) => {
+    navigate(`/${boardSetId}/${route}`);
+  };	
 
-  switchToBoard(board) {
-    //console.log(board);
-    if (board) {
-      this.intervalId = setTimeout(() => {
-        this.switchToBoard(this.boards.next());
-      }, board.timeout);
+	const createPart = function(moduleInfo: ModuleInfo) {
+		//console.log(moduleInfo);
+		let name = moduleInfo.name ;
+		if (name.indexOf('.')) {
+			name = name.split('.')[0];
+		}
+		const gridPos = {
+			gridColumnStart: moduleInfo.pos[0],
+			gridColumnEnd: moduleInfo.pos[0] + moduleInfo.pos[2],
+			gridRowStart: moduleInfo.pos[1],
+			gridRowEnd: moduleInfo.pos[1] + moduleInfo.pos[3],
+		};
 
-      this.setState({
-        modules: []
-      });
-      this.setState({
-        name: board.name,
-        modules: board.modules,
-        pos: board.pos
-      });
-    }
-  }
+		const Module = getModule(name);
+		//console.log(moduleInfo.id);
+		return (
+			<div key={moduleInfo.id} className="part" style={gridPos}>
+				<ModuleContext.Provider value={{ name: moduleInfo.name, width: moduleInfo.pos[2], height: moduleInfo.pos[3] }}>
+					<Module/>
+				</ModuleContext.Provider>
+			</div>
+		);
+	};
 
-  componentDidMount() {
-    const boardSetId = this.props.match.params.boardSetId;
-    this.boards = new Cursor(new BoardManager().getBoards(boardSetId));
-    const boardId = this.props.match.params.boardId;
-    const index = this.boards.array().findIndex(b => b.name === boardId);
-    this.switchToBoard(this.boards.current(index));
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.intervalId);
-  }
-
-  render() {
-    const createPart = function(moduleInfo) {
-      //console.log(moduleInfo);
-      let name = moduleInfo.name;
-      if (name.indexOf('.')) {
-        name = name.split('.')[0];
-      }
-      const gridPos = {
-        gridColumn: moduleInfo.pos[0],
-        gridRow: moduleInfo.pos[1],
-        gridColumnEnd: moduleInfo.pos[0] + moduleInfo.pos[2],
-        gridRowEnd: moduleInfo.pos[1] + moduleInfo.pos[3],
-      }
-
-      var Module = require('../modules/' + name + '/' + name + '.jsx');
-      return (
-        <div key={moduleInfo.name} className="part" style={gridPos}>
-          <Module config={moduleInfo.config}/>
-        </div>
-      );
-    };
-
-    return (
-      <div className="board">
-        {this.state.modules.map(createPart, this)}
-      </div>
-    );
-  }
-};
-
-module.exports = Board;
+	return (
+		<>
+			<div className="board">
+				{board.modules.map(createPart)}
+			</div>
+			<span id='board-name' className='tiny-text'>{board.name}</span>
+		</>
+	);
+});
+Board.displayName = 'Board';

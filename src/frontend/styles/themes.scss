@@ -1,6 +1,8 @@
 @use 'sass:map';
 @use 'common';
 
+$theme-map: null;
+
 $themes : (
 	dark1 : (
 		backgroundColor : common.$part-background-color,

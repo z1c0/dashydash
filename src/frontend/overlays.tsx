@@ -1,47 +1,35 @@
-'use strict';
-var React = require('react');
-var moment = require('moment');
-var IntervalModule = require('./components/common/intervalModule.jsx');
+import { useState } from 'react';
+import useInterval from './hooks/useInterval';
+import { duration } from 'moment';
+import moment from 'moment';
 
-class Overlays extends IntervalModule {
-  constructor(props) {
-    super(props);
-    this.state = {
-      time : '',
-      seconds : ''
-    }
-    this.interval = moment.duration(1, 'second');
-    this.tick = () => {
-      let now = moment();
-      this.setState({ 
-        time : now.format('HH:mm'),
-        seconds : now.format('ss')
-      });
-    }
+export const Overlays = () => {
+	useInterval(
+		() => {
+			const now = moment();
+			return setTime({
+				time : now.format('HH:mm'),
+				seconds : now.format('ss')
+			});
+		},
+		duration(1, 'seconds')
+	);
+	const [time, setTime] = useState({ time: '', seconds: '' });
 
-    this.handleClick = this.handleClick.bind(this);
-  }
+	const handleClick = () => {
+		const newLocation = window.location.href.substr(0, window.location.href.lastIndexOf('/'));
+		//console.log(newLocation);
+		window.location.href = newLocation;
+	};
 
-  handleClick(e) {
-    e.preventDefault();
-    const newLocation = window.location.href.substr(0, window.location.href.lastIndexOf('/'));
-    //console.log(newLocation);
-    window.location.href = newLocation;
-  }
-  
-  render() {
-    return (
-      <div>
-        <a href="#" onClick={this.handleClick}>
-          <div id="home"><i className="fa fa-home big-text"></i></div>
-        </a>
-        <div id="datetime">
-          <span className="time big-text">{this.state.time}</span>
-          <span className="seconds normal-text">{this.state.seconds}</span>
-        </div>
-      </div>
-    );    
-  }
-};
+	return (
+		<div>
+			<div id="home" onClick={handleClick}><i className="fa fa-home big-text"></i></div>
+			<div id="datetime">
+				<span className="time big-text">{time.time}</span>
+				<span className="seconds normal-text">{time.seconds}</span>
+			</div>
+		</div>
+	);
+}
 
-module.exports = Overlays;

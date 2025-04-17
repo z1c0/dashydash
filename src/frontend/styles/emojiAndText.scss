@@ -1,33 +1,32 @@
-@import './themes';
-@import  './fadein';
+@use './themes';
+@use  './fadein';
 
 .emojiAndText {
-  height: 100%;
-  background: white;
-  color:black;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+	height: 100%;
+	background: white;
+	color:black;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 
-  @include themify($themes) {
-    background: themed('backgroundColor')
-  }
+	@include themes.themify(themes.$themes) {
+		background: themes.themed('backgroundColor')
+	}
 
-  p {
-    font-weight: bold;
-    width: 100%;
-    text-align: center;
+	p {
+		font-weight: bold;
+		width: 100%;
+		text-align: center;
 
-    @include themify($themes) {
-      color: themed('textColor')
-    }
-  }
-  i {
-    font-size: 1.4em;
-    margin: 0.2em;
-  }
-  .animate-appear {
-    animation: fadein 30s;
-  }
+		@include themes.themify(themes.$themes) {
+			color: themes.themed('textColor')
+		}
+	}
+	i {
+		margin: 0.2em;
+	}
+	.animate-appear {
+		animation: fadein 12s;
+	}
 }

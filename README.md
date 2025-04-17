@@ -1,14 +1,20 @@
 # dashydash
 
+> **Update: 2025-04-17**
+>
+> * Finally, I migrated to React's functional components.
+> * Backend and frontend is cleanly separated now.
+> * Backend and frontend are fully implemented in TypeScript now.
+
 A dashboard application intended for home use. It keeps your appointments, family pictures, bus connections, ... at glance.
 
 ## Installation
 
 * Install [Node.js](https://nodejs.org/en/download/)
 ```bash
-# On a RaspberryPi (run as root)
-curl -sL https://deb.nodesource.com/setup_11.x | bash -
-apt-get install -y nodejs
+# On a RaspberryPi
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo bash - 
+sudo apt-get install -y nodejs
 ```
 * Clone this repository  
 `git clone https://github.com/z1c0/dashydash`
@@ -18,11 +24,13 @@ apt-get install -y nodejs
 sudo npm install -g gulp
 ```
 * `npm install`
-* Run with `gulp`
+* Run:
+  * with `gulp` (for development)
+  * with `npm start` (for production)
 
 ## Technologies
 
-The application is implemented using **Node.js** and **React**.
+The application is implemented using **Node.js** and **React** in **TypeScript**.
 
 ## Modules
 
@@ -63,7 +71,7 @@ This one cycles through a list of news head lines and pictures taken from [newsa
 
 ### pics
 
-This is my favorite module by far. It looks for a special album in my Google photos collection and displays its pictures. That way, I only have to add my favorite new photos to this album and I automatically seen them on the dashboard. Awesome!
+This simply fetches a random picture from a folder you can configure. A great way to keep all these memories present.
 
 ### weather
 

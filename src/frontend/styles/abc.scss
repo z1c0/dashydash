@@ -1,21 +1,21 @@
 @use 'themes';
 
-#abc {
+.abc {
 	height: 100%;
 	background: white;
-	color:black;
 	display: flex;
 	align-items: center;
+	font-size: 7.0vw;
 
 	@include themes.themify(themes.$themes) {
-		background: themed('backgroundColor')
+		background: themes.themed('backgroundColor')
 	}
 
 	p {
 		width: 100%;
 		text-align: center;
 		@include themes.themify(themes.$themes) {
-			color: themed('textColor')
+			color: themes.themed('textColor')
 		}
 
 		span {

@@ -14,58 +14,53 @@ $part-background-color: rgb(40, 40, 40);
 //$icon-font: 4vw;
 
 .normal-text {
-  font-size: 1.1vw;
+	font-size: 1.1vw;
 }
 .small-text {
-  font-size: 0.8vw;
+	font-size: 0.8vw;
 }
 .big-text {
-  font-size: 1.7vw;
+	font-size: 1.7vw;
 }
 .biggest-text {
-  font-size: 3.0vw;
+	font-size: 3.0vw;
 }
 .bold-text {
-  font-weight: bold;
+	font-weight: bold;
 }
 .half-transparent-text {
-  opacity: 0.5;
+	opacity: 0.5;
 }
 .icon-text {
-  font-size: 4vw;
+	font-size: 4vw;
 }
 .padded {
-  padding: $default-padding;
-}
-
-@keyframes blinkAnimation  {
-  0% {
-    background: none;
-  }
-  20% {
-    background: white;
-  }
-}
-.blink {
-  height: 100%;
-  width: 100%;
-  animation: blinkAnimation 0.4s;
+	padding: $default-padding;
 }
 
 @media (max-width: 800px) {
-  .small-text {
-    font-size: 2.2vw;
-  }
-  .normal-text {
-    font-size: 2.5vw;
-  }
-  .big-text {
-    font-size: 3.2vw;
-  }
-  .biggest-text {
-    font-size: 6.0vw;
-  }
-  .icon-text {
-    font-size: 8vw;
-  }
+	.small-text {
+		font-size: 2.2vw;
+	}
+	.normal-text {
+		font-size: 2.5vw;
+	}
+	.big-text {
+		font-size: 3.2vw;
+	}
+	.biggest-text {
+		font-size: 6.0vw;
+	}
+	.icon-text {
+		font-size: 8vw;
+	}
+}
+
+.fetchErrorAware {
+	height: 100%;
+	width: 100%;
+	padding: 0.8em;
+	background: rgb(44, 1, 1);
+	color: grey;
+	font-size: 0.7vw;
 }

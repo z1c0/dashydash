@@ -1,37 +1,22 @@
-"use strict";
-var React = require('react');
-var moment = require('moment');
-var FetchModule = require('../../common/fetchModule.jsx');
-var misc = require('../../common/misc.jsx');
+import { memo, useMemo, useState } from 'react';
+import { randomIntFromInterval } from '../../common/misc';
+import { useFetchInterval } from '../../../frontend/hooks/useFetchInterval';
+import moment from 'moment';
 
-class Pics extends FetchModule {
-  constructor(props) {
-    super(props);
-    this.state = {
-      image : ''
-    }
-    this.interval = moment.duration(misc.randomIntFromInterval(20, 30), 'seconds');
-    this.callback = function(body) {
-      this.setState({
-        image : body.url
-      });
-    }
-    this.next = this.next.bind(this);
-  }
-
-  next() {
-    this.stop();
-    this.start();
-  }
-
-  render() {
-    var style = {
-      backgroundImage: 'url(' + this.state.image + ')'
-    }
-    return (
-      <div className='pic' style={style} onClick={this.next}></div>
-    );
-  }
+type PicsState = {
+	url: string;
 };
+export const Pics = memo(() => {
+	const [render, forceRender] = useState(0);
+	const interval = useMemo(() => moment.duration(randomIntFromInterval(20, 30), 'seconds'), [render]);
+	const fetchState = useFetchInterval<PicsState>({
+		route: "pics",
+		interval,
+	});
 
-module.exports = Pics;
+	const handleClick = () => forceRender((prev) => prev + 1);
+	return (
+		fetchState.data && <div key={fetchState.data?.url} className='pic' style={{ backgroundImage: 'url(' + CSS.escape(fetchState.data?.url) + ')' }} onClick={handleClick}></div>
+	);
+});
+Pics.displayName = 'Pics';

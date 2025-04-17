@@ -1,12 +1,15 @@
 @use 'common';
 
-#todo {
+.todo {
 	height: 100%;
+	width: 100%;
 	position: relative;
-	.e1a-clipboard {
-		margin-right: 5px;
+	padding: 0.1em;
+	.todo-icon {
+		margin-right: 8px;
 	}
 	ul {
+		margin-top: 10px;
 		li {
 			margin-top: 4px;
 			white-space: nowrap;
@@ -16,6 +19,12 @@
 				margin-right: 5px;
 			}
 		}
+	}
+	.no-items {
+		p {
+			margin: 1em;
+		}
+		text-align: center;
 	}
 	&:after {
 		content : "";
